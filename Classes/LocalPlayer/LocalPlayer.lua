@@ -2,7 +2,7 @@ local DMW = DMW
 local LocalPlayer = DMW.Classes.LocalPlayer
 local Spell = DMW.Classes.Spell
 local Buff = DMW.Classes.Buff
-local Debuff = DMW.Classes.Buff
+local Debuff = DMW.Classes.Debuff
 
 function LocalPlayer:New(Pointer)
     self.Pointer = Pointer
@@ -33,7 +33,7 @@ function LocalPlayer:Update()
 end
 
 function LocalPlayer:GetSpells()
-    local CastType
+    local CastType, Duration
     self.Spells = {}
     self.Buffs = {}
     self.Debuffs = {}
@@ -54,8 +54,9 @@ function LocalPlayer:GetSpells()
                             end
                         end
                         if SpellType == "Debuffs" then
-                            for SpellName,SpellID in pairs(SpellTable) do
-                                self.Debuffs[SpellName] = Debuff(SpellID)
+                            for SpellName,SpellInfo in pairs(SpellTable) do
+                                Duration = SpellInfo.BaseDuration or nil
+                                self.Debuffs[SpellName] = Debuff(SpellInfo.SpellID, Duration)
                             end
                         end
                     end
