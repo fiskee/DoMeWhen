@@ -9,9 +9,15 @@ function Spell:Cast(Unit)
             Unit = DMW.Player
         end
     end
-    if self:IsReady() and Unit.Distance <= self.MaxRange then
-        CastSpellByName(self.SpellName, Unit.Pointer)
-        self.LastBotTarget = Unit.Pointer
+    if self:IsReady() and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) then
+        if self.CastType == "Ground" then
+            CastSpellByName(self.SpellName)
+            ClickPosition(Unit.PosX, Unit.PosY, Unit.PosZ)
+            self.LastBotTarget = Unit.Pointer
+        else
+            CastSpellByName(self.SpellName, Unit.Pointer)
+            self.LastBotTarget = Unit.Pointer
+        end
         return true
     end
     return false
