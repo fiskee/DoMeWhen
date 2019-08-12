@@ -27,12 +27,15 @@ end
 local function UpdateUnits()
     table.wipe(Enemies)
     DMW.Player.Target = nil
+    DMW.Player.Pet = nil
     for k, v in pairs(Units) do
         if not v.NextUpdate or v.NextUpdate < DMW.Time then
             v:Update()
         end
         if not DMW.Player.Target and UnitIsUnit(k, "target") then
             DMW.Player.Target = v
+        elseif DMW.Player.PetActive and not DMW.Player.Pet and UnitIsUnit(k, "pet") then
+            DMW.Player.Pet = v
         end
         if v.ValidEnemy then
             Enemies[k] = v

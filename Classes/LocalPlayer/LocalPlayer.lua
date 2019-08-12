@@ -11,7 +11,7 @@ function LocalPlayer:New(Pointer)
     self.CombatReach = UnitCombatReach(Pointer)
     self.PosX, self.PosY, self.PosZ = ObjectPosition(Pointer)
     self.GUID = ObjectGUID(Pointer)
-    self.Class = select(2, UnitClass(Pointer))
+    self.Class = select(2, UnitClass(Pointer)):gsub("%s+", "")
     self.Spec = DMW.Enums.Specs[GetSpecializationInfo(GetSpecialization())] or ""
     self.Distance = 0
     DMW.Functions.AuraCache.Refresh(Pointer)
@@ -34,6 +34,7 @@ function LocalPlayer:Update()
     self.Casting = UnitCastingInfo(self.Pointer) or UnitChannelInfo(self.Pointer)
     self.Combat = UnitAffectingCombat(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
+    self.PetActive = UnitIsVisible("pet")
 end
 
 function LocalPlayer:GetSpells()
