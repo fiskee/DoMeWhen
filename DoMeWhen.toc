@@ -38,5 +38,8 @@ Enums\Spells\Hunter.lua
 
 Enums\Specs.lua
 
+Rotations\Warlock\Shared.lua
 Rotations\Warlock\Affliction.lua
+
+Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
