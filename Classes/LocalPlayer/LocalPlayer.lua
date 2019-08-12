@@ -18,6 +18,7 @@ function LocalPlayer:New(Pointer)
     self:GetSpells()
     self:GetTalents()
     self:GetTraits()
+    self:GetEssences()
 end
 
 function LocalPlayer:Update()
@@ -123,6 +124,32 @@ function LocalPlayer:GetTraits()
                                 end
                             end
                         end
+                    end
+                end
+            end
+        end
+    end
+end
+
+function LocalPlayer:GetEssences()
+    local Essences = DMW.Enums.Spells.GLOBAL.All.Essences
+    if self.Essences then
+        table.wipe(self.Essences)
+    else
+        self.Essences = {}
+    end
+    for EssenceName, _ in pairs(Essences) do
+        self.Essences[EssenceName] = {Active = false, Rank = 0, Value = 0}
+    end
+    local PlayerEssences = C_AzeriteEssence.GetEssences()
+    if PlayerEssences then
+        for _, Essence in pairs(PlayerEssences) do
+            if Essence.unlocked then
+                for EssenceName, EssenceID in pairs(Essences) do
+                    if EssenceID == Essence.ID then
+                        self.Essences[EssenceName].Active = true
+                        self.Essences[EssenceName].Rank = Essence.rank
+                        self.Essences[EssenceName].Value = 1
                     end
                 end
             end
