@@ -53,8 +53,36 @@ function Spell:CurrentCD()
 end
 
 function Spell:IsReady()
+    for k, v in pairs(DMW.Player.Spells) do
+        if IsCurrentSpell(v.SpellID) then
+            return false
+        end
+    end
     if GetSpellInfo(self.SpellName) and IsUsableSpell(self.SpellID) and self:CurrentCD() == 0 then
         return true
     end
     return false
+end
+
+function Spell:Charges()
+    return GetSpellCharges(self.SpellID)
+end
+
+function Spell:ChargesFrac()
+    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellID)
+    if Charges ~= MaxCharges then
+        return Charges + (1 - (Start + Duration - DMW.Time) / Duration)
+    else
+        return Charges
+    end
+end
+
+function Spell:FullRechargeTime()
+    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellID)
+    if Charges ~= MaxCharges then
+        local ChargesFracRemain = MaxCharges - (Charges + (1 - (Start + Duration - DMW.Time) / Duration))
+        return ChargesFracRemain * Duration
+    else
+        return 0
+    end
 end

@@ -22,7 +22,8 @@ function LocalPlayer:New(Pointer)
 end
 
 function LocalPlayer:Update()
-    self.Spec = DMW.Enums.Specs[GetSpecializationInfo(GetSpecialization())] or ""
+    self.SpecID = GetSpecializationInfo(GetSpecialization())
+    self.Spec = DMW.Enums.Specs[self.SpecID] or ""
     self.PosX, self.PosY, self.PosZ = ObjectPosition(self.Pointer)
     self.Health = UnitHealth(self.Pointer)
     self.HealthMax = UnitHealthMax(self.Pointer)
@@ -30,11 +31,20 @@ function LocalPlayer:Update()
     self.Power = UnitPower(self.Pointer)
     self.PowerMax = UnitPowerMax(self.Pointer)
     self.PowerPct = self.Power / self.PowerMax * 100
+    self.PowerRegen = GetPowerRegen()
     self.Instance = select(2, IsInInstance())
     self.Casting = UnitCastingInfo(self.Pointer) or UnitChannelInfo(self.Pointer)
     self.Combat = UnitAffectingCombat(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
     self.PetActive = UnitIsVisible("pet")
+end
+
+function LocalPlayer:GCD()
+    if DMW.Enums.GCDOneSec[self.SpecID] then
+        return 1
+    else
+        return math.max(1.5 / (1 + GetHaste() / 100), 0.75)
+    end
 end
 
 function LocalPlayer:GetSpells()
@@ -48,24 +58,24 @@ function LocalPlayer:GetSpells()
                 if Spec == "All" or Spec == self.Spec then
                     for SpellType, SpellTable in pairs(SpecTable) do
                         if SpellType == "Abilities" then
-                            for SpellName,SpellInfo in pairs(SpellTable) do
-                                CastType = SpellInfo.CastType or "Normal" 
+                            for SpellName, SpellInfo in pairs(SpellTable) do
+                                CastType = SpellInfo.CastType or "Normal"
                                 self.Spells[SpellName] = Spell(SpellInfo.SpellID, CastType)
                             end
                         elseif SpellType == "Buffs" then
-                            for SpellName,SpellID in pairs(SpellTable) do
+                            for SpellName, SpellID in pairs(SpellTable) do
                                 self.Buffs[SpellName] = Buff(SpellID)
                             end
                         elseif SpellType == "Debuffs" then
-                            for SpellName,SpellInfo in pairs(SpellTable) do
+                            for SpellName, SpellInfo in pairs(SpellTable) do
                                 Duration = SpellInfo.BaseDuration or nil
                                 self.Debuffs[SpellName] = Debuff(SpellInfo.SpellID, Duration)
                             end
                         end
                     end
                 end
-            end       
-        end        
+            end
+        end
     end
 end
 

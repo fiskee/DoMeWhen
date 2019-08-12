@@ -3,8 +3,14 @@ local DMW = DMW
 DMW.Enums.Spells = {
     GLOBAL = {
         All = {
-            Abilities = {},
-            Buffs = {},
+            Abilities = {
+                GCD = {SpellID = 61304}
+            },
+            Buffs = {
+                MemoryOfLucidDreams = 298357,
+                RecklessForce = 302932,
+                SeethingRage = 297126
+            },
             Debuffs = {},
             Essences = {
                 AegisOfTheDeep = 298168,
