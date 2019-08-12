@@ -1,0 +1,40 @@
+## Interface: 82000
+## Author: Fisker
+## Version: 1
+## Title: DoMeWhen
+## Notes: Core Rotation Addon
+## SavedVariables: DMWSettings
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\LibSharedMedia-3.0\lib.xml
+Libs\DiesalTools-1.0\DiesalTools-1.0.lua
+Libs\DiesalStyle-1.0\DiesalStyle-1.0.lua
+Libs\DiesalGUI-1.0\DiesalGUI-1.0.xml
+Libs\DiesalMenu-1.0\DiesalMenu-1.0.xml
+
+Core.lua
+Classes\Classes.lua
+System\Settings.lua
+System\ObjectManager.lua
+System\Combatlog.lua
+
+
+Classes\Unit\Unit.lua
+Classes\Unit\TimeToDie.lua
+
+Classes\Spell\Spell.lua
+Classes\Spell\Cast.lua
+Classes\Spell\LastCast.lua
+
+Classes\LocalPlayer\LocalPlayer.lua
+
+Classes\Aura\Aura.lua
+Classes\Aura\Cache.lua
+
+Enums\Spells\Global.lua
+Enums\Spells\Warlock.lua
+
+Enums\Specs.lua
+
+Rotations\Warlock\Affliction.lua
