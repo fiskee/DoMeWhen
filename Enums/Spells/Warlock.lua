@@ -21,9 +21,7 @@ Spells.WARLOCK = {
             UnstableAffliction = {SpellID = 30108},
             VileTaint = {SpellID = 278350, CastType = "Ground"}
         },
-        Buffs = {
-            
-        },
+        Buffs = {},
         Debuffs = {
             Agony = {SpellID = 980, BaseDuration = 18},
             Corruption = {SpellID = 146739, BaseDuration = 14},
@@ -37,6 +35,26 @@ Spells.WARLOCK = {
             UnstableAffliction3 = {SpellID = 233497},
             UnstableAffliction4 = {SpellID = 233498},
             UnstableAffliction5 = {SpellID = 233499}
+        },
+        Talents = {
+            AbsoluteCorruption = 21180,
+            CreepingDeath = 19281,
+            DarkSoulMisery = 19293,
+            Deathbolt = 23141,
+            DrainSoul = 23140,
+            GrimoireOfSacrifice = 19295,
+            Haunt = 23159,
+            PhantomSingularity = 19292,
+            ShadowEmbrace = 23139,
+            SiphonLife = 22089,
+            SoulConduit = 19284,
+            SowTheSeeds = 19279,
+            VileTaint = 22046,
+            WritheInAgony = 22044
+        },
+        Traits = {
+            CascadingCalamity = 275372,
+            InevitableDemise = 273521
         }
     }
 }
