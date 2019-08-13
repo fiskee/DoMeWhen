@@ -47,6 +47,19 @@ function LocalPlayer:GCD()
     end
 end
 
+function LocalPlayer:CritPct()
+    return GetCritChance()
+end
+
+function LocalPlayer:TTM()
+    local PowerMissing = self.PowerMax - self.Power
+    if PowerMissing > 0 then
+        return PowerMissing / self.PowerRegen
+    else
+        return 0
+    end
+end
+
 function LocalPlayer:GetSpells()
     local CastType, Duration
     self.Spells = {}

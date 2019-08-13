@@ -15,6 +15,7 @@ function UI.Show()
     local Frame = AceGUI:Create("Frame")
     Frame:SetTitle("Test")
     Frame:SetStatusText("...")
+    Frame:SetStatusTable(DMW.UI.Status)
     Frame:SetCallback(
         "OnClose",
         function(widget)
@@ -22,5 +23,4 @@ function UI.Show()
             UI.Active = false
         end
     )
-    Frame:SetStatusTable(DMW.UI.Status)
 end

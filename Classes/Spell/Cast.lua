@@ -18,7 +18,7 @@ function Spell:Cast(Unit)
             CastSpellByName(self.SpellName, Unit.Pointer)
             self.LastBotTarget = Unit.Pointer
         end
-        print("Casted: " .. self.SpellName)
+        --print("Casted: " .. self.SpellName)
         return true
     end
     return false

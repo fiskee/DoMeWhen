@@ -56,3 +56,15 @@ function Unit:HasThreat()
     end
     return false
 end
+
+function Unit:GetEnemies(Yards)
+    local EnemyTable = {}
+    local Count = 0
+    for k,v in pairs(DMW.Enemies) do
+        if self:GetDistance(v) <= Yards then
+            EnemyTable[k] = v
+            Count = Count + 1
+        end
+    end
+    return EnemyTable, Count
+end

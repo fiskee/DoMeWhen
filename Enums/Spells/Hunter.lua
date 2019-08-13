@@ -21,12 +21,15 @@ Spells.HUNTER = {
         },
         Buffs = {
             AspectOfTheWild = 193530,
+            BeastCleave = 118455,
             BestialWrath = 19574,
             DanceOfDeath = 274443,
             DireBeast = 120694,
             Frenzy = 272790
         },
-        Debuffs = {},
+        Debuffs = {
+            BarbedShot = {SpellID = 217200},
+        },
         Talents = {},
         Traits = {
             DanceOfDeath = 274441,
@@ -36,11 +39,11 @@ Spells.HUNTER = {
     },
     All = {
         Abilities = {
-            CallPet1 = {SpellID = 883, CastType = "Pet"},
-            CallPet2 = {SpellID = 83242, CastType = "Pet"},
-            CallPet3 = {SpellID = 83243, CastType = "Pet"},
-            CallPet4 = {SpellID = 83244, CastType = "Pet"},
-            CallPet5 = {SpellID = 83245, CastType = "Pet"},
+            CallPet1 = {SpellID = 883, CastType = "Special"},
+            CallPet2 = {SpellID = 83242, CastType = "Special"},
+            CallPet3 = {SpellID = 83243, CastType = "Special"},
+            CallPet4 = {SpellID = 83244, CastType = "Special"},
+            CallPet5 = {SpellID = 83245, CastType = "Special"},
             MendPet = {SpellID = 136},
             RevivePet = {SpellID = 982}
         },

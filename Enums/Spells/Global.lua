@@ -4,7 +4,7 @@ DMW.Enums.Spells = {
     GLOBAL = {
         All = {
             Abilities = {
-                GCD = {SpellID = 61304}
+                GCD = {SpellID = 61304, CastType = "Special"}
             },
             Buffs = {
                 MemoryOfLucidDreams = 298357,

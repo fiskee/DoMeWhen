@@ -54,7 +54,7 @@ end
 
 function Spell:IsReady()
     for k, v in pairs(DMW.Player.Spells) do
-        if v.CastType ~= "Pet" and IsCurrentSpell(v.SpellID) then
+        if v.CastType ~= "Special" and IsCurrentSpell(v.SpellID) then
             return false
         end
     end
