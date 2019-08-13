@@ -32,8 +32,7 @@ end
 
 function Unit:GetDistance(OtherUnit)
     OtherUnit = OtherUnit or DMW.Player
-    return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2)) -
-        ((self.CombatReach or 0) + (OtherUnit.CombatReach or 0))
+    return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2)) - ((self.CombatReach or 0) + (OtherUnit.CombatReach or 0))
 end
 
 function Unit:LineOfSight(OtherUnit)
@@ -60,9 +59,9 @@ end
 function Unit:GetEnemies(Yards)
     local EnemyTable = {}
     local Count = 0
-    for k,v in pairs(DMW.Enemies) do
+    for _, v in pairs(DMW.Enemies) do
         if self:GetDistance(v) <= Yards then
-            EnemyTable[k] = v
+            table.insert(EnemyTable, v)
             Count = Count + 1
         end
     end

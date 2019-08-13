@@ -128,13 +128,6 @@ end
 function Debuff:Lowest(Table)
     local LowestSec, LowestUnit
     for _, v in pairs(Table) do
-        if UnitIsUnit(v.Pointer, "target") then
-            LowestSec = self:Remain(v)
-            LowestUnit = v
-            break
-        end
-    end
-    for _, v in pairs(Table) do
         if not LowestSec or self:Remain(v) < LowestSec then
             LowestSec = self:Remain(v)
             LowestUnit = v

@@ -180,6 +180,7 @@ end
 function Hunter.BeastMastery()
     Locals()
     PetStuff()
+    Player:AutoTarget(40)
     if Target and Target.ValidEnemy then
         Pet5YC = 0
         if Pet then

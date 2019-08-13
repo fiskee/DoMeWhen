@@ -4,9 +4,6 @@ local Enemies, Units, Friends = DMW.Enemies, DMW.Units, DMW.Friends
 local Unit, LocalPlayer = DMW.Classes.Unit, DMW.Classes.LocalPlayer
 
 local function RemoveUnit(Pointer)
-    if Enemies[Pointer] ~= nil then
-        Enemies[Pointer] = nil
-    end
     if Units[Pointer] ~= nil then
         Units[Pointer] = nil
     end
@@ -24,6 +21,54 @@ local function RemoveUnit(Pointer)
     end
 end
 
+local function SortEnemies()
+    local LowestHealth, HighestHealth, HealthNorm, EnemyScore, RaidTarget
+    for _, v in pairs(Enemies) do
+        if not LowestHealth or v.Health < LowestHealth then
+            LowestHealth = v.Health
+        end
+        if not HighestHealth or v.Health > HighestHealth then
+            HighestHealth = v.Health
+        end
+    end
+    for _, v in pairs(Enemies) do
+        HealthNorm = (10 - 1) / (HighestHealth - LowestHealth) * (v.Health - HighestHealth) + 10
+        if HealthNorm ~= HealthNorm or tostring(HealthNorm) == tostring(0 / 0) then
+            HealthNorm = 0
+        end
+        EnemyScore = HealthNorm
+        if v.TTD > 1.5 then
+            EnemyScore = EnemyScore + 5
+        end
+        RaidTarget = GetRaidTargetIndex(v.Pointer)
+        if RaidTarget ~= nil then
+            EnemyScore = EnemyScore + RaidTarget * 3
+            if RaidTarget == 8 then
+                EnemyScore = EnemyScore + 5
+            end
+        end
+        v.EnemyScore = EnemyScore
+    end
+    if #Enemies > 1 then
+        table.sort(
+            Enemies,
+            function(x, y)
+                return x.EnemyScore > y.EnemyScore
+            end
+        )
+        table.sort(
+            Enemies,
+            function(x)
+                if UnitIsUnit(x.Pointer, "target") then
+                    return true
+                else
+                    return false
+                end
+            end
+        )
+    end
+end
+
 local function UpdateUnits()
     table.wipe(Enemies)
     DMW.Player.Target = nil
@@ -38,9 +83,10 @@ local function UpdateUnits()
             DMW.Player.Pet = v
         end
         if v.ValidEnemy then
-            Enemies[k] = v
+            table.insert(Enemies, v)
         end
     end
+    SortEnemies()
 end
 
 function DMW.UpdateOM()

@@ -68,6 +68,29 @@ function LocalPlayer:TTM()
     end
 end
 
+function LocalPlayer:AutoTarget(Yards)
+    if not self.Target and self.Combat then
+        for k,v in pairs(DMW.Enemies) do
+            if v.Distance <= Yards then
+                TargetUnit(v.Pointer)
+                return true
+            end
+        end
+    end
+end
+
+function LocalPlayer:GetEnemies(Yards)
+    local EnemyTable = {}
+    local Count = 0
+    for _, v in pairs(DMW.Enemies) do
+        if v:GetDistance(self) <= Yards then
+            table.insert(EnemyTable, v)
+            Count = Count + 1
+        end
+    end
+    return EnemyTable, Count
+end
+
 function LocalPlayer:GetSpells()
     local CastType, Duration
     self.Spells = {}
