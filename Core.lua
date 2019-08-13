@@ -5,6 +5,10 @@ DMW.Enums = {}
 DMW.Functions = {}
 DMW.Rotations = {}
 DMW.Player = {}
+if not DMWSettings then
+    DMWSettings = {}
+end
+local DMWSettings = DMWSettings
 DMW.Pulses = 0
 
 local function FindRotation()
@@ -24,7 +28,7 @@ f:SetScript("OnUpdate", function(self, elapsed)
         DMW.UpdateOM()
         if not DMW.Player.Rotation then
             FindRotation()
-        else
+        elseif not (IsMounted() or IsFlying()) and DMWSettings.Active then
             DMW.Player.Rotation()
         end
     end

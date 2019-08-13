@@ -80,10 +80,30 @@ local function SingleTarget()
     end
 end
 
+local function PetStuff()
+    if not Pet then
+        if Spell.CallPet1:Cast(Player) then
+            return true
+        end
+    end
+    if Pet and Pet.Dead then
+        if Spell.RevivePet:Cast(Player) then
+            return true
+        end
+    end
+    if Pet and Pet.HP < 70 then
+        if Spell.MendPet:Cast(Player) then
+            return true
+        end
+    end
+end
+
 function Hunter.BeastMastery()
     Locals()
-
+    PetStuff()
     if Target and Target.ValidEnemy then
-        SingleTarget()
+        if SingleTarget() then
+            return true
+        end
     end
 end

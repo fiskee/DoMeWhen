@@ -34,14 +34,17 @@ Spells.HUNTER = {
             RapidReload = 278530
         }
     },
-
     All = {
         Abilities = {
-            
+            CallPet1 = {SpellID = 883, CastType = "Pet"},
+            CallPet2 = {SpellID = 83242, CastType = "Pet"},
+            CallPet3 = {SpellID = 83243, CastType = "Pet"},
+            CallPet4 = {SpellID = 83244, CastType = "Pet"},
+            CallPet5 = {SpellID = 83245, CastType = "Pet"},
+            MendPet = {SpellID = 136},
+            RevivePet = {SpellID = 982}
         },
-        Buffs = {
-
-        },
+        Buffs = {},
         Debuffs = {}
     }
 }

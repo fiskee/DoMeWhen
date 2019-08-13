@@ -39,6 +39,8 @@ Enums\Spells\Hunter.lua
 Enums\Specs.lua
 Enums\Misc.lua
 
+UI\HUD\HUD.lua
+
 Rotations\Warlock\Shared.lua
 Rotations\Warlock\Affliction.lua
 
