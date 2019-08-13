@@ -53,11 +53,11 @@ function Spell:CurrentCD()
 end
 
 function Spell:IsReady()
-    for k, v in pairs(DMW.Player.Spells) do
-        if v.CastType ~= "Special" and IsCurrentSpell(v.SpellID) then
-            return false
-        end
-    end
+    -- for k, v in pairs(DMW.Player.Spells) do
+    --     if v.CastType ~= "Special" and IsCurrentSpell(v.SpellID) then
+    --         return false
+    --     end
+    -- end
     if GetSpellInfo(self.SpellName) and IsUsableSpell(self.SpellID) and self:CurrentCD() == 0 then
         return true
     end
