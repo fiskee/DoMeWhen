@@ -1,13 +1,13 @@
-local DMWSettings = DMWSettings
-if DMWSettings.Active == nil then
-    DMWSettings.Active = false
+local DMW = DMW
+if DMW.Settings.Active == nil then
+    DMW.Settings.Active = false
 end
-if DMWSettings.Position == nil then
-    DMWSettings.Position = {}
-    DMWSettings.Position.point = "CENTER"
-    DMWSettings.Position.relativePoint = "TOP"
-    DMWSettings.Position.xOfs = 2
-    DMWSettings.Position.yOfs = -70
+if DMW.Settings.Position == nil then
+    DMW.Settings.Position = {}
+    DMW.Settings.Position.point = "CENTER"
+    DMW.Settings.Position.relativePoint = "TOP"
+    DMW.Settings.Position.xOfs = 2
+    DMW.Settings.Position.yOfs = -70
 end
 
 local HUDFrame = CreateFrame("BUTTON", "DMWHUD", UIParent)
@@ -21,17 +21,17 @@ HUDFrame:SetScript(
         if event == "PLAYER_LOGIN" then
             HUDFrame:SetWidth(80)
             HUDFrame:SetHeight(80)
-            HUDFrame:SetPoint(DMWSettings.Position.point, UIParent, DMWSettings.Position.relativePoint, DMWSettings.Position.xOfs, DMWSettings.Position.yOfs)
+            HUDFrame:SetPoint(DMW.Settings.Position.point, UIParent, DMW.Settings.Position.relativePoint, DMW.Settings.Position.xOfs, DMW.Settings.Position.yOfs)
             HUDFrame:SetMovable(true)
             HUDFrame:EnableMouse(true)
             HUDFrame:RegisterForClicks("RightButtonUp")
             HUDFrame:SetScript(
                 "OnClick",
                 function(self, button, down)
-                    if not DMWSettings.Active then
-                        DMWSettings.Active = true
+                    if not DMW.Settings.Active then
+                        DMW.Settings.Active = true
                     else
-                        DMWSettings.Active = false
+                        DMW.Settings.Active = false
                     end
                 end
             )
@@ -51,10 +51,10 @@ HUDFrame:SetScript(
                         self:StopMovingOrSizing()
                         self.isMoving = false
                         local point, _, relativePoint, xOfs, yOfs = self:GetPoint(1)
-                        DMWSettings.Position.point = point
-                        DMWSettings.Position.relativePoint = relativePoint
-                        DMWSettings.Position.xOfs = xOfs
-                        DMWSettings.Position.yOfs = yOfs
+                        DMW.Settings.Position.point = point
+                        DMW.Settings.Position.relativePoint = relativePoint
+                        DMW.Settings.Position.xOfs = xOfs
+                        DMW.Settings.Position.yOfs = yOfs
                     end
                 end
             )
@@ -69,10 +69,10 @@ HUDFrame:SetScript(
 HUDFrame:SetScript(
     "OnUpdate",
     function(self, elapsed)
-        if DMWSettings.Active then
+        if DMW.Settings.Active then
             Status:SetText("Rotation |cFF00FF00Enabled")
         end
-        if not DMWSettings.Active then
+        if not DMW.Settings.Active then
             Status:SetText("Rotation |cffff0000Disabled")
         end
     end
