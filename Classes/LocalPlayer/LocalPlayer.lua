@@ -47,6 +47,14 @@ function LocalPlayer:GCD()
     end
 end
 
+function LocalPlayer:GCDMax()
+    if DMW.Enums.GCDOneSec[self.SpecID] then
+        return 1
+    else
+        return 1.5
+    end
+end
+
 function LocalPlayer:CritPct()
     return GetCritChance()
 end

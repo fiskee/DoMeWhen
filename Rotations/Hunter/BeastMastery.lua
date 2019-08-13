@@ -19,13 +19,13 @@ end
 local function Cleave()
     local BSTarget = Debuff.BarbedShot:Lowest(Pet5Y) or Target
     -- actions.cleave=barbed_shot,target_if=min:dot.barbed_shot.remains,if=pet.cat.buff.frenzy.up&pet.cat.buff.frenzy.remains<=gcd.max
-    if Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < (GCD + 0.1) then
+    if Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax() then
         if Spell.BarbedShot:Cast(BSTarget) then
             return true
         end
     end
     -- actions.cleave+=/multishot,if=gcd.max-pet.cat.buff.beast_cleave.remains>0.25
-    if (1.5 - Buff.BeastCleave:Remain(Pet)) > 0.25 then
+    if (Player:GCDMax() - Buff.BeastCleave:Remain(Pet)) > 0.25 then
         if Spell.Multishot:Cast(Target) then
             return true
         end
@@ -96,7 +96,7 @@ end
 
 local function SingleTarget()
     -- actions.st=barbed_shot,if=pet.cat.buff.frenzy.up&pet.cat.buff.frenzy.remains<gcd|cooldown.bestial_wrath.remains&(full_recharge_time<gcd|azerite.primal_instincts.enabled&cooldown.aspect_of_the_wild.remains<gcd)
-    if (Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < (GCD + 0.1)) or (Spell.BestialWrath:CurrentCD() > 0 and Spell.BarbedShot:FullRechargeTime() < GCD) then
+    if (Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax()) or (Spell.BestialWrath:CurrentCD() > 0 and Spell.BarbedShot:FullRechargeTime() < GCD) then
         if Spell.BarbedShot:Cast(Target) then
             return true
         end
