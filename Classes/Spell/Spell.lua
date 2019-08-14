@@ -77,6 +77,15 @@ function Spell:ChargesFrac()
     end
 end
 
+function Spell:RechargeTime()
+    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellID)
+    if Charges ~= MaxCharges then
+        return Start + Duration - DMW.Time
+    else
+        return 0
+    end
+end
+
 function Spell:FullRechargeTime()
     local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellID)
     if Charges ~= MaxCharges then

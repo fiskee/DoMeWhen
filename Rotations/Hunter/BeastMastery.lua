@@ -4,6 +4,7 @@ if not DMW.Rotations.HUNTER then
 end
 local Hunter = DMW.Rotations.HUNTER
 local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC
+local WaitForPet = true
 
 local function Locals()
     Player = DMW.Player
@@ -20,7 +21,7 @@ local function Cleave()
     local BSTarget = Debuff.BarbedShot:Lowest(Pet5Y) or Target
     -- actions.cleave=barbed_shot,target_if=min:dot.barbed_shot.remains,if=pet.cat.buff.frenzy.up&pet.cat.buff.frenzy.remains<=gcd.max
     if Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax() then
-        if Spell.BarbedShot:Cast(BSTarget) then
+        if Spell.BarbedShot:Cast(BSTarget) or (Spell.BarbedShot:Charges() == 0 and Spell.BarbedShot:RechargeTime() < Buff.Frenzy:Remain(Pet)) then
             return true
         end
     end
@@ -97,7 +98,7 @@ end
 local function SingleTarget()
     -- actions.st=barbed_shot,if=pet.cat.buff.frenzy.up&pet.cat.buff.frenzy.remains<gcd|cooldown.bestial_wrath.remains&(full_recharge_time<gcd|azerite.primal_instincts.enabled&cooldown.aspect_of_the_wild.remains<gcd)
     if (Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax()) or (Spell.BestialWrath:CurrentCD() > 0 and Spell.BarbedShot:FullRechargeTime() < GCD) then
-        if Spell.BarbedShot:Cast(Target) then
+        if Spell.BarbedShot:Cast(Target) or (Spell.BarbedShot:Charges() == 0 and Spell.BarbedShot:RechargeTime() < Buff.Frenzy:Remain(Pet)) then
             return true
         end
     end
@@ -182,6 +183,9 @@ function Hunter.BeastMastery()
     PetStuff()
     Player:AutoTarget(40)
     if Target and Target.ValidEnemy then
+        if not IsCurrentSpell(6603) then
+            StartAttack(Target.Pointer)
+        end
         Pet5YC = 0
         if Pet then
             Pet5Y, Pet5YC = Pet:GetEnemies(5)

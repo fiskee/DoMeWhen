@@ -7,7 +7,7 @@ function Unit:New(Pointer)
     self.Player = UnitIsPlayer(Pointer)
     self.CombatReach = UnitCombatReach(Pointer)
     self.PosX, self.PosY, self.PosZ = ObjectPosition(Pointer)
-    self.objectID = ObjectID(Pointer)
+    self.ObjectID = ObjectID(Pointer)
     DMW.Functions.AuraCache.Refresh(Pointer)
 end
 
@@ -37,7 +37,7 @@ end
 
 function Unit:LineOfSight(OtherUnit)
     OtherUnit = OtherUnit or DMW.Player
-    return TraceLine(self.PosX, self.PosY, self.PosZ + 2, OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ + 2, 0x100010) == nil
+    return TraceLine(self.PosX, self.PosY, self.PosZ + self.CombatReach, OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ + OtherUnit.CombatReach, 0x100010) == nil
 end
 
 function Unit:IsEnemy()

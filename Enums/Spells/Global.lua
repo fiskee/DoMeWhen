@@ -4,7 +4,27 @@ DMW.Enums.Spells = {
     GLOBAL = {
         All = {
             Abilities = {
-                GCD = {SpellID = 61304, CastType = "Special"}
+                GCD = {SpellID = 61304, CastType = "Special"},
+                AegisOfTheDeep = {SpellID = 298168},
+                AnimaOfDeath = {SpellID = 294926},
+                AzerothsUndyingGift = {SpellID = 298081},
+                BloodOfTheEnemy = {SpellID = 297108},
+                ConcentratedFlame = {SpellID = 299349},
+                EmpoweredNullBarrier = {SpellID = 295746},
+                EngineOfCeaselessProgress = {SpellID = 295828},
+                FocusedAzeriteBeam = {SpellID = 295258},
+                GuardianOfAzeroth = {SpellID = 299355},
+                LifeBindersInvocation = {SpellID = 299943},
+                MemoryOfLucidDreams = {SpellID = 298357},
+                OverchargeMana = {SpellID = 296072},
+                PurifyingBlast = {SpellID = 299345},
+                Refreshment = {SpellID = 296197},
+                RippleInSpace = {SpellID = 302731},
+                Standstill = {SpellID = 299882},
+                SuppressingPulse = {SpellID = 300009},
+                TheUnboundForce = {SpellID = 299376},
+                VitalityConduit = {SpellID = 299958},
+                WorldveinResonance = {SpellID = 295186}
             },
             Buffs = {
                 MemoryOfLucidDreams = 298357,
