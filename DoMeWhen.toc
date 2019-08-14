@@ -19,7 +19,7 @@ Classes\Classes.lua
 System\Settings.lua
 System\ObjectManager.lua
 System\Combatlog.lua
-
+System\EventHandler.lua
 
 Classes\Unit\Unit.lua
 Classes\Unit\TimeToDie.lua

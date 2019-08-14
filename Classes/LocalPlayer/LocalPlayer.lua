@@ -14,6 +14,7 @@ function LocalPlayer:New(Pointer)
     self.Class = select(2, UnitClass(Pointer)):gsub("%s+", "")
     self.Spec = DMW.Enums.Specs[GetSpecializationInfo(GetSpecialization())] or ""
     self.Distance = 0
+    self.EID = false
     DMW.Functions.AuraCache.Refresh(Pointer)
     self:GetSpells()
     self:GetTalents()

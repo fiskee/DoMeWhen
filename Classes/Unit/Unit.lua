@@ -46,7 +46,17 @@ end
 
 function Unit:IsBoss()
     local Classification = UnitClassification(self.Pointer)
-    return Classification == "worldboss" or Classification == "rareelite"
+    if Classification == "worldboss" or Classification == "rareelite" then
+        return true
+    end
+    if DMW.Player.EID then
+        for i = 1, 5 do
+            if UnitIsUnit("boss" .. i, self.Pointer) then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 function Unit:HasThreat()
