@@ -58,7 +58,7 @@ function Spell:IsReady()
     --         return false
     --     end
     -- end
-    if GetSpellInfo(self.SpellName) and IsUsableSpell(self.SpellID) and self:CurrentCD() == 0 then
+    if GetSpellInfo(self.SpellName) and IsUsableSpell(self.SpellID) and self:CD() == 0 then
         return true
     end
     return false

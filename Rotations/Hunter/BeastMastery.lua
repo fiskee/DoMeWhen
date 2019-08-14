@@ -38,6 +38,11 @@ local function Cleave()
         end
     end
     -- actions.cleave+=/aspect_of_the_wild
+    if Player:CDs() then
+        if Spell.AspectOfTheWild:Cast(Player) then
+            return true
+        end
+    end
     -- actions.cleave+=/stampede,if=buff.aspect_of_the_wild.up&buff.bestial_wrath.up|target.time_to_die<15
     -- actions.cleave+=/bestial_wrath,if=cooldown.aspect_of_the_wild.remains_guess>20|talent.one_with_the_pack.enabled|target.time_to_die<15
     if Pet and not Pet.Dead and Target.TTD > 4 then
@@ -112,6 +117,11 @@ local function SingleTarget()
         end
     end
     -- actions.st+=/aspect_of_the_wild,if=cooldown.barbed_shot.charges<2|pet.cat.buff.frenzy.stack>2|!azerite.primal_instincts.enabled
+    if Player:CDs() and (Spell.BarbedShot:Charges() < 2 or Buff.Frenzy.Stacks(Pet) > 2 or not Trait.PrimalInstincts.Active) then
+        if Spell.AspectOfTheWild:Cast(Player) then
+            return true
+        end
+    end
     -- actions.st+=/stampede,if=buff.aspect_of_the_wild.up&buff.bestial_wrath.up|target.time_to_die<15
     -- actions.st+=/a_murder_of_crows,if=cooldown.bestial_wrath.remains
     if Spell.BestialWrath:CD() > 0 then
@@ -193,6 +203,9 @@ function Hunter.BeastMastery()
     if Target and Target.ValidEnemy then
         if not IsCurrentSpell(6603) then
             StartAttack(Target.Pointer)
+        end
+        if Pet and not Pet.Dead and not UnitIsUnit("pettarget", Target.Pointer) then
+            PetAttack()
         end
         Pet5YC = 0
         if Pet then
