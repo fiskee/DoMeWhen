@@ -55,6 +55,13 @@ function LocalPlayer:GCDMax()
     end
 end
 
+function LocalPlayer:CDs()
+    if self.Target and self.Target:IsBoss() then
+        return true
+    end
+    return false
+end
+
 function LocalPlayer:CritPct()
     return GetCritChance()
 end

@@ -28,28 +28,28 @@ function Spell:New(SpellID, CastType)
     end
 end
 
-function Spell:CurrentCD()
+function Spell:CD()
     if DMW.Pulses == self.CDUpdate then
-        return self.CD
+        return self.CDCache
     end
     self.CDUpdate = DMW.Pulses
-    local locStart, locDuration = GetSpellLossOfControlCooldown(self.SpellID)
+    local LocStart, LocDuration = GetSpellLossOfControlCooldown(self.SpellID)
 	local Start, CD = GetSpellCooldown(self.SpellID)
-	if (locStart + locDuration) > (Start + CD) then
-		Start = locStart
-		CD = locDuration
+	if (LocStart + LocDuration) > (Start + CD) then
+		Start = LocStart
+		CD = LocDuration
 	end
-    local MyCD = 0
+    local FinalCD = 0
     if Start > 0 and CD > 0 then
-        MyCD = Start + CD - DMW.Time
+        FinalCD = Start + CD - DMW.Time
     else
-        self.CD = 0
+        self.CDCache = 0
         return 0
     end
-    MyCD = MyCD - 0.1
-    if MyCD < 0 then MyCD = 0 end
-    self.CD = MyCD
-    return MyCD
+    FinalCD = FinalCD - 0.1
+    if FinalCD < 0 then FinalCD = 0 end
+    self.CDCache = FinalCD
+    return FinalCD
 end
 
 function Spell:IsReady()

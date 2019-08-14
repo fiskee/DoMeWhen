@@ -44,6 +44,11 @@ function Unit:IsEnemy()
     return self.LoS and UnitCanAttack("player", self.Pointer) and self:HasThreat()
 end
 
+function Unit:IsBoss()
+    local Classification = UnitClassification(self.Pointer)
+    return Classification == "worldboss" or Classification == "rareelite"
+end
+
 function Unit:HasThreat()
     if DMW.Player.Instance ~= "none" and UnitAffectingCombat(self.Pointer) then
         return true
