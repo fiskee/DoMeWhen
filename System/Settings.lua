@@ -15,7 +15,4 @@ local defaults = {
 function DMW:OnInitialize()
     self.Settings = LibStub("AceDB-3.0"):New("DMWSettings", defaults)
     self.Settings:SetProfile("defaults")
-    if self.Settings.profile then
-        print("profile???")
-    end
 end

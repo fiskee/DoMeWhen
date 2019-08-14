@@ -40,7 +40,7 @@ local function Cleave()
     -- actions.cleave+=/aspect_of_the_wild
     -- actions.cleave+=/stampede,if=buff.aspect_of_the_wild.up&buff.bestial_wrath.up|target.time_to_die<15
     -- actions.cleave+=/bestial_wrath,if=cooldown.aspect_of_the_wild.remains_guess>20|talent.one_with_the_pack.enabled|target.time_to_die<15
-    if Pet and not Pet.Dead then
+    if Pet and not Pet.Dead and Target.TTD > 4 then
         if Spell.BestialWrath:Cast(Player) then
             return true
         end
@@ -75,6 +75,9 @@ local function Cleave()
     -- actions.cleave+=/focused_azerite_beam
     -- actions.cleave+=/purifying_blast
     -- actions.cleave+=/concentrated_flame
+    if Spell.ConcentratedFlame:Cast(Target) then
+        return true
+    end
     -- actions.cleave+=/blood_of_the_enemy
     -- actions.cleave+=/the_unbound_force,if=buff.reckless_force.up|buff.reckless_force_counter.stack<10
     -- actions.cleave+=/multishot,if=azerite.rapid_reload.enabled&active_enemies>2
@@ -103,6 +106,11 @@ local function SingleTarget()
         end
     end
     -- actions.st+=/concentrated_flame,if=focus+focus.regen*gcd<focus.max&buff.bestial_wrath.down&(!dot.concentrated_flame_burn.remains&!action.concentrated_flame.in_flight)|full_recharge_time<gcd|target.time_to_die<5
+    if (Player.Power + Player.PowerRegen * GCD < Player.PowerMax and not Buff.BestialWrath:Exist()) or Target.TTD < 5 then
+        if Spell.ConcentratedFlame:Cast(Target) then
+            return true
+        end
+    end
     -- actions.st+=/aspect_of_the_wild,if=cooldown.barbed_shot.charges<2|pet.cat.buff.frenzy.stack>2|!azerite.primal_instincts.enabled
     -- actions.st+=/stampede,if=buff.aspect_of_the_wild.up&buff.bestial_wrath.up|target.time_to_die<15
     -- actions.st+=/a_murder_of_crows,if=cooldown.bestial_wrath.remains
@@ -114,7 +122,7 @@ local function SingleTarget()
     -- actions.st+=/focused_azerite_beam,if=buff.bestial_wrath.down|target.time_to_die<5
     -- actions.st+=/the_unbound_force,if=buff.reckless_force.up|buff.reckless_force_counter.stack<10|target.time_to_die<5
     -- actions.st+=/bestial_wrath
-    if Pet and not Pet.Dead then
+    if Pet and not Pet.Dead and Target.TTD > 4 then
         if Spell.BestialWrath:Cast(Player) then
             return true
         end
