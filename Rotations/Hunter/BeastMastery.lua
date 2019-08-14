@@ -117,7 +117,7 @@ local function SingleTarget()
         end
     end
     -- actions.st+=/aspect_of_the_wild,if=cooldown.barbed_shot.charges<2|pet.cat.buff.frenzy.stack>2|!azerite.primal_instincts.enabled
-    if Player:CDs() and (Spell.BarbedShot:Charges() < 2 or Buff.Frenzy.Stacks(Pet) > 2 or not Trait.PrimalInstincts.Active) then
+    if Player:CDs() and (Spell.BarbedShot:Charges() < 2 or Buff.Frenzy:Stacks(Pet) > 2 or not Trait.PrimalInstincts.Active) then
         if Spell.AspectOfTheWild:Cast(Player) then
             return true
         end
