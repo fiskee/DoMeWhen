@@ -38,6 +38,7 @@ function LocalPlayer:Update()
     self.Combat = UnitAffectingCombat(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
     self.PetActive = UnitIsVisible("pet")
+    self.InGroup = IsInGroup()
 end
 
 function LocalPlayer:GCD()

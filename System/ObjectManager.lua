@@ -7,12 +7,6 @@ local function RemoveUnit(Pointer)
     if Units[Pointer] ~= nil then
         Units[Pointer] = nil
     end
-    if Friends[Pointer] ~= nil then
-        Friends[Pointer] = nil
-    end
-    if DMW.Player and DMW.Player.Pointer == Pointer then
-        DMW.Player = nil
-    end
     if DMW.Tables.TTD[Pointer] ~= nil then
         DMW.Tables.TTD[Pointer] = nil
     end
@@ -69,10 +63,23 @@ local function SortEnemies()
     end
 end
 
+local function SortFriends()
+    if #Friends > 1 then
+        table.sort(
+            Friends,
+            function(x, y)
+                return x.HP < y.HP
+            end
+        )
+    end
+end
+
 local function UpdateUnits()
     table.wipe(Enemies)
+    table.wipe(Friends)
     DMW.Player.Target = nil
     DMW.Player.Pet = nil
+
     for k, v in pairs(Units) do
         if not v.NextUpdate or v.NextUpdate < DMW.Time then
             v:Update()
@@ -85,8 +92,14 @@ local function UpdateUnits()
         if v.ValidEnemy then
             table.insert(Enemies, v)
         end
+        if DMW.Player.InGroup and v.Player and (UnitInRaid(v.Pointer) or UnitInParty(v.Pointer)) then
+            table.insert(Friends, v)
+        elseif v.Player and UnitIsUnit(v.Pointer, "player") then
+            table.insert(Friends, v)
+        end
     end
     SortEnemies()
+    SortFriends()
 end
 
 function DMW.UpdateOM()
