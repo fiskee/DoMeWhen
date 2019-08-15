@@ -1,6 +1,5 @@
 local DMW = DMW
 
-
 local HUDFrame = CreateFrame("BUTTON", "DMWHUD", UIParent)
 local Status = CreateFrame("BUTTON", "DMWHUDStatusText", HUDFrame, "UIPanelButtonTemplate")
 HUDFrame:RegisterEvent("PLAYER_LOGIN")
@@ -11,11 +10,26 @@ HUDFrame:SetScript(
         local arg1, arg2, arg3 = ...
         if event == "PLAYER_LOGIN" then
             local Settings = DMW.Settings.profile
-            HUDFrame:SetWidth(80)
+            HUDFrame:SetWidth(120)
             HUDFrame:SetHeight(80)
             HUDFrame:SetPoint(Settings.HUDPosition.point, UIParent, Settings.HUDPosition.relativePoint, Settings.HUDPosition.xOfs, Settings.HUDPosition.yOfs)
             HUDFrame:SetMovable(true)
             HUDFrame:EnableMouse(true)
+            HUDFrame:SetBackdrop(nil)
+            HUDFrame:SetScript(
+                "OnEnter",
+                function(self)
+                    self.texture = self:CreateTexture(nil, "BACKGROUND")
+                    self.texture:SetAllPoints(true)
+                    self.texture:SetColorTexture(0.0, 0.0, 0.0, 0.2)
+                end
+            )
+            HUDFrame:SetScript(
+                "OnLeave",
+                function(self)
+                    self.texture:SetColorTexture(0.0, 0.0, 0.0, 0)
+                end
+            )
             HUDFrame:SetScript(
                 "OnMouseDown",
                 function(self, button)
@@ -39,7 +53,7 @@ HUDFrame:SetScript(
                     end
                 end
             )
-            Status:SetWidth(80)
+            Status:SetWidth(120)
             Status:SetHeight(22)
             Status:SetNormalFontObject(GameFontNormalSmall)
             Status:DisableDrawLayer("BACKGROUND")
