@@ -1,7 +1,7 @@
 local DMW = DMW
 
 local HUDFrame = CreateFrame("BUTTON", "DMWHUD", UIParent)
-local Status = CreateFrame("BUTTON", "DMWHUDStatusText", HUDFrame, "UIPanelButtonTemplate")
+local Status = CreateFrame("BUTTON", "DMWHUDStatusText", HUDFrame)
 HUDFrame:RegisterEvent("PLAYER_LOGIN")
 
 HUDFrame:SetScript(
@@ -15,60 +15,41 @@ HUDFrame:SetScript(
             HUDFrame:SetPoint(Settings.HUDPosition.point, UIParent, Settings.HUDPosition.relativePoint, Settings.HUDPosition.xOfs, Settings.HUDPosition.yOfs)
             HUDFrame:SetMovable(true)
             HUDFrame:EnableMouse(true)
-            HUDFrame:SetBackdrop(nil)
-            HUDFrame:SetScript(
-                "OnEnter",
-                function(self)
-                    self.texture = self:CreateTexture(nil, "BACKGROUND")
-                    self.texture:SetAllPoints(true)
-                    self.texture:SetColorTexture(0.0, 0.0, 0.0, 0.2)
-                end
-            )
-            HUDFrame:SetScript(
-                "OnLeave",
-                function(self)
-                    self.texture:SetColorTexture(0.0, 0.0, 0.0, 0)
-                end
-            )
-            HUDFrame:SetScript(
+            Status:SetScript(
                 "OnMouseDown",
                 function(self, button)
-                    if button == "LeftButton" and not self.IsMoving then
-                        self:StartMoving()
-                        self.IsMoving = true
+                    if button == "LeftButton" and not HUDFrame.IsMoving and IsShiftKeyDown() then
+                        HUDFrame:StartMoving()
+                        HUDFrame.IsMoving = true
                     end
                 end
             )
-            HUDFrame:SetScript(
+            Status:SetScript(
                 "OnMouseUp",
                 function(self, button)
-                    if button == "LeftButton" and self.IsMoving then
-                        self:StopMovingOrSizing()
-                        self.IsMoving = false
-                        local point, _, relativePoint, xOfs, yOfs = self:GetPoint(1)
+                    if button == "LeftButton" and HUDFrame.IsMoving then
+                        HUDFrame:StopMovingOrSizing()
+                        HUDFrame.IsMoving = false
+                        local point, _, relativePoint, xOfs, yOfs = HUDFrame:GetPoint(1)
                         Settings.HUDPosition.point = point
                         Settings.HUDPosition.relativePoint = relativePoint
                         Settings.HUDPosition.xOfs = xOfs
                         Settings.HUDPosition.yOfs = yOfs
+                    else
+                        if not Settings.Active then
+                            Settings.Active = true
+                        else
+                            Settings.Active = false
+                        end
                     end
                 end
             )
             Status:SetWidth(120)
             Status:SetHeight(22)
             Status:SetNormalFontObject(GameFontNormalSmall)
-            Status:DisableDrawLayer("BACKGROUND")
+            Status:SetHighlightFontObject(GameFontHighlightSmall)
             Status:SetPoint("CENTER", HUDFrame, "CENTER", 0, 0)
             Status:SetText("Rotation |cffff0000Disabled")
-            Status:SetScript(
-                "OnClick",
-                function(self, button, down)
-                    if not Settings.Active then
-                        Settings.Active = true
-                    else
-                        Settings.Active = false
-                    end
-                end
-            )
         end
     end
 )
