@@ -62,7 +62,7 @@ local function Cleave()
     end
     -- actions.cleave+=/barrage
     -- actions.cleave+=/kill_command,if=active_enemies<4|!azerite.rapid_reload.enabled
-    if Pet and not Pet.Dead and (Pet5YC < 4 or Trait.RapidReload.Active) then
+    if Pet and not Pet.Dead and (Pet5YC < 4 or Trait.RapidReload.Active) and Pet:GetDistance(Target) < 50 then
         if Spell.KillCommand:Cast(Target) then
             return true
         end

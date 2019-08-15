@@ -95,3 +95,7 @@ function Spell:FullRechargeTime()
         return 0
     end
 end
+
+function Spell:CastTime()
+    return select(4, GetSpellInfo(self.SpellName))
+end
