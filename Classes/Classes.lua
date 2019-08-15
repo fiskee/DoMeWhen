@@ -1,7 +1,6 @@
 local DMW = DMW
 DMW.Classes = {}
 local Classes = DMW.Classes
--- Function to create a new class, from http://lua-users.org/wiki/ObjectOrientationTutorial
 local function Class()
     local cls = {}
     cls.__index = cls
