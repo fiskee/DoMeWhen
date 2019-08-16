@@ -56,5 +56,24 @@ Spells.WARLOCK = {
             CascadingCalamity = 275372,
             InevitableDemise = 273521
         }
+    },
+    Demonology = {
+        Abilities = {},
+        Buffs = {},
+        Debuffs = {},
+        Talents = {},
+        Traits = {}
+    },
+    Destruction = {
+        Abilities = {},
+        Buffs = {},
+        Debuffs = {},
+        Talents = {},
+        Traits = {}
+    },
+    All = {
+        Abilities = {},
+        Buffs = {},
+        Debuffs = {}
     }
 }

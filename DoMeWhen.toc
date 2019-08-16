@@ -34,8 +34,18 @@ Classes\Aura\Aura.lua
 Classes\Aura\Cache.lua
 
 Enums\Spells\Global.lua
-Enums\Spells\Warlock.lua
+Enums\Spells\DeathKnight.lua
+Enums\Spells\DemonHunter.lua
+Enums\Spells\Druid.lua
 Enums\Spells\Hunter.lua
+Enums\Spells\Mage.lua
+Enums\Spells\Monk.lua
+Enums\Spells\Paladin.lua
+Enums\Spells\Priest.lua
+Enums\Spells\Rogue.lua
+Enums\Spells\Shaman.lua
+Enums\Spells\Warlock.lua
+Enums\Spells\Warrior.lua
 
 Enums\Specs.lua
 Enums\Misc.lua

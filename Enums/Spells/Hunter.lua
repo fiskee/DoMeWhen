@@ -37,6 +37,20 @@ Spells.HUNTER = {
             RapidReload = 278530
         }
     },
+    Marksmanship = {
+        Abilities = {},
+        Buffs = {},
+        Debuffs = {},
+        Talents = {},
+        Traits = {}
+    },
+    Survival = {
+        Abilities = {},
+        Buffs = {},
+        Debuffs = {},
+        Talents = {},
+        Traits = {}
+    },
     All = {
         Abilities = {
             CallPet1 = {SpellID = 883, CastType = "Special"},

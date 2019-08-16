@@ -9,6 +9,9 @@ local defaults = {
         xOfs = 2,
         yOfs = -70
       },
+      HUD = {
+        
+      }
     }
   }
 

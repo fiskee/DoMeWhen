@@ -3,7 +3,7 @@ if not DMW.Rotations.HUNTER then
     DMW.Rotations.HUNTER = {}
 end
 local Hunter = DMW.Rotations.HUNTER
-local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC
+local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC, HUD
 
 local function Locals()
     if not DMW.UI.HUD.Options then
@@ -27,6 +27,7 @@ local function Locals()
     Target = Player.Target or false
     Pet = Player.Pet or false
     GCD = Player:GCD()
+    HUD = DMW.Settings.profile.HUD
 end
 
 local function Cleave()
@@ -224,7 +225,7 @@ function Hunter.BeastMastery()
             if Pet then
                 Pet5Y, Pet5YC = Pet:GetEnemies(5)
             end
-            if Pet5YC < 2 then
+            if Pet5YC < 2 or HUD.Mode == 2 then
                 if SingleTarget() then
                     return true
                 end

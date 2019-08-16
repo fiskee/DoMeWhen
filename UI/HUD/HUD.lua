@@ -67,6 +67,7 @@ function HUD.Load()
                 OptionsCount = OptionsCount + 1
             end
             Frame = CreateFrame("BUTTON", "DMWHUD" .. k, HUDFrame)
+            Frame.HUDName = k
             Frame.Options = v
             Frame.OptionsCount = #v
             Frame.Index = 1
@@ -74,6 +75,7 @@ function HUD.Load()
                 if Index and self.Options[Index] then
                     self:SetText(self.Options[Index].Text)
                     self.Index = Index
+                    Settings.HUD[self.HUDName] = Index
                     return
                 elseif not Index then
                     local NewIndex
@@ -84,7 +86,10 @@ function HUD.Load()
                     end
                     self:SetText(self.Options[NewIndex].Text)
                     self.Index = NewIndex
+                    Settings.HUD[self.HUDName] = NewIndex
+                    return
                 end
+                print("HUD: Invalid Index Supplied")
             end
             Frame:SetWidth(120)
             Frame:SetHeight(22)
@@ -117,8 +122,14 @@ function HUD.Load()
                     end
                 end
             )
+            if Settings.HUD[k] then
+                Frame:Toggle(Settings.HUD[k])
+            else
+                Frame:Toggle(1)
+            end
             ofsy = ofsy - 22
         end
+        HUDFrame:SetHeight(math.abs(ofsy))
         HUD.Loaded = true
     end
 end

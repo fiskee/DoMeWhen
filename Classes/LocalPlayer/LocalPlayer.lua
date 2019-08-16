@@ -58,7 +58,11 @@ function LocalPlayer:GCDMax()
 end
 
 function LocalPlayer:CDs()
-    if self.Target and self.Target:IsBoss() then
+    if DMW.Settings.profile.HUD.CDs and DMW.Settings.profile.HUD.CDs == 3 then
+        return false
+    elseif DMW.Settings.profile.HUD.CDs and DMW.Settings.profile.HUD.CDs == 2 then
+        return true
+    elseif self.Target and self.Target:IsBoss() then
         return true
     end
     return false
