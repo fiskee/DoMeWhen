@@ -117,8 +117,18 @@ function HUD.Load()
                         Settings.HUDPosition.relativePoint = relativePoint
                         Settings.HUDPosition.xOfs = xOfs
                         Settings.HUDPosition.yOfs = yOfs
-                    else
+                    elseif button == "LeftButton" then
                         self:Toggle()
+                    elseif button == "RightButton" then
+                        local NewIndex
+                        if self.Index > 1 then
+                            NewIndex = self.Index - 1
+                        else
+                            NewIndex = self.OptionsCount
+                        end
+                        self:SetText(self.Options[NewIndex].Text)
+                        self.Index = NewIndex
+                        Settings.HUD[self.HUDName] = NewIndex
                     end
                 end
             )
