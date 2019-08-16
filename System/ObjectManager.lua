@@ -1,6 +1,8 @@
 local DMW = DMW
 DMW.Enemies, DMW.Units, DMW.Friends = {}, {}, {}
-local Enemies, Units, Friends = DMW.Enemies, DMW.Units, DMW.Friends
+DMW.Friends.Units = {}
+DMW.Friends.Tanks = {}
+local Enemies, Units, Friends = DMW.Enemies, DMW.Units, DMW.Friends.Units
 local Unit, LocalPlayer = DMW.Classes.Unit, DMW.Classes.LocalPlayer
 
 local function RemoveUnit(Pointer)
@@ -63,7 +65,8 @@ local function SortEnemies()
     end
 end
 
-local function SortFriends()
+local function HandleFriends()
+    table.wipe(DMW.Friends.Tanks)
     if #Friends > 1 then
         table.sort(
             Friends,
@@ -72,6 +75,13 @@ local function SortFriends()
             end
         )
     end
+    for _, Unit in pairs(Friends) do
+        Unit.Role = UnitGroupRolesAssigned(Unit.Pointer)
+        if Unit.Role and Unit.Role == "TANK" then
+            table.insert(DMW.Friends.Tanks, Unit)
+        end
+    end
+    
 end
 
 local function UpdateUnits()
@@ -80,26 +90,26 @@ local function UpdateUnits()
     DMW.Player.Target = nil
     DMW.Player.Pet = nil
 
-    for k, v in pairs(Units) do
-        if not v.NextUpdate or v.NextUpdate < DMW.Time then
-            v:Update()
+    for Pointer, Unit in pairs(Units) do
+        if not Unit.NextUpdate or Unit.NextUpdate < DMW.Time then
+            Unit:Update()
         end
-        if not DMW.Player.Target and UnitIsUnit(k, "target") then
-            DMW.Player.Target = v
-        elseif DMW.Player.PetActive and not DMW.Player.Pet and UnitIsUnit(k, "pet") then
-            DMW.Player.Pet = v
+        if not DMW.Player.Target and UnitIsUnit(Pointer, "target") then
+            DMW.Player.Target = Unit
+        elseif DMW.Player.PetActive and not DMW.Player.Pet and UnitIsUnit(Pointer, "pet") then
+            DMW.Player.Pet = Unit
         end
-        if v.ValidEnemy then
-            table.insert(Enemies, v)
+        if Unit.ValidEnemy then
+            table.insert(Enemies, Unit)
         end
-        if DMW.Player.InGroup and v.Player and (UnitInRaid(v.Pointer) or UnitInParty(v.Pointer)) then
-            table.insert(Friends, v)
-        elseif v.Player and UnitIsUnit(v.Pointer, "player") then
-            table.insert(Friends, v)
+        if DMW.Player.InGroup and Unit.Player and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
+            table.insert(Friends, Unit)
+        elseif Unit.Player and UnitIsUnit(Pointer, "player") then
+            table.insert(Friends, Unit)
         end
     end
     SortEnemies()
-    SortFriends()
+    HandleFriends()
 end
 
 function DMW.UpdateOM()
