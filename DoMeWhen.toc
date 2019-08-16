@@ -2,7 +2,7 @@
 ## Author: Fisker
 ## Version: 1
 ## Title: DoMeWhen
-## Notes: Core Rotation Addon
+## Notes: Rotation Addon
 ## SavedVariables: DMWSettings
 
 Libs\LibStub\LibStub.lua
