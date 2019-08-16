@@ -10,7 +10,7 @@ local function Settings()
         DMW.UI.HUD.Options = {
             CDs = {
                 [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = "Auto use cooldowns on boss enemies"},
-                [2] = {Text = "Cooldowns |cFF00FF00Always On", Tooltip = "Always use cooldowns"},
+                [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = "Always use cooldowns"},
                 [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = "Never use cooldowns"}
             },
             Mode = {

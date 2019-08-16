@@ -20,6 +20,7 @@ System\Settings.lua
 System\ObjectManager.lua
 System\Combatlog.lua
 System\EventHandler.lua
+System\SlashHandler.lua
 
 Classes\Unit\Unit.lua
 Classes\Unit\TimeToDie.lua
@@ -52,7 +53,6 @@ Enums\Misc.lua
 
 UI\Main\Main.lua
 UI\HUD\HUD.lua
-
 
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
