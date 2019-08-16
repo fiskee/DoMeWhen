@@ -25,7 +25,6 @@ function Unit:Update()
         self.LoS = self:LineOfSight()
     end
     self.ValidEnemy = self:IsEnemy()
-    self.Casting = UnitCastingInfo(self.Pointer) or UnitChannelInfo(self.Pointer)
     self.Target = UnitTarget(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
 end
@@ -81,4 +80,38 @@ function Unit:GetEnemies(Yards)
         end
     end
     return EnemyTable, Count
+end
+
+function Unit:Interrupt()
+    local Settings = DMW.Settings.profile
+    local StartTime, EndTime, SpellID, Type
+    local CastingInfo = {UnitCastingInfo(self.Pointer)} --name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId
+    local ChannelInfo = {UnitChannelInfo(self.Pointer)} --name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible, spellId
+    if CastingInfo[5] and not CastingInfo[8] then
+        StartTime = CastingInfo[4] / 1000
+        EndTime = CastingInfo[5] / 1000
+        SpellID = CastingInfo[9]
+        Type = "Cast"
+    elseif ChannelInfo[5] and not ChannelInfo[7] then
+        StartTime = ChannelInfo[4] / 1000
+        SpellID = ChannelInfo[8]
+        Type = "Channel"
+    else
+        return false
+    end
+    if Type == "Cast" then
+        local Pct = (DMW.Time - StartTime) / (EndTime - StartTime) * 100
+        if Pct >= Settings.Enemy.InterruptPct then
+            return true
+        end
+    else
+        local Delay = Settings.Enemy.ChannelInterrupt - 0.2 + (math.random(1, 4) / 10)
+        if Delay < 0.1 then
+            Delay = 0.1
+        end
+        if (DMW.Time - StartTime) > Delay then
+            return true
+        end
+    end
+    return false
 end

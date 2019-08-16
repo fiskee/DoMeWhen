@@ -77,11 +77,10 @@ local function HandleFriends()
     end
     for _, Unit in pairs(Friends) do
         Unit.Role = UnitGroupRolesAssigned(Unit.Pointer)
-        if Unit.Role and Unit.Role == "TANK" then
+        if Unit.Role == "TANK" then
             table.insert(DMW.Friends.Tanks, Unit)
         end
     end
-    
 end
 
 local function UpdateUnits()

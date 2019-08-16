@@ -3,7 +3,7 @@ if not DMW.Rotations.HUNTER then
     DMW.Rotations.HUNTER = {}
 end
 local Hunter = DMW.Rotations.HUNTER
-local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC, HUD
+local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC, HUD, Player40Y, Player40YC
 
 local function Locals()
     if not DMW.UI.HUD.Options then
@@ -209,10 +209,26 @@ local function PetStuff()
     end
 end
 
-function Hunter.BeastMastery() 
+local function Interrupt()
+    Player40Y, Player40YC = Player:GetEnemies(40)
+    if Player40YC > 0 then
+        for _, Unit in pairs(Player40Y) do
+            if Unit:Interrupt() then
+                if Spell.CounterShot:Cast(Unit) then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
+function Hunter.BeastMastery()
     Locals()
     if not (IsMounted() or IsFlying()) then
-        PetStuff()
+        if PetStuff() then
+            return true
+        end
         Player:AutoTarget(40)
         if Target and Target.ValidEnemy then
             if not IsCurrentSpell(6603) then
@@ -224,6 +240,9 @@ function Hunter.BeastMastery()
             Pet5YC = 0
             if Pet then
                 Pet5Y, Pet5YC = Pet:GetEnemies(5)
+            end
+            if Interrupt() then
+                return true
             end
             if Pet5YC < 2 or HUD.Mode == 2 then
                 if SingleTarget() then
