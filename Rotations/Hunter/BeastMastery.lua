@@ -5,7 +5,7 @@ end
 local Hunter = DMW.Rotations.HUNTER
 local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC, HUD, Player40Y, Player40YC
 
-local function Locals()
+local function Settings()
     if not DMW.UI.HUD.Options then
         DMW.UI.HUD.Options = {
             CDs = {
@@ -16,9 +16,16 @@ local function Locals()
             Mode = {
                 [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
                 [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
+            },
+            Interrupts = {
+                [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
+                [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
             }
         }
     end
+end
+
+local function Locals()
     Player = DMW.Player
     Buff = Player.Buffs
     Debuff = Player.Debuffs
@@ -210,12 +217,14 @@ local function PetStuff()
 end
 
 local function Interrupt()
-    Player40Y, Player40YC = Player:GetEnemies(40)
-    if Player40YC > 0 then
-        for _, Unit in pairs(Player40Y) do
-            if Unit:Interrupt() then
-                if Spell.CounterShot:Cast(Unit) then
-                    return true
+    if HUD.Interrupts == 1 then
+        Player40Y, Player40YC = Player:GetEnemies(40)
+        if Player40YC > 0 then
+            for _, Unit in pairs(Player40Y) do
+                if Unit:Interrupt() then
+                    if Spell.CounterShot:Cast(Unit) then
+                        return true
+                    end
                 end
             end
         end
@@ -225,6 +234,7 @@ end
 
 function Hunter.BeastMastery()
     Locals()
+    Settings()
     if not (IsMounted() or IsFlying()) then
         if PetStuff() then
             return true
