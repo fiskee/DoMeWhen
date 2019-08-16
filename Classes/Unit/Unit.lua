@@ -27,10 +27,14 @@ function Unit:Update()
     self.ValidEnemy = self:IsEnemy()
     self.Target = UnitTarget(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
+    self.Facing = ObjectIsFacing("Player", self.Pointer)
 end
 
 function Unit:GetDistance(OtherUnit)
     OtherUnit = OtherUnit or DMW.Player
+    if OtherUnit == DMW.Player and DMW.Enums.MeleeSpell[DMW.Player.SpecID] and IsSpellInRange(GetSpellInfo(DMW.Enums.MeleeSpell[DMW.Player.SpecID]), self.Pointer) == 1 then
+        return 0
+    end
     return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2)) - ((self.CombatReach or 0) + (OtherUnit.CombatReach or 0))
 end
 

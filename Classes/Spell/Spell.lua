@@ -33,8 +33,8 @@ function Spell:CD()
         return self.CDCache
     end
     self.CDUpdate = DMW.Pulses
-    local LocStart, LocDuration = GetSpellLossOfControlCooldown(self.SpellID)
-	local Start, CD = GetSpellCooldown(self.SpellID)
+    local LocStart, LocDuration = GetSpellLossOfControlCooldown(self.SpellName)
+	local Start, CD = GetSpellCooldown(self.SpellName)
 	if (LocStart + LocDuration) > (Start + CD) then
 		Start = LocStart
 		CD = LocDuration
@@ -58,7 +58,7 @@ function Spell:IsReady()
     --         return false
     --     end
     -- end
-    if GetSpellInfo(self.SpellName) and IsUsableSpell(self.SpellID) and self:CD() == 0 then
+    if GetSpellInfo(self.SpellName) and IsUsableSpell(self.SpellName) and self:CD() == 0 then
         return true
     end
     return false

@@ -7,6 +7,7 @@ DMW.Rotations = {}
 DMW.Player = {}
 DMW.UI = {}
 DMW.Settings = {}
+DMW.Helpers = {}
 DMW.Pulses = 0
 
 local function FindRotation()
