@@ -4,9 +4,21 @@ if not DMW.Rotations.HUNTER then
 end
 local Hunter = DMW.Rotations.HUNTER
 local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC
-local WaitForPet = true
 
 local function Locals()
+    if not DMW.UI.HUD.Options then
+        DMW.UI.HUD.Options = {
+            CDs = {
+                [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = "Auto use cooldowns on boss enemies"},
+                [2] = {Text = "Cooldowns |cFF00FF00Always On", Tooltip = "Always use cooldowns"},
+                [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = "Never use cooldowns"}
+            },
+            Mode = {
+                [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
+                [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
+            }
+        }
+    end
     Player = DMW.Player
     Buff = Player.Buffs
     Debuff = Player.Debuffs
@@ -196,28 +208,30 @@ local function PetStuff()
     end
 end
 
-function Hunter.BeastMastery()
+function Hunter.BeastMastery() 
     Locals()
-    PetStuff()
-    Player:AutoTarget(40)
-    if Target and Target.ValidEnemy then
-        if not IsCurrentSpell(6603) then
-            StartAttack(Target.Pointer)
-        end
-        if Pet and not Pet.Dead and not UnitIsUnit("pettarget", Target.Pointer) then
-            PetAttack()
-        end
-        Pet5YC = 0
-        if Pet then
-            Pet5Y, Pet5YC = Pet:GetEnemies(5)
-        end
-        if Pet5YC < 2 then
-            if SingleTarget() then
-                return true
+    if not (IsMounted() or IsFlying()) then
+        PetStuff()
+        Player:AutoTarget(40)
+        if Target and Target.ValidEnemy then
+            if not IsCurrentSpell(6603) then
+                StartAttack(Target.Pointer)
             end
-        else
-            if Cleave() then
-                return true
+            if Pet and not Pet.Dead and not UnitIsUnit("pettarget", Target.Pointer) then
+                PetAttack()
+            end
+            Pet5YC = 0
+            if Pet then
+                Pet5Y, Pet5YC = Pet:GetEnemies(5)
+            end
+            if Pet5YC < 2 then
+                if SingleTarget() then
+                    return true
+                end
+            else
+                if Cleave() then
+                    return true
+                end
             end
         end
     end

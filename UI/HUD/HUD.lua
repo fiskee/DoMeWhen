@@ -1,6 +1,8 @@
 local DMW = DMW
-
-local HUDFrame = CreateFrame("BUTTON", "DMWHUD", UIParent)
+DMW.UI.HUD = {}
+local HUD = DMW.UI.HUD
+HUD.Frame = CreateFrame("BUTTON", "DMWHUD", UIParent)
+local HUDFrame = HUD.Frame
 local Status = CreateFrame("BUTTON", "DMWHUDStatusText", HUDFrame)
 HUDFrame:RegisterEvent("PLAYER_LOGIN")
 
@@ -48,19 +50,85 @@ HUDFrame:SetScript(
             Status:SetHeight(22)
             Status:SetNormalFontObject(GameFontNormalSmall)
             Status:SetHighlightFontObject(GameFontHighlightSmall)
-            Status:SetPoint("CENTER", HUDFrame, "CENTER", 0, 0)
+            Status:SetPoint("TOP", HUDFrame, "TOP", 0, 0)
             Status:SetText("Rotation |cffff0000Disabled")
         end
     end
 )
+
+function HUD.Load()
+    local Settings = DMW.Settings.profile
+    local ofsy = -22
+    local Frame
+    if HUD.Options then
+        for k, v in pairs(HUD.Options) do
+            local OptionsCount = 0
+            for k,_ in pairs(v) do
+                OptionsCount = OptionsCount + 1
+            end
+            Frame = CreateFrame("BUTTON", "DMWHUD" .. k, HUDFrame)
+            Frame.Options = v
+            Frame.OptionsCount = #v
+            Frame.Index = 1
+            Frame.Toggle = function(self, Index)
+                if Index and self.Options[Index] then
+                    self:SetText(self.Options[Index].Text)
+                    self.Index = Index
+                    return
+                elseif not Index then
+                    local NewIndex
+                    if self.Index < self.OptionsCount then
+                        NewIndex = self.Index + 1
+                    else
+                        NewIndex = 1
+                    end
+                    self:SetText(self.Options[NewIndex].Text)
+                    self.Index = NewIndex
+                end
+            end
+            Frame:SetWidth(120)
+            Frame:SetHeight(22)
+            Frame:SetNormalFontObject(GameFontNormalSmall)
+            Frame:SetHighlightFontObject(GameFontHighlightSmall)
+            Frame:SetPoint("TOP", HUDFrame, "TOP", 0, ofsy)
+            Frame:SetText(Frame.Options[1].Text)
+            Frame:SetScript(
+                "OnMouseDown",
+                function(self, button)
+                    if button == "LeftButton" and not HUDFrame.IsMoving and IsShiftKeyDown() then
+                        HUDFrame:StartMoving()
+                        HUDFrame.IsMoving = true
+                    end
+                end
+            )
+            Frame:SetScript(
+                "OnMouseUp",
+                function(self, button)
+                    if button == "LeftButton" and HUDFrame.IsMoving then
+                        HUDFrame:StopMovingOrSizing()
+                        HUDFrame.IsMoving = false
+                        local point, _, relativePoint, xOfs, yOfs = HUDFrame:GetPoint(1)
+                        Settings.HUDPosition.point = point
+                        Settings.HUDPosition.relativePoint = relativePoint
+                        Settings.HUDPosition.xOfs = xOfs
+                        Settings.HUDPosition.yOfs = yOfs
+                    else
+                        self:Toggle()
+                    end
+                end
+            )
+            ofsy = ofsy - 22
+        end
+        HUD.Loaded = true
+    end
+end
 
 HUDFrame:SetScript(
     "OnUpdate",
     function(self, elapsed)
         if DMW.Settings.profile.Active then
             Status:SetText("Rotation |cFF00FF00Enabled")
-        end
-        if not DMW.Settings.profile.Active then
+        else
             Status:SetText("Rotation |cffff0000Disabled")
         end
     end

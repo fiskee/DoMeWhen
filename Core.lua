@@ -26,8 +26,11 @@ f:SetScript("OnUpdate", function(self, elapsed)
         DMW.UpdateOM()
         if not DMW.Player.Rotation then
             FindRotation()
-        elseif not (IsMounted() or IsFlying()) and DMW.Settings.profile.Active then
+        elseif DMW.Settings.profile.Active then
             DMW.Player.Rotation()
+        end
+        if not DMW.UI.HUD.Loaded then
+            DMW.UI.HUD.Load()
         end
     end
 end)
