@@ -53,8 +53,15 @@ Enums\Misc.lua
 UI\Main\Main.lua
 UI\HUD\HUD.lua
 
-Rotations\Warlock\Shared.lua
-Rotations\Warlock\Affliction.lua
 
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
+
+Rotations\Paladin\Shared.lua
+Rotations\Paladin\Holy.lua
+Rotations\Paladin\Protection.lua
+Rotations\Paladin\Retribution.lua
+
+Rotations\Warlock\Shared.lua
+Rotations\Warlock\Affliction.lua
+
