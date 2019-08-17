@@ -116,3 +116,18 @@ function LocalPlayer:GetEnemiesRect(Length, Width, TTD)
     end
     return Count
 end
+
+function LocalPlayer:GetEnemiesCone(Length, Angle, TTD)
+    local Count = 0
+    local Table, TableCount = self:GetEnemies(Length)
+    if TableCount > 0 then
+        TTD = TTD or 0
+        local Facing = ObjectFacing(self.Pointer)
+        for _, Unit in pairs(Table) do
+            if Unit.TTD >= TTD and UnitIsFacing(Unit.Pointer, self.Pointer, Angle/2) then
+                Count = Count + 1
+            end
+        end
+    end
+    return Count
+end

@@ -130,7 +130,7 @@ end
 
 local function SingleTarget()
     -- actions.st=barbed_shot,if=pet.cat.buff.frenzy.up&pet.cat.buff.frenzy.remains<gcd|cooldown.bestial_wrath.remains&(full_recharge_time<gcd|azerite.primal_instincts.enabled&cooldown.aspect_of_the_wild.remains<gcd)
-    if (Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax()) or (Spell.BestialWrath:CD() > 0 and Spell.BarbedShot:FullRechargeTime() < GCD) then
+    if (Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax()) or (Spell.BestialWrath:CD() > 0 and (Spell.BarbedShot:FullRechargeTime() < Player:GCDMax() or (Trait.PrimalInstincts.Active and Spell.AspectOfTheWild:CD() < Player:GCDMax() and Player:CDs()))) then
         if Spell.BarbedShot:Cast(Target) or (Spell.BarbedShot:Charges() == 0 and Spell.BarbedShot:RechargeTime() < Buff.Frenzy:Remain(Pet)) then
             return true
         end
