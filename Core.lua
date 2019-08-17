@@ -9,6 +9,7 @@ DMW.UI = {}
 DMW.Settings = {}
 DMW.Helpers = {}
 DMW.Pulses = 0
+local Init = false
 
 local function FindRotation()
     if DMW.Rotations[DMW.Player.Class] and DMW.Rotations[DMW.Player.Class][DMW.Player.Spec] then
@@ -21,6 +22,11 @@ f:SetScript("OnUpdate", function(self, elapsed)
     DMW.Time = GetTime()
     DMW.Pulses = DMW.Pulses + 1
     if EWT ~= nil then
+        if not Init then
+            DMW.Init()
+            DMW.UI.HUD.Init()
+            Init = true
+        end
         if not DMW.Player.Name then
             DMW.Player = DMW.Classes.LocalPlayer(ObjectPointer("player"))
         end

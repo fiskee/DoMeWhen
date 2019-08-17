@@ -22,7 +22,8 @@ local defaults = {
     }
 }
 
-function DMW:OnInitialize()
-    self.Settings = LibStub("AceDB-3.0"):New("DMWSettings", defaults, "Default")
+function DMW.Init()
+    DMW.Settings = LibStub("AceDB-3.0"):New("DMWSettings", defaults, "Default")
+    DMW.Settings:SetProfile(DMW.Enums.Specs[GetSpecializationInfo(GetSpecialization())])
     DMW.UI.Init()
 end
