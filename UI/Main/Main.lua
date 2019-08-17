@@ -67,18 +67,74 @@ function UI.Init()
     LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 380, 600)
 end
 
-function UI.AddToggle(Name, Desc)
+function UI.AddHeader(Text)
+    local Setting = Text:gsub("%s+", "")
+    UI.Options.args.RotationTab.args[Setting .. "Header"] = {
+        GeneralHeader = {
+            type = "header",
+            name = Text
+        },
+    }
+end
+
+function UI.AddToggle(Name, Desc, Default)
     local Setting = Name:gsub("%s+", "")
     UI.Options.args.RotationTab.args[Setting] = {
         type = "toggle",
         name = Name,
         desc = Desc,
         width = "full",
-        get = function(info)
+        get = function()
             return DMW.Settings.profile.Rotation[Setting]
         end,
         set = function(info, value)
             DMW.Settings.profile.Rotation[Setting] = value
         end
     }
+    if Default and DMW.Settings.profile.Rotation[Setting] == nil then
+        DMW.Settings.profile.Rotation[Setting] = Default
+    end
+end
+
+function UI.AddRange(Name, Desc, Min, Max, Step, Default)
+    local Setting = Name:gsub("%s+", "")
+    UI.Options.args.RotationTab.args[Setting] = {
+        type = "range",
+        name = Name,
+        desc = Desc,
+        width = "full",
+        min = Min,
+        max = Max,
+        step = Step,
+        get = function()
+            return DMW.Settings.profile.Rotation[Setting]
+        end,
+        set = function(info, value)
+            DMW.Settings.profile.Rotation[Setting] = value
+        end
+    }
+    if Default and DMW.Settings.profile.Rotation[Setting] == nil then
+        DMW.Settings.profile.Rotation[Setting] = Default
+    end
+end
+
+function UI.AddDropdown(Name, Desc, Values, Default)
+    local Setting = Name:gsub("%s+", "")
+    UI.Options.args.RotationTab.args[Setting] = {
+        type = "select",
+        name = Name,
+        desc = Desc,
+        width = "full",
+        values = Values,
+        style = "dropdown",
+        get = function()
+            return DMW.Settings.profile.Rotation[Setting]
+        end,
+        set = function(info, value)
+            DMW.Settings.profile.Rotation[Setting] = value
+        end
+    }
+    if Default and DMW.Settings.profile.Rotation[Setting] == nil then
+        DMW.Settings.profile.Rotation[Setting] = Default
+    end
 end
