@@ -152,5 +152,8 @@ HUDFrame:SetScript(
         else
             Status:SetText("Rotation |cffff0000Disabled")
         end
+        if HUDFrame:IsShown() and not DMW.Settings.profile.HUD.Show then
+            HUDFrame:Hide()
+        end
     end
 )

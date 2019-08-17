@@ -2,7 +2,7 @@ local DMW = DMW
 local EHFrame = CreateFrame("Frame")
 EHFrame:RegisterEvent("ENCOUNTER_START")
 EHFrame:RegisterEvent("ENCOUNTER_END")
-EHFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+EHFrame:RegisterUnitEvent("PLAYER_SPECIALIZATION_CHANGED", "player")
 
 local function EventHandler(self, event, ...)
     if event == "ENCOUNTER_START" then

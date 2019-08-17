@@ -1,4 +1,7 @@
 local DMW = DMW
+local _DMWSettings = {...}
+local AceGUI = LibStub("AceGUI-3.0")
+_DMWSettings.ConfigFrame = nil
 
 local defaults = {
     profile = {
@@ -9,7 +12,9 @@ local defaults = {
             xOfs = 2,
             yOfs = -70
         },
-        HUD = {},
+        HUD = {
+            Show = true
+        },
         Enemy = {
             InterruptPct = 70,
             ChannelInterrupt = 1

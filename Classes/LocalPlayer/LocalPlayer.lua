@@ -100,12 +100,6 @@ function LocalPlayer:GetEnemies(Yards)
 end
 
 function LocalPlayer:GetEnemiesRect(Length, Width, TTD)
-    local function InRect(nlX, nlY, frX, frY, x, y)
-        if x > nlX and x < frX and y > nlY and y < frY then
-            return true
-        end
-        return false
-    end
     local Count = 0
     local Table, TableCount = self:GetEnemies(Length)
     if TableCount > 0 then
@@ -115,7 +109,7 @@ function LocalPlayer:GetEnemiesRect(Length, Width, TTD)
         local nrX, nrY, nrZ = GetPositionFromPosition(self.PosX, self.PosY, self.PosZ, Width/2, Facing + math.rad(270), 0)
         local frX, frY, frZ = GetPositionFromPosition(nrX, nrY, nrZ, Length, Facing, 0)
         for _, Unit in pairs(Table) do
-            if InRect(nlX, nlY, frX, frY, Unit.PosX, Unit.PosY) and Unit.TTD >= TTD then
+            if Unit.PosX > nlX and Unit.PosX < frX and Unit.PosY > nlY and Unit.PosY < frY and Unit.TTD >= TTD then
                 Count = Count + 1
             end
         end
