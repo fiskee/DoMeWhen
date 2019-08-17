@@ -94,6 +94,11 @@ function Queue.Run()
         QueueFrame:SetScript("OnEvent", SpellSuccess)
         DMW.UI.AddQueue()
     end
+    if GetKeyState(0x05) then
+        CheckPress(nil, "BUTTON4")
+    elseif GetKeyState(0x06) then
+        CheckPress(nil, "BUTTON5")
+    end
     if Queue.Spell and (DMW.Time - Queue.Time) > 2 then
         Queue.Spell = false
         Queue.Target = false

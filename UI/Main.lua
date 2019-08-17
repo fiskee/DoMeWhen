@@ -1,6 +1,7 @@
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 local DMW = DMW
 local UI = DMW.UI
+local RotationOrder = 1
 
 local Options = {
     name = "DoMeWhen",
@@ -168,33 +169,36 @@ function UI.AddHeader(Text)
     local Setting = Text:gsub("%s+", "")
     Options.args.RotationTab.args[Setting .. "Header"] = {
         type = "header",
+        order = RotationOrder,
         name = Text
     }
+    RotationOrder = RotationOrder + 1
 end
 
 function UI.AddToggle(Name, Desc, Default)
-    local Setting = Name:gsub("%s+", "")
-    Options.args.RotationTab.args[Setting] = {
+    Options.args.RotationTab.args[Name] = {
         type = "toggle",
+        order = RotationOrder,
         name = Name,
         desc = Desc,
         width = "full",
         get = function()
-            return DMW.Settings.profile.Rotation[Setting]
+            return DMW.Settings.profile.Rotation[Name]
         end,
         set = function(info, value)
-            DMW.Settings.profile.Rotation[Setting] = value
+            DMW.Settings.profile.Rotation[Name] = value
         end
     }
-    if Default and DMW.Settings.profile.Rotation[Setting] == nil then
-        DMW.Settings.profile.Rotation[Setting] = Default
+    if Default and DMW.Settings.profile.Rotation[Name] == nil then
+        DMW.Settings.profile.Rotation[Name] = Default
     end
+    RotationOrder = RotationOrder + 1
 end
 
 function UI.AddRange(Name, Desc, Min, Max, Step, Default)
-    local Setting = Name:gsub("%s+", "")
-    Options.args.RotationTab.args[Setting] = {
+    Options.args.RotationTab.args[Name] = {
         type = "range",
+        order = RotationOrder,
         name = Name,
         desc = Desc,
         width = "full",
@@ -202,36 +206,38 @@ function UI.AddRange(Name, Desc, Min, Max, Step, Default)
         max = Max,
         step = Step,
         get = function()
-            return DMW.Settings.profile.Rotation[Setting]
+            return DMW.Settings.profile.Rotation[Name]
         end,
         set = function(info, value)
-            DMW.Settings.profile.Rotation[Setting] = value
+            DMW.Settings.profile.Rotation[Name] = value
         end
     }
-    if Default and DMW.Settings.profile.Rotation[Setting] == nil then
-        DMW.Settings.profile.Rotation[Setting] = Default
+    if Default and DMW.Settings.profile.Rotation[Name] == nil then
+        DMW.Settings.profile.Rotation[Name] = Default
     end
+    RotationOrder = RotationOrder + 1
 end
 
 function UI.AddDropdown(Name, Desc, Values, Default)
-    local Setting = Name:gsub("%s+", "")
-    Options.args.RotationTab.args[Setting] = {
+    Options.args.RotationTab.args[Name] = {
         type = "select",
+        order = RotationOrder,
         name = Name,
         desc = Desc,
         width = "full",
         values = Values,
         style = "dropdown",
         get = function()
-            return DMW.Settings.profile.Rotation[Setting]
+            return DMW.Settings.profile.Rotation[Name]
         end,
         set = function(info, value)
-            DMW.Settings.profile.Rotation[Setting] = value
+            DMW.Settings.profile.Rotation[Name] = value
         end
     }
-    if Default and DMW.Settings.profile.Rotation[Setting] == nil then
-        DMW.Settings.profile.Rotation[Setting] = Default
+    if Default and DMW.Settings.profile.Rotation[Name] == nil then
+        DMW.Settings.profile.Rotation[Name] = Default
     end
+    RotationOrder = RotationOrder + 1
 end
 
 function UI.AddQueue()

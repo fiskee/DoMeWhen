@@ -22,7 +22,18 @@ local function CreateSettings()
             }
         }
 
-        UI.AddHeader("General")
+        UI.AddHeader("Defensive")
+        UI.AddToggle("Light of the Protector", "Use Light of the Protector", true)
+        UI.AddRange("Light of the Protector HP", "HP to use Light of the Protector", 0, 100, 1, 70)
+        UI.AddToggle("Shield of the Righteous", "Use Shield of the Righteous", true)
+        UI.AddRange("Shield of the Righteous HP", "HP to use Shield of the Righteous", 0, 100, 1, 80)
+        UI.AddToggle("Ardent Defender", "Use Ardent Defender", true)
+        UI.AddRange("Ardent Defender HP", "HP to use Ardent Defender", 0, 100, 1, 50)
+        UI.AddToggle("Guardian of Ancient Kings", "Use Guardian of Ancient Kings", true)
+        UI.AddRange("Guardian of Ancient Kings HP", "HP to use Guardian of Ancient Kings", 0, 100, 1, 30)
+        UI.AddHeader("DPS")
+        UI.AddToggle("Avenging Wrath", "Use Avenging Wrath during DPS CDs", true)
+        UI.AddToggle("Consecration", "Use Consecration", true)
     end
 end
 
@@ -42,13 +53,13 @@ local function DPS()
     -- actions+=/worldvein_resonance,if=buff.lifeblood.stack<3
     -- # Dumping SotR charges
     -- actions+=/shield_of_the_righteous,if=(buff.avengers_valor.up&cooldown.shield_of_the_righteous.charges_fractional>=2.5)&(cooldown.seraphim.remains>gcd|!talent.seraphim.enabled)
-    if Buff.AvengersValor:Exist() and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2.5 then
+    -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&!talent.seraphim.enabled)|buff.seraphim.up&buff.avengers_valor.up
+    -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&buff.avenging_wrath.remains<4&!talent.seraphim.enabled)|(buff.seraphim.remains<4&buff.seraphim.up)
+    if (Buff.AvengersValor:Exist() and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2.5) or (Buff.AvengingWrath:Exist() and not Talent.Seraphim.Active) or (Buff.AvengersValor:Exist() and Buff.Seraphim:Exist()) then
         if Spell.ShieldOfTheRighteous:Cast(Target) then
             return true
         end
     end
-    -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&!talent.seraphim.enabled)|buff.seraphim.up&buff.avengers_valor.up
-    -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&buff.avenging_wrath.remains<4&!talent.seraphim.enabled)|(buff.seraphim.remains<4&buff.seraphim.up)
     -- actions+=/lights_judgment,if=buff.seraphim.up&buff.seraphim.remains<3
     -- actions+=/consecration,if=!consecration.up
     if not Player.Moving and Player5YC > 0 and Paladin.ConsDistance() > 5 then
@@ -88,11 +99,16 @@ local function DPS()
 end
 
 local function Defensive()
-    
+    --Light of the Protector
+    --Lay On Hands
+    --Shield of the Righteous
+    --Guardian of Ancient Kings
+    --Ardent Defender
 end
 
 local function Cooldowns()
-    
+    --Seraphim
+    --AvengingWrath
 end
 
 local function Interrupt()

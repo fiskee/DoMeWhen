@@ -13,9 +13,9 @@ local function EventHandler(self, event, ...)
         if DMW.Player.Class == "PALADIN" then
             if GetTotemInfo(1) then
                 DMW.Player.Consecration = {
-                    X = DMW.Player.PosX,
-                    Y = DMW.Player.PosY,
-                    Z = DMW.Player.PosZ,
+                    PosX = DMW.Player.PosX,
+                    PosY = DMW.Player.PosY,
+                    PosZ = DMW.Player.PosZ,
                 }
             else
                 DMW.Player.Consecration = false
