@@ -29,6 +29,8 @@ Classes\Spell\Cast.lua
 Classes\Spell\LastCast.lua
 Classes\LocalPlayer\LocalPlayer.lua
 Classes\LocalPlayer\Loaders.lua
+Classes\LocalPlayer\Enemy.lua
+Classes\LocalPlayer\Friend.lua
 Classes\Aura\Aura.lua
 Classes\Aura\Cache.lua
 
