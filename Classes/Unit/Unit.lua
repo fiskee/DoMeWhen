@@ -75,15 +75,27 @@ function Unit:HasThreat()
 end
 
 function Unit:GetEnemies(Yards)
-    local EnemyTable = {}
+    local Table = {}
     local Count = 0
     for _, v in pairs(DMW.Enemies) do
         if self:GetDistance(v) <= Yards then
-            table.insert(EnemyTable, v)
+            table.insert(Table, v)
             Count = Count + 1
         end
     end
-    return EnemyTable, Count
+    return Table, Count
+end
+
+function Unit:GetFriends(Yards)
+    local Table = {}
+    local Count = 0
+    for _, v in pairs(DMW.Friends) do
+        if self:GetDistance(v) <= Yards then
+            table.insert(Table, v)
+            Count = Count + 1
+        end
+    end
+    return Table, Count
 end
 
 function Unit:Interrupt()
@@ -122,4 +134,45 @@ function Unit:Interrupt()
         end
     end
     return false
+end
+
+function Unit:Dispel(Spell)
+    local AuraCache = DMW.Tables.AuraCache[Unit]
+    if not AuraCache or not Spell then
+        return false
+    end
+    local DispelTypes = {}
+    for k, v in pairs(DMW.Enums.DispelSpells[Spell.SpellID]) do
+        DispelTypes[v] = true
+    end
+    local Elapsed
+    local Delay = DMW.Settings.profile.DispelDelay - 0.2 + (math.random(1, 4) / 10)
+    local ReturnValue = false
+    --name, icon, count, debuffType, duration, expirationTime, source, isStealable, nameplateShowPersonal, spellId
+    for k, v in pairs(AuraCache) do
+        Elapsed = AuraCache[5] - (AuraCache[6] - DMW.Time)
+        if AuraCache[4] and DispelTypes[AuraCache[4]] and Elapsed > Delay then
+            if DMW.Enums.NoDispel[AuraCache[10]] then
+                ReturnValue = false
+                break                
+            elseif DMW.Enums.SpecialDispel[AuraCache[10]] and DMW.Enums.SpecialDispel[AuraCache[10]].Stacks then 
+                if AuraCache[3] >= DMW.Enums.SpecialDispel[AuraCache[10]].Stacks then
+                    ReturnValue = true
+                else
+                    ReturnValue = false
+                    break
+                end
+            elseif DMW.Enums.SpecialDispel[AuraCache[10]] and DMW.Enums.SpecialDispel[AuraCache[10]].Range then
+                if select(2, self:GetFriends(DMW.Enums.SpecialDispel[AuraCache[10]].Range)) < 2 then
+                    ReturnValue = true
+                else
+                    ReturnValue = false
+                    break
+                end
+            else
+                ReturnValue = true
+            end
+        end
+    end
+    return ReturnValue
 end

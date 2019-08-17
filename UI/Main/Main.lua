@@ -41,7 +41,23 @@ local Options = {
                             DMW.UI.HUD.Frame:Hide()
                         end
                     end
-                }
+                },
+                DispelDelay = {
+                    type = "range",
+                    order = 3,
+                    name = "Dispel Delay",
+                    desc = "Set seconds to wait before casting dispel",
+                    width = "full",
+                    min = 0.0,
+                    max = 3.0,
+                    step = 0.1,
+                    get = function()
+                        return DMW.Settings.profile.DispelDelay
+                    end,
+                    set = function(info, value)
+                        DMW.Settings.profile.DispelDelay = value
+                    end
+                },
             }
         },
         EnemyTab = {

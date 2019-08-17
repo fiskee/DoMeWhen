@@ -18,6 +18,7 @@ local defaults = {
             ChannelInterrupt = 1,
             InterruptTarget = 1
         },
+        DispelDelay = 1,
         Rotation = {
         }
     }
