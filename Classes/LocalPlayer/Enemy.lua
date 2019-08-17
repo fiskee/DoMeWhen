@@ -16,7 +16,7 @@ function LocalPlayer:GetEnemies(Yards)
     local Table = {}
     local Count = 0
     for _, v in pairs(DMW.Enemies) do
-        if v:GetDistance(self) <= Yards then
+        if v.Distance <= Yards then
             table.insert(Table, v)
             Count = Count + 1
         end
