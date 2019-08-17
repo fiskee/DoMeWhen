@@ -54,8 +54,8 @@ Enums\Specs.lua
 Enums\Misc.lua
 Enums\Dispel.lua
 
-UI\Main\Main.lua
-UI\HUD\HUD.lua
+UI\Main.lua
+UI\HUD.lua
 
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
