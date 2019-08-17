@@ -11,6 +11,9 @@ end
 
 local function SlashHandler(Message)
     Message = SplitMessage(Message)
+    if Message[1] == nil then
+        DMW.UI.Show()
+    end
     if Message[1] == "HUD" then
         if DMW.UI.HUD.Frame:IsShown() then
             DMW.UI.HUD.Frame:Hide()

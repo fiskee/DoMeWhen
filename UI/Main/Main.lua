@@ -2,7 +2,7 @@ local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 local DMW = DMW
 local UI = DMW.UI
 
-UI.Options = {
+local Options = {
     name = "DoMeWhen",
     handler = DMW,
     type = "group",
@@ -63,23 +63,21 @@ function UI.Show()
 end
 
 function UI.Init()
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("DMW", UI.Options)
+    LibStub("AceConfig-3.0"):RegisterOptionsTable("DMW", Options)
     LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 380, 600)
 end
 
 function UI.AddHeader(Text)
     local Setting = Text:gsub("%s+", "")
-    UI.Options.args.RotationTab.args[Setting .. "Header"] = {
-        GeneralHeader = {
-            type = "header",
-            name = Text
-        },
+    Options.args.RotationTab.args[Setting .. "Header"] = {
+        type = "header",
+        name = Text
     }
 end
 
 function UI.AddToggle(Name, Desc, Default)
     local Setting = Name:gsub("%s+", "")
-    UI.Options.args.RotationTab.args[Setting] = {
+    Options.args.RotationTab.args[Setting] = {
         type = "toggle",
         name = Name,
         desc = Desc,
@@ -98,7 +96,7 @@ end
 
 function UI.AddRange(Name, Desc, Min, Max, Step, Default)
     local Setting = Name:gsub("%s+", "")
-    UI.Options.args.RotationTab.args[Setting] = {
+    Options.args.RotationTab.args[Setting] = {
         type = "range",
         name = Name,
         desc = Desc,
@@ -120,7 +118,7 @@ end
 
 function UI.AddDropdown(Name, Desc, Values, Default)
     local Setting = Name:gsub("%s+", "")
-    UI.Options.args.RotationTab.args[Setting] = {
+    Options.args.RotationTab.args[Setting] = {
         type = "select",
         name = Name,
         desc = Desc,

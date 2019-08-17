@@ -4,14 +4,16 @@ if not DMW.Rotations.HUNTER then
 end
 local Hunter = DMW.Rotations.HUNTER
 local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC, HUD, Player40Y, Player40YC
+local UI = DMW.UI
+local Rotation = DMW.Helpers.Rotation
 
-local function Settings()
-    if not DMW.UI.HUD.Options then
-        DMW.UI.HUD.Options = {
+local function CreateSettings()
+    if not UI.HUD.Options then
+        UI.HUD.Options = {
             CDs = {
-                [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = "Auto use cooldowns on boss enemies"},
-                [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = "Always use cooldowns"},
-                [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = "Never use cooldowns"}
+                [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
+                [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
+                [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
             },
             Mode = {
                 [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
@@ -22,6 +24,9 @@ local function Settings()
                 [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
             }
         }
+
+        UI.AddHeader("General")
+        UI.AddToggle("Revive Pet", "Use Revive Pet", true)
     end
 end
 
@@ -234,8 +239,8 @@ end
 
 function Hunter.BeastMastery()
     Locals()
-    Settings()
-    if not (IsMounted() or IsFlying()) then
+    CreateSettings()
+    if Rotation.Active() then
         if PetStuff() then
             return true
         end

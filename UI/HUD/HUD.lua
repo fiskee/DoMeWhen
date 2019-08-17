@@ -154,6 +154,8 @@ HUDFrame:SetScript(
         end
         if HUDFrame:IsShown() and not DMW.Settings.profile.HUD.Show then
             HUDFrame:Hide()
+        elseif not HUDFrame:IsShown() and DMW.Settings.profile.HUD.Show then
+            HUDFrame:Show()
         end
     end
 )

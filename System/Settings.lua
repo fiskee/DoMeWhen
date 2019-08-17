@@ -5,10 +5,10 @@ local defaults = {
     profile = {
         Active = false,
         HUDPosition = {
-            point = "CENTER",
-            relativePoint = "TOP",
-            xOfs = 2,
-            yOfs = -70
+            point = "LEFT",
+            relativePoint = "LEFT",
+            xOfs = 40,
+            yOfs = 100
         },
         HUD = {
             Show = true
@@ -23,7 +23,6 @@ local defaults = {
 }
 
 function DMW:OnInitialize()
-    self.Settings = LibStub("AceDB-3.0"):New("DMWSettings", defaults)
-    self.Settings:SetProfile("defaults")
+    self.Settings = LibStub("AceDB-3.0"):New("DMWSettings", defaults, "Default")
     DMW.UI.Init()
 end
