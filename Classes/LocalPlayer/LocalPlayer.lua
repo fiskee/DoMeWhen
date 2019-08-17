@@ -124,7 +124,7 @@ function LocalPlayer:GetEnemiesCone(Length, Angle, TTD)
         TTD = TTD or 0
         local Facing = ObjectFacing(self.Pointer)
         for _, Unit in pairs(Table) do
-            if Unit.TTD >= TTD and UnitIsFacing(Unit.Pointer, self.Pointer, Angle/2) then
+            if Unit.TTD >= TTD and UnitIsFacing(self.Pointer, Unit.Pointer, Angle/2) then
                 Count = Count + 1
             end
         end
