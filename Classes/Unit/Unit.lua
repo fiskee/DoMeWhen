@@ -87,6 +87,10 @@ function Unit:GetEnemies(Yards)
 end
 
 function Unit:Interrupt()
+    local InterruptTarget = DMW.Settings.profile.Enemy.InterruptTarget
+    if (InterruptTarget == 2 and not UnitIsUnit(self.Pointer, "target")) or (InterruptTarget == 3 and not UnitIsUnit(self.Pointer, "focus")) or (InterruptTarget == 4 and not UnitIsUnit(self.Pointer, "mouseover")) then
+        return false
+    end
     local Settings = DMW.Settings.profile
     local StartTime, EndTime, SpellID, Type
     local CastingInfo = {UnitCastingInfo(self.Pointer)} --name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId

@@ -12,8 +12,7 @@ local Options = {
             name = "Rotation",
             type = "group",
             order = 1,
-            args = {
-            }
+            args = {}
         },
         GeneralTab = {
             name = "General",
@@ -29,7 +28,7 @@ local Options = {
                     type = "toggle",
                     order = 2,
                     name = "Show HUD",
-                    desc = "Show HUD",
+                    desc = "Toggle to show/hide the HUD",
                     width = "full",
                     get = function()
                         return DMW.Settings.profile.HUD.Show
@@ -45,6 +44,65 @@ local Options = {
                 }
             }
         },
+        EnemyTab = {
+            name = "Enemy",
+            type = "group",
+            order = 3,
+            args = {
+                InterruptHeader = {
+                    type = "header",
+                    order = 1,
+                    name = "Interrupts"
+                },
+                InterruptPct = {
+                    type = "range",
+                    order = 2,
+                    name = "Interrupt %",
+                    desc = "Set desired % for interrupting enemy casts",
+                    width = "full",
+                    min = 0,
+                    max = 100,
+                    step = 1,
+                    get = function()
+                        return DMW.Settings.profile.Enemy.InterruptPct
+                    end,
+                    set = function(info, value)
+                        DMW.Settings.profile.Enemy.InterruptPct = value
+                    end
+                },
+                ChannelInterrupt = {
+                    type = "range",
+                    order = 3,
+                    name = "Channel Interrupt",
+                    desc = "Set seconds to wait before interrupting enemy channels",
+                    width = "full",
+                    min = 0.0,
+                    max = 3.0,
+                    step = 0.1,
+                    get = function()
+                        return DMW.Settings.profile.Enemy.ChannelInterrupt
+                    end,
+                    set = function(info, value)
+                        DMW.Settings.profile.Enemy.ChannelInterrupt = value
+                    end
+                },
+                InterruptTarget = {
+                    type = "select",
+                    order = 4,
+                    name = "Interrupt Target",
+                    desc = "Select desired target setting for interrupts",
+                    width = "full",
+                    values = {"Any", "Target", "Focus", "Mouseover"},
+                    style = "dropdown",
+                    get = function()
+                        return DMW.Settings.profile.Enemy.InterruptTarget
+                    end,
+                    set = function(info, value)
+                        DMW.Settings.profile.Enemy.InterruptTarget = value
+                    end
+                },
+            }
+        }
     }
 }
 
