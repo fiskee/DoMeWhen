@@ -20,6 +20,9 @@ local defaults = {
         },
         DispelDelay = 1,
         Rotation = {
+        },
+        Queue = {
+            Wait = 2,
         }
     }
 }

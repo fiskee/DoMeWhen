@@ -63,14 +63,15 @@ local function CheckPress(self, Key)
 end
 
 function Queue.Run()
+    GetBindings()
     if not QueueFrame then
         QueueFrame = CreateFrame("Frame")
 		QueueFrame:SetPropagateKeyboardInput(true)
 		QueueFrame:SetScript("OnKeyDown", CheckPress)
 		QueueFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
-		QueueFrame:SetScript("OnEvent", SpellSuccess)
+        QueueFrame:SetScript("OnEvent", SpellSuccess)
+        DMW.UI.AddQueue()
     end
-    GetBindings()
     if Queue.Spell and (DMW.Time - Queue.Time) > 2 then
         Queue.Spell = false
     end

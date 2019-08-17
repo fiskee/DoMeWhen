@@ -57,7 +57,7 @@ local Options = {
                     set = function(info, value)
                         DMW.Settings.profile.DispelDelay = value
                     end
-                },
+                }
             }
         },
         EnemyTab = {
@@ -115,6 +115,29 @@ local Options = {
                     end,
                     set = function(info, value)
                         DMW.Settings.profile.Enemy.InterruptTarget = value
+                    end
+                }
+            }
+        },
+        QueueTab = {
+            name = "Queue",
+            type = "group",
+            order = 4,
+            args = {
+                QueueTime = {
+                    type = "range",
+                    order = 2,
+                    name = "Queue Time",
+                    desc = "Set maximum seconds to attempt casting queued spell",
+                    width = "full",
+                    min = 0,
+                    max = 5,
+                    step = 0.5,
+                    get = function()
+                        return DMW.Settings.profile.Queue.Wait
+                    end,
+                    set = function(info, value)
+                        DMW.Settings.profile.Queue.Wait = value
                     end
                 },
             }
@@ -208,5 +231,27 @@ function UI.AddDropdown(Name, Desc, Values, Default)
     }
     if Default and DMW.Settings.profile.Rotation[Setting] == nil then
         DMW.Settings.profile.Rotation[Setting] = Default
+    end
+end
+
+function UI.AddQueue()
+    for k, v in pairs(DMW.Player.Spells) do
+        Options.args.QueueTab.args[k] = {
+            type = "select",
+            name = v.SpellName,
+            --desc = Desc,
+            width = "full",
+            values = {"Disabled", "Normal", "Mouseover", "Cursor", "Cursor - No Cast"},
+            style = "dropdown",
+            get = function()
+                return DMW.Settings.profile.Queue[k]
+            end,
+            set = function(info, value)
+                DMW.Settings.profile.Queue[k] = value
+            end
+        }
+        if DMW.Settings.profile.Queue[k] == nil then
+            DMW.Settings.profile.Queue[k] = 1
+        end
     end
 end
