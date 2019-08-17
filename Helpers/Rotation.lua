@@ -21,3 +21,7 @@ end
 function Rotation.RawDistance(X1, Y1, Z1, X2, Y2, Z2)
     return sqrt(((X1 - X2) ^ 2) + ((Y1 - Y2) ^ 2) + ((Z1 - Z2) ^ 2))
 end
+
+function Rotation.Setting(Setting)
+    return DMW.Settings.profile.Rotation[Setting]
+end

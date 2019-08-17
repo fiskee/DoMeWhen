@@ -3,6 +3,7 @@ local Paladin = DMW.Rotations.PALADIN
 local Player, Buff, Debuff, Spell, Target, Trait, Talent, GCD, HUD, Player5Y, Player5YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
+local Setting = DMW.Helpers.Rotation.Setting
 
 local function CreateSettings()
     if not UI.HUD.Options then
@@ -31,9 +32,14 @@ local function CreateSettings()
         UI.AddRange("Ardent Defender HP", "HP to use Ardent Defender", 0, 100, 1, 50)
         UI.AddToggle("Guardian of Ancient Kings", "Use Guardian of Ancient Kings", true)
         UI.AddRange("Guardian of Ancient Kings HP", "HP to use Guardian of Ancient Kings", 0, 100, 1, 30)
+        UI.AddToggle("Lay on Hands", "Use Lay on Hands", true)
+        UI.AddRange("Lay on Hands HP", "HP to use Lay on Hands", 0, 100, 1, 20)
+        UI.AddToggle("Avenging Wrath", "Use Avenging Wrath", true)
+        UI.AddRange("Avenging Wrath HP", "HP to use Avenging Wrath", 0, 100, 1, 50)
         UI.AddHeader("DPS")
-        UI.AddToggle("Avenging Wrath", "Use Avenging Wrath during DPS CDs", true)
         UI.AddToggle("Consecration", "Use Consecration", true)
+        UI.AddToggle("Seraphim", "Use Seraphim", true)
+        UI.AddToggle("Avenging Wrath DPS", "Use Avenging Wrath during CDs", true)
     end
 end
 
@@ -55,7 +61,7 @@ local function DPS()
     -- actions+=/shield_of_the_righteous,if=(buff.avengers_valor.up&cooldown.shield_of_the_righteous.charges_fractional>=2.5)&(cooldown.seraphim.remains>gcd|!talent.seraphim.enabled)
     -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&!talent.seraphim.enabled)|buff.seraphim.up&buff.avengers_valor.up
     -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&buff.avenging_wrath.remains<4&!talent.seraphim.enabled)|(buff.seraphim.remains<4&buff.seraphim.up)
-    if (Buff.AvengersValor:Exist() and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2.5) or (Buff.AvengingWrath:Exist() and not Talent.Seraphim.Active) or (Buff.AvengersValor:Exist() and Buff.Seraphim:Exist()) then
+    if (Buff.AvengersValor:Exist(Player) and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2.5) or (Buff.AvengingWrath:Exist(Player) and not Talent.Seraphim.Active) or (Buff.AvengersValor:Exist(Player) and Buff.Seraphim:Exist(Player)) then
         if Spell.ShieldOfTheRighteous:Cast(Target) then
             return true
         end
@@ -99,16 +105,60 @@ local function DPS()
 end
 
 local function Defensive()
+    --Avenging Wrath
+    if Setting("Avenging Wrath") and Player.HP <= Setting("Avenging Wrath HP") then
+        if Spell.AvengingWrath:Cast(Player) then
+            return true
+        end
+    end
     --Light of the Protector
+    if Setting("Light of the Protector") and Player.HP <= Setting("Light of the Protector HP") then
+        if Spell.LightOfTheProtector:Cast(Player) then
+            return true
+        end
+        if Spell.HandOfTheProtector:Cast(Player) then
+            return true
+        end
+    end
     --Lay On Hands
-    --Shield of the Righteous
+    if Setting("Lay on Hands") and Player.HP <= Setting("Lay on Hands HP") then
+        if Spell.LayOnHands:Cast(Player) then
+            return true
+        end
+    end
     --Guardian of Ancient Kings
+    if Setting("Guardian of Ancient Kings") and Player.HP <= Setting("Guardian of Ancient Kings HP") then
+        if Spell.GuardianOfAncientKings:Cast(Player) then
+            return true
+        end
+    end
     --Ardent Defender
+    if Setting("Ardent Defender") and Player.HP <= Setting("Ardent Defender HP") then
+        if Spell.ArdentDefender:Cast(Player) then
+            return true
+        end
+    end
+    --Shield of the Righteous
+    if Setting("Shield of the Righteous") and Player.HP <= Setting("Shield of the Righteous HP") and not Buff.ShieldOfTheRighteous:Exist(Player) then
+        if Spell.ShieldOfTheRighteous:Cast(Player) then
+            return true
+        end
+    end
 end
 
 local function Cooldowns()
-    --Seraphim
-    --AvengingWrath
+    --actions.cooldowns+=/seraphim,if=cooldown.shield_of_the_righteous.charges_fractional>=2
+    if Setting("Seraphim") and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2 then
+        if Spell.Seraphim:Cast(Player) then
+            return true
+        end
+    end
+    --actions.cooldowns+=/avenging_wrath,if=buff.seraphim.up|cooldown.seraphim.remains<2|!talent.seraphim.enabled
+    if Player:CDs() and Setting("Avenging Wrath") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) then
+        if Spell.AvengingWrath:Cast(Player) then
+            return true
+        end
+    end
 end
 
 local function Interrupt()

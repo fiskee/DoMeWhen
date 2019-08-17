@@ -18,10 +18,12 @@ Spells.PALADIN = {
             DivineProtection = {SpellID = 498},
             GuardianOfAncientKings = {SpellID = 86659},
             HammerOfTheRighteous = {SpellID = 53595},
+            HandOfTheProtector = {SpellID = 213652},
             Judgment = {SpellID = 275779},
             LightOfTheProtector = {SpellID = 184092},
             Rebuke = {SpellID = 96231},
             RighteousFury = {SpellID = 25780},
+            Seraphim = {SpellID = 152262},
             ShieldOfTheRighteous = {SpellID = 53600}
         },
         Buffs = {
