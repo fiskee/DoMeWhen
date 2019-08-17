@@ -8,10 +8,17 @@ UI.Options = {
     type = "group",
     childGroups = "tab",
     args = {
+        RotationTab = {
+            name = "Rotation",
+            type = "group",
+            order = 1,
+            args = {
+            }
+        },
         GeneralTab = {
             name = "General",
             type = "group",
-            order = 10,
+            order = 2,
             args = {
                 GeneralHeader = {
                     type = "header",
@@ -20,7 +27,7 @@ UI.Options = {
                 },
                 HUDEnabled = {
                     type = "toggle",
-                    order = 4,
+                    order = 2,
                     name = "Show HUD",
                     desc = "Show HUD",
                     width = "full",
@@ -37,7 +44,7 @@ UI.Options = {
                     end
                 }
             }
-        }
+        },
     }
 }
 
@@ -57,4 +64,21 @@ end
 
 function UI.Init()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("DMW", UI.Options)
+    LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 380, 600)
+end
+
+function UI.AddToggle(Name, Desc)
+    local Setting = Name:gsub("%s+", "")
+    UI.Options.args.RotationTab.args[Setting] = {
+        type = "toggle",
+        name = Name,
+        desc = Desc,
+        width = "full",
+        get = function(info)
+            return DMW.Settings.profile.Rotation[Setting]
+        end,
+        set = function(info, value)
+            DMW.Settings.profile.Rotation[Setting] = value
+        end
+    }
 end
