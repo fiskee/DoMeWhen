@@ -12,6 +12,7 @@ Spells.HUNTER = {
             CobraShot = {SpellID = 193455},
             CounterShot = {SpellID = 147362},
             DireBeast = {SpellID = 120679},
+            FreezingTrap = {SpellID = 187650, CastType = "Ground"},
             Intimidation = {SpellID = 19577},
             KillCommand = {SpellID = 34026},
             Misdirection = {SpellID = 34477},

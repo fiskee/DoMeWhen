@@ -54,12 +54,12 @@ function Spell:CastGround(X, Y, Z)
     if self:IsReady() then
         local MouseLooking = false
         local PX, PY, PZ = DMW.Player.PosX, DMW.Player.PosY, DMW.Player.PosZ
-        local Distance = (((X - PX) ^ 2) + ((Y - PY) ^ 2) + ((Z - PZ) ^ 2))
+        local Distance = sqrt(((X - PX) ^ 2) + ((Y - PY) ^ 2) + ((Z - PZ) ^ 2))
         if Distance > self.MaxRange then 
             X,Y,Z = GetPositionBetweenPositions (X, Y, Z, PX, PY, PZ, Distance - self.MaxRange)
-        end
-        Z = select(3,TraceLine(X, Y, Z+5, X, Y, Z-5, 0x110))
-        if Z ~= nil and TraceLine(PX, PY, PZ+2, X, Y, Z+1, 0x100010) == nil and TraceLine(X, Y, Z+4, X, Y, Z, 0x1) == nil then
+		end
+		Z = select(3,TraceLine(X, Y, Z+5, X, Y, Z-5, 0x110))
+		if Z ~= nil and TraceLine(PX, PY, PZ+2, X, Y, Z+1, 0x100010) == nil and TraceLine(X, Y, Z+4, X, Y, Z, 0x1) == nil then
             if IsMouselooking() then
                 MouseLooking = true
                 MouselookStop()

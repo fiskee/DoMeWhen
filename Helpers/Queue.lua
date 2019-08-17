@@ -32,6 +32,7 @@ local function SpellSuccess(self, event, ...)
             if spellID == Queue.Spell.SpellID then
                 --print("Queue Casted: " .. Queue.Spell.SpellName)
                 Queue.Spell = false
+                Queue.Target = false
 			end
 		end
 	end
@@ -52,10 +53,31 @@ local function CheckPress(self, Key)
             local Type, ID = DMW.Tables.Bindings[KeyPress].Type, DMW.Tables.Bindings[KeyPress].ID
             if Type == "spell" then
                 local Spell = DMW.Helpers.Rotation.GetSpellByID(ID)
-                if Spell and Spell.BaseGCD > 0 then
-                    --print("Queued: " .. Spell.SpellName)
-                    Queue.Spell = Spell
-                    Queue.Time = DMW.Time
+                if Spell and Spell:CD() < DMW.Settings.profile.Queue.Wait then
+                    local QueueSetting = DMW.Settings.profile.Queue[Spell.SpellName]
+                    if QueueSetting == 2 then
+                        Queue.Spell = Spell
+                        Queue.Time = DMW.Time
+                        Queue.Type = 2
+                        if DMW.Player.Target then
+                            Queue.Target = DMW.Player.Target
+                        end
+                    elseif QueueSetting == 3 and DMW.Player.Mouseover then
+                        Queue.Spell = Spell
+                        Queue.Time = DMW.Time
+                        Queue.Target = DMW.Player.Mouseover
+                        Queue.Type = 3
+                    elseif QueueSetting == 4 then
+                        Queue.Spell = Spell
+                        Queue.Time = DMW.Time
+                        local x, y = GetMousePosition()
+                        Queue.PosX, Queue.PosY, Queue.PosZ = ScreenToWorld(x, y)
+                        Queue.Type = 4
+                    elseif QueueSetting == 5 then
+                        Queue.Spell = Spell
+                        Queue.Time = DMW.Time
+                        Queue.Type = 5
+                    end
                 end
             end
         end
@@ -74,8 +96,32 @@ function Queue.Run()
     end
     if Queue.Spell and (DMW.Time - Queue.Time) > 2 then
         Queue.Spell = false
+        Queue.Target = false
     end
-    if Queue.Spell and DMW.Player.Target then
-        Queue.Spell:Cast(DMW.Player.Target)
+    if Queue.Spell and DMW.Player.Combat then
+        if Queue.Type == 2 then
+            if Queue.Target and IsSpellInRange(Queue.Spell.SpellName, Queue.Target.Pointer) ~= nil then
+                if Queue.Spell:Cast(Queue.Target) then
+                    return true
+                end
+            else
+                if Queue.Spell:Cast(DMW.Player) then
+                    return true
+                end
+            end
+        elseif Queue.Type == 3 then
+            if Queue.Spell:Cast(Queue.Target) then
+                return true
+            end
+        elseif Queue.Type == 4 then
+            if Queue.Spell:CastGround(Queue.PosX, Queue.PosY, Queue.PosZ) then
+                return true
+            end
+        elseif Queue.Type == 5 then
+            if Queue.Spell:IsReady() then
+                CastSpellByName(Queue.Spell.SpellName)
+                return true
+            end
+        end
     end
 end
