@@ -244,14 +244,14 @@ function UI.AddQueue()
             values = {"Disabled", "Normal", "Mouseover", "Cursor", "Cursor - No Cast"},
             style = "dropdown",
             get = function()
-                return DMW.Settings.profile.Queue[k]
+                return DMW.Settings.profile.Queue[v.SpellName]
             end,
             set = function(info, value)
-                DMW.Settings.profile.Queue[k] = value
+                DMW.Settings.profile.Queue[v.SpellName] = value
             end
         }
-        if DMW.Settings.profile.Queue[k] == nil then
-            DMW.Settings.profile.Queue[k] = 1
+        if DMW.Settings.profile.Queue[v.SpellName] == nil then
+            DMW.Settings.profile.Queue[v.SpellName] = 1
         end
     end
 end
