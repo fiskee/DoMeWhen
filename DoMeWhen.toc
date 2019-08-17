@@ -54,6 +54,7 @@ Enums\Spells\Warrior.lua
 Enums\Specs.lua
 Enums\Misc.lua
 Enums\Dispel.lua
+Enums\Dummy.lua
 
 UI\Main.lua
 UI\HUD.lua

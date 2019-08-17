@@ -1,7 +1,4 @@
 local DMW = DMW
-if not DMW.Rotations.HUNTER then
-    DMW.Rotations.HUNTER = {}
-end
 local Hunter = DMW.Rotations.HUNTER
 local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC, HUD, Player40Y, Player40YC
 local UI = DMW.UI
