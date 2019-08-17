@@ -34,6 +34,7 @@ f:SetScript("OnUpdate", function(self, elapsed)
         if not DMW.Player.Rotation then
             FindRotation()
         else
+            DMW.Helpers.Queue.Run()
             DMW.Player.Rotation()
         end
         if not DMW.UI.HUD.Loaded then

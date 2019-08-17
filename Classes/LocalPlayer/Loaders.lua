@@ -6,10 +6,10 @@ local Debuff = DMW.Classes.Debuff
 local AzeriteItem, AzeriteEmpoweredItem = C_AzeriteItem, C_AzeriteEmpoweredItem
 
 function LocalPlayer:GetSpells()
-    local CastType, Duration
     self.Spells = {}
     self.Buffs = {}
     self.Debuffs = {}
+    local CastType, Duration
     for Class, ClassTable in pairs(DMW.Enums.Spells) do
         if Class == "GLOBAL" or Class == self.Class then
             for Spec, SpecTable in pairs(ClassTable) do
