@@ -35,6 +35,7 @@ Classes\Aura\Aura.lua
 Classes\Aura\Cache.lua
 
 Helpers\Rotation.lua
+Helpers\Queue.lua
 
 Enums\Spells\Global.lua
 Enums\Spells\DeathKnight.lua
