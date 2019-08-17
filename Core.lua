@@ -30,6 +30,10 @@ f:SetScript("OnUpdate", function(self, elapsed)
         if not DMW.Player.Name then
             DMW.Player = DMW.Classes.LocalPlayer(ObjectPointer("player"))
         end
+        if GetSpecializationInfo(GetSpecialization()) ~= DMW.Player.SpecID then
+            ReloadUI()
+            return
+        end
         DMW.UpdateOM()
         if not DMW.Player.Rotation then
             FindRotation()
