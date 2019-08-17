@@ -51,8 +51,7 @@ function Unit:IsBoss()
     local Classification = UnitClassification(self.Pointer)
     if Classification == "worldboss" or Classification == "rareelite" then
         return true
-    end
-    if DMW.Player.EID then
+    elseif DMW.Player.EID then
         for i = 1, 5 do
             if UnitIsUnit("boss" .. i, self.Pointer) then
                 return true
@@ -175,4 +174,35 @@ function Unit:Dispel(Spell)
         end
     end
     return ReturnValue
+end
+
+function Unit:PredictPosition(Time)
+    local MoveDistance = GetUnitSpeed(self.Pointer) * Time
+    if MoveDistance > 0 then
+        local X, Y, Z = self.PosX, self.PosY, self.PosZ
+        local Angle = ObjectFacing(self.Pointer)
+        local UnitTargetDist = 0
+        if self.Target then
+            local TX, TY, TZ = ObjectPosition(self.Target)
+            local TSpeed = GetUnitSpeed(self.Target)
+            if TSpeed > 0 then
+                local TMoveDistance = TSpeed * Time
+                local TAngle = ObjectFacing(self.Target)
+                TX = TX + cos(TAngle) * TMoveDistance
+                TY = TY + sin(TAngle) * TMoveDistance
+            end
+            UnitTargetDist = sqrt(((TX - X) ^ 2) + ((TY - Y) ^ 2) + ((TZ - Z) ^ 2)) - ((self.CombatReach or 0) + (UnitCombatReach(self.Target) or 0))
+            if UnitTargetDist < MoveDistance then
+                MoveDistance = UnitTargetDist
+            end
+            Angle = rad(atan2(TY - Y, TX - X))
+            if Angle < 0 then
+                Angle = rad(360 + atan2(TY - Y, TX - X))
+            end
+        end
+        X = X + cos(Angle) * MoveDistance
+        Y = Y + cos(Angle) * MoveDistance
+        return X, Y, Z
+    end
+    return self.X, self.Y, self.Z
 end
