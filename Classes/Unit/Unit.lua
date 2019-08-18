@@ -39,6 +39,9 @@ function Unit:GetDistance(OtherUnit)
 end
 
 function Unit:LineOfSight(OtherUnit)
+    if DMW.Enums.LoS[self.ObjectID] then
+        return true
+    end
     OtherUnit = OtherUnit or DMW.Player
     return TraceLine(self.PosX, self.PosY, self.PosZ + 2, OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ + 2, 0x100010) == nil
 end
@@ -62,7 +65,11 @@ function Unit:IsBoss()
 end
 
 function Unit:HasThreat()
-    if DMW.Player.Instance ~= "none" and UnitAffectingCombat(self.Pointer) then
+    if DMW.Enums.Threat[self.ObjectID] then
+        return true
+    elseif DMW.Enums.EnemyBlacklist[self.ObjectID] then
+        return false
+    elseif DMW.Player.Instance ~= "none" and UnitAffectingCombat(self.Pointer) then
         return true
     elseif DMW.Player.Instance == "none" and (DMW.Enums.Dummy[self.ObjectID] or UnitIsUnit(self.Pointer, "target")) then
         return true

@@ -55,6 +55,7 @@ Enums\Specs.lua
 Enums\Misc.lua
 Enums\Dispel.lua
 Enums\Dummy.lua
+Enums\Overrides.lua
 
 UI\Main.lua
 UI\HUD.lua
