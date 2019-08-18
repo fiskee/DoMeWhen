@@ -12,6 +12,7 @@ Spells.PALADIN = {
         Abilities = {
             ArdentDefender = {SpellID = 31850},
             AvengersShield = {SpellID = 31935},
+            BlessedHammer = {SpellID = 204019},
             BlessingOfSacrifice = {SpellID = 6940},
             CleanseToxins = {SpellID = 213644},
             Consecration = {SpellID = 26573},

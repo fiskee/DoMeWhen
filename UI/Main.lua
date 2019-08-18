@@ -120,10 +120,16 @@ local Options = {
                 }
             }
         },
+        FriendTab = {
+            name = "Friend",
+            type = "group",
+            order = 4,
+            args = {}
+        },
         QueueTab = {
             name = "Queue",
             type = "group",
-            order = 4,
+            order = 5,
             args = {
                 QueueTime = {
                     type = "range",
@@ -162,7 +168,7 @@ end
 
 function UI.Init()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("DMW", Options)
-    LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 380, 600)
+    LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 400, 750)
 end
 
 function UI.AddHeader(Text)
