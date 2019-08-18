@@ -1,6 +1,6 @@
 local DMW = DMW
 local Paladin = DMW.Rotations.PALADIN
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
+local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -50,6 +50,7 @@ local function Locals()
     Spell = Player.Spells
     Talent = Player.Talents
     Trait = Player.Traits
+    Item = Player.Items
     Target = Player.Target or false
     GCD = Player:GCD()
     HUD = DMW.Settings.profile.HUD
@@ -150,6 +151,17 @@ local function Defensive()
 end
 
 local function Cooldowns()
+    --Trinkets
+    if Item.Trinket1 and Player:CDs() then
+        if Item.Trinket1:Use() then
+            return true
+        end
+    end
+    if Item.Trinket2 and Player:CDs() then
+        if Item.Trinket2:Use() then
+            return true
+        end
+    end
     --actions.cooldowns+=/seraphim,if=cooldown.shield_of_the_righteous.charges_fractional>=2
     if Setting("Seraphim") and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2 then
         if Spell.Seraphim:Cast(Player) then
@@ -160,6 +172,15 @@ local function Cooldowns()
     if Target.Distance < 5 and Player:CDs() and Setting("Avenging Wrath") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) then
         if Spell.AvengingWrath:Cast(Player) then
             return true
+        end
+    end
+    --Anima
+    if Spell.AnimaOfDeath:IsReady() and Player.HP < 90 then
+        local _, Player8YC = Player:GetEnemies(8)
+        if (Player8YC >= 5 and Player.HP < 75) or (Player:CDs() and Player.HP < 90) then
+            if Spell.AnimaOfDeath:Cast(Player) then
+                return true
+            end
         end
     end
 end

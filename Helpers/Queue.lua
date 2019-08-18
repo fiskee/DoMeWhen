@@ -9,9 +9,9 @@ function Queue.GetBindings()
     local Type, ID, Key1, Key2
     for k, frame in pairs(ActionBarButtonEventsFrame.frames) do
         if frame.buttonType then
-            Key1, Key2 = GetBindingKey(frame.buttonType..frame:GetID())
+            Key1, Key2 = GetBindingKey(frame.buttonType .. frame:GetID())
         else
-            Key1, Key2 = GetBindingKey("ACTIONBUTTON"..frame:GetID())
+            Key1, Key2 = GetBindingKey("ACTIONBUTTON" .. frame:GetID())
         end
         Type, ID = GetActionInfo(frame.action)
         if Key1 then
@@ -20,34 +20,33 @@ function Queue.GetBindings()
         if Key2 then
             DMW.Tables.Bindings[Key2] = {["Type"] = Type, ["ID"] = ID}
         end
-
     end
 end
 
 local function SpellSuccess(self, event, ...)
-	if event == "UNIT_SPELLCAST_SUCCEEDED" and Queue.Spell then
-		local sourceUnit = select(1, ...)
-		local spellID = select(3, ...)
-		if sourceUnit == "player" then
+    if event == "UNIT_SPELLCAST_SUCCEEDED" and Queue.Spell then
+        local sourceUnit = select(1, ...)
+        local spellID = select(3, ...)
+        if sourceUnit == "player" then
             if spellID == Queue.Spell.SpellID then
                 --print("Queue Casted: " .. Queue.Spell.SpellName)
                 Queue.Spell = false
                 Queue.Target = false
-			end
-		end
-	end
+            end
+        end
+    end
 end
 
 local function CheckPress(self, Key)
     if DMW.Player.Combat then
-		local KeyPress = ""
-		if IsLeftShiftKeyDown() then
-			KeyPress = "SHIFT-"
-		elseif IsLeftAltKeyDown() then
-			KeyPress = "ALT-"
-		elseif IsLeftControlKeyDown() then
-			KeyPress = "CTRL-"
-		end
+        local KeyPress = ""
+        if IsLeftShiftKeyDown() then
+            KeyPress = "SHIFT-"
+        elseif IsLeftAltKeyDown() then
+            KeyPress = "ALT-"
+        elseif IsLeftControlKeyDown() then
+            KeyPress = "CTRL-"
+        end
         KeyPress = KeyPress .. Key
         if DMW.Tables.Bindings[KeyPress] then
             local Type, ID = DMW.Tables.Bindings[KeyPress].Type, DMW.Tables.Bindings[KeyPress].ID
@@ -87,9 +86,9 @@ end
 function Queue.Run()
     if not QueueFrame then
         QueueFrame = CreateFrame("Frame")
-		QueueFrame:SetPropagateKeyboardInput(true)
-		QueueFrame:SetScript("OnKeyDown", CheckPress)
-		QueueFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+        QueueFrame:SetPropagateKeyboardInput(true)
+        QueueFrame:SetScript("OnKeyDown", CheckPress)
+        QueueFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
         QueueFrame:SetScript("OnEvent", SpellSuccess)
         DMW.UI.AddQueue()
     end

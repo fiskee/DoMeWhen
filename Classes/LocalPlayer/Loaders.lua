@@ -125,3 +125,25 @@ function LocalPlayer:GetEssences()
         end
     end
 end
+
+function LocalPlayer:UpdateEquipment()
+    table.wipe(self.Equipment)
+    self.Items.Trinket1 = nil
+    self.Items.Trinket2 = nil
+    local ItemID
+    for i = 1, 19 do
+        ItemID = GetInventoryItemID("player", i)
+        if ItemID then
+            self.Equipment[i] = ItemID
+            if i == 13 then
+                self.Items.Trinket1 = DMW.Classes.Item(ItemID)
+            elseif i == 14 then
+                self.Items.Trinket2 = DMW.Classes.Item(ItemID)
+            end
+        end
+    end
+end
+
+function LocalPlayer:GetItems()
+
+end

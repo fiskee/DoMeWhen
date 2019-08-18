@@ -5,7 +5,7 @@ local defaults = {
     profile = {
         Active = false,
         MinimapIcon = {
-            hide = false,
+            hide = false
         },
         HUDPosition = {
             point = "LEFT",
@@ -22,10 +22,9 @@ local defaults = {
             InterruptTarget = 1
         },
         DispelDelay = 1,
-        Rotation = {
-        },
+        Rotation = {},
         Queue = {
-            Wait = 2,
+            Wait = 2
         }
     }
 }

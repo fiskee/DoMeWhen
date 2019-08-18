@@ -60,7 +60,7 @@ local Options = {
                             UI.MinimapIcon:Hide("MinimapIcon")
                         end
                     end
-                },
+                }
             }
         },
         EnemyTab = {
@@ -165,27 +165,29 @@ local Options = {
                     set = function(info, value)
                         DMW.Settings.profile.Queue.Wait = value
                     end
-                },
+                }
             }
         }
     }
 }
 
-local MinimapIcon = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
-	type = "data source",
-	text = "DMW",
-	icon = "Interface\\Icons\\Achievement_dungeon_utgardepinnacle_25man",
-
-	OnClick = function (self, button) 
-		if button == "LeftButton" then
-			UI.Show()
+local MinimapIcon =
+    LibStub("LibDataBroker-1.1"):NewDataObject(
+    "MinimapIcon",
+    {
+        type = "data source",
+        text = "DMW",
+        icon = "Interface\\Icons\\Achievement_dungeon_utgardepinnacle_25man",
+        OnClick = function(self, button)
+            if button == "LeftButton" then
+                UI.Show()
+            end
+        end,
+        OnTooltipShow = function(tooltip)
+            tooltip:AddLine("DoMeWhen", 1, 1, 1)
         end
-	end,
-
-	OnTooltipShow = function (tooltip)
-		tooltip:AddLine("DoMeWhen", 1, 1, 1);
-	end,
-})
+    }
+)
 
 function UI.Show()
     if not UI.ConfigFrame then
@@ -205,7 +207,7 @@ function UI.Init()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("DMW", Options)
     LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 400, 750)
     UI.MinimapIcon = LibStub("LibDBIcon-1.0")
-	UI.MinimapIcon:Register("MinimapIcon", MinimapIcon, DMW.Settings.profile.MinimapIcon)
+    UI.MinimapIcon:Register("MinimapIcon", MinimapIcon, DMW.Settings.profile.MinimapIcon)
 end
 
 function UI.AddHeader(Text)

@@ -16,7 +16,7 @@ local function EventHandler(self, event, ...)
                 DMW.Player.Consecration = {
                     PosX = DMW.Player.PosX,
                     PosY = DMW.Player.PosY,
-                    PosZ = DMW.Player.PosZ,
+                    PosZ = DMW.Player.PosZ
                 }
             else
                 DMW.Player.Consecration = false
