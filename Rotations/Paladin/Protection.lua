@@ -1,6 +1,6 @@
 local DMW = DMW
 local Paladin = DMW.Rotations.PALADIN
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, GCD, HUD, Player5Y, Player5YC
+local Player, Buff, Debuff, Spell, Target, Trait, Talent, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -68,7 +68,7 @@ local function DPS()
     end
     -- actions+=/lights_judgment,if=buff.seraphim.up&buff.seraphim.remains<3
     -- actions+=/consecration,if=!consecration.up
-    if not Player.Moving and Player5YC > 0 and Paladin.ConsDistance() > 5 then
+    if not Player.Moving and Player5YC > 0 and (Paladin.ConsDistance() > 5 or Paladin.ConsRemain() < 2) then
         if Spell.Consecration:Cast(Player) then
             return true
         end
@@ -88,6 +88,9 @@ local function DPS()
         return true
     end
     -- actions+=/concentrated_flame,if=buff.seraphim.up&!dot.concentrated_flame_burn.remains>0|essence.the_crucible_of_flame.rank<3
+    if Spell.ConcentratedFlame:Cast(Target) then
+        return true
+    end
     -- actions+=/lights_judgment,if=!talent.seraphim.enabled|buff.seraphim.up
     -- actions+=/anima_of_death
     -- actions+=/blessed_hammer,strikes=3
@@ -154,7 +157,7 @@ local function Cooldowns()
         end
     end
     --actions.cooldowns+=/avenging_wrath,if=buff.seraphim.up|cooldown.seraphim.remains<2|!talent.seraphim.enabled
-    if Player:CDs() and Setting("Avenging Wrath") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) then
+    if Target.Distance < 5 and Player:CDs() and Setting("Avenging Wrath") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) then
         if Spell.AvengingWrath:Cast(Player) then
             return true
         end
@@ -163,10 +166,19 @@ end
 
 local function Interrupt()
     if HUD.Interrupts == 1 then
-        if Player5YC > 0 then
+        if Player5YC > 0 and Spell.Rebuke:IsReady() then
             for _, Unit in pairs(Player5Y) do
                 if Unit:Interrupt() then
                     if Spell.Rebuke:Cast(Unit) then
+                        return true
+                    end
+                end
+            end
+        end
+        if Player10YC > 0 and Spell.HammerOfJustice:IsReady() then
+            for _, Unit in pairs(Player10Y) do
+                if Unit:HardCC() then
+                    if Spell.HammerOfJustice:Cast(Unit) then
                         return true
                     end
                 end
@@ -183,6 +195,7 @@ function Paladin.Protection()
         Player:AutoTarget(5)
         if Target and Target.ValidEnemy then
             Player5Y, Player5YC = Player:GetEnemies(5)
+            Player10Y, Player10YC = Player:GetEnemies(10)
             if not IsCurrentSpell(6603) then
                 StartAttack(Target.Pointer)
             end
