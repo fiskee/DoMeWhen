@@ -104,6 +104,26 @@ function Unit:GetFriends(Yards)
     return Table, Count
 end
 
+function Unit:HardCC()
+    if DMW.Enums.HardCCUnits[self.ObjectID] then
+        return true
+    end
+    local CastingInfo = {UnitCastingInfo(self.Pointer)} --name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId
+    local ChannelInfo = {UnitChannelInfo(self.Pointer)} --name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible, spellId
+    local StartTime, SpellID
+    if CastingInfo[4] then
+        StartTime = CastingInfo[4] / 1000
+        SpellID = CastingInfo[9]
+    elseif ChannelInfo[4] then
+        StartTime = ChannelInfo[4] / 1000
+        SpellID = ChannelInfo[8]
+    end
+    if StartTime and SpellID and DMW.Enums.HardCCCasts[SpellID] and (DMW.Time - StartTime) > 0.4 then
+        return true
+    end
+    return false
+end
+
 function Unit:Interrupt()
     local InterruptTarget = DMW.Settings.profile.Enemy.InterruptTarget
     if (InterruptTarget == 2 and not UnitIsUnit(self.Pointer, "target")) or (InterruptTarget == 3 and not UnitIsUnit(self.Pointer, "focus")) or (InterruptTarget == 4 and not UnitIsUnit(self.Pointer, "mouseover")) then

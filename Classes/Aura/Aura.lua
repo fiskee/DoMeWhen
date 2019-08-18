@@ -72,6 +72,34 @@ function Debuff:Duration(Unit, OnlyPlayer)
     return 0
 end
 
+function Buff:Elapsed(Unit, OnlyPlayer)
+    OnlyPlayer = OnlyPlayer or true
+    Unit = Unit or DMW.Player
+    local EndTime = select(6, self:Query(Unit, OnlyPlayer))
+    local Duration = select(5, self:Query(Unit, OnlyPlayer))
+    if EndTime and Duration then
+        if EndTime == 0 then
+            return 999
+        end
+        return DMW.Time - (EndTime - Duration)
+    end
+    return 0
+end
+
+function Debuff:Elapsed(Unit, OnlyPlayer)
+    OnlyPlayer = OnlyPlayer or true
+    Unit = Unit or DMW.Player.Target
+    local EndTime = select(6, self:Query(Unit, OnlyPlayer))
+    local Duration = select(5, self:Query(Unit, OnlyPlayer))
+    if EndTime and Duration then
+        if EndTime == 0 then
+            return 999
+        end
+        return DMW.Time - (EndTime - Duration)
+    end
+    return 0
+end
+
 function Buff:Refresh(Unit, OnlyPlayer)
     OnlyPlayer = OnlyPlayer or true
     Unit = Unit or DMW.Player
