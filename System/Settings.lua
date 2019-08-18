@@ -4,6 +4,9 @@ local AceGUI = LibStub("AceGUI-3.0")
 local defaults = {
     profile = {
         Active = false,
+        MinimapIcon = {
+            hide = false,
+        },
         HUDPosition = {
             point = "LEFT",
             relativePoint = "LEFT",

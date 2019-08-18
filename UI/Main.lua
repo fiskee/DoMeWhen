@@ -43,22 +43,24 @@ local Options = {
                         end
                     end
                 },
-                DispelDelay = {
-                    type = "range",
+                MMIconEnabled = {
+                    type = "toggle",
                     order = 3,
-                    name = "Dispel Delay",
-                    desc = "Set seconds to wait before casting dispel",
+                    name = "Show Minimap Icon",
+                    desc = "Toggle to show/hide the minimap icon",
                     width = "full",
-                    min = 0.0,
-                    max = 3.0,
-                    step = 0.1,
                     get = function()
-                        return DMW.Settings.profile.DispelDelay
+                        return not DMW.Settings.profile.MinimapIcon.hide
                     end,
                     set = function(info, value)
-                        DMW.Settings.profile.DispelDelay = value
+                        DMW.Settings.profile.MinimapIcon.hide = not value
+                        if value then
+                            UI.MinimapIcon:Show("MinimapIcon")
+                        else
+                            UI.MinimapIcon:Hide("MinimapIcon")
+                        end
                     end
-                }
+                },
             }
         },
         EnemyTab = {
@@ -124,7 +126,24 @@ local Options = {
             name = "Friend",
             type = "group",
             order = 4,
-            args = {}
+            args = {
+                DispelDelay = {
+                    type = "range",
+                    order = 1,
+                    name = "Dispel Delay",
+                    desc = "Set seconds to wait before casting dispel",
+                    width = "full",
+                    min = 0.0,
+                    max = 3.0,
+                    step = 0.1,
+                    get = function()
+                        return DMW.Settings.profile.DispelDelay
+                    end,
+                    set = function(info, value)
+                        DMW.Settings.profile.DispelDelay = value
+                    end
+                }
+            }
         },
         QueueTab = {
             name = "Queue",
@@ -152,6 +171,22 @@ local Options = {
     }
 }
 
+local MinimapIcon = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
+	type = "data source",
+	text = "DMW",
+	icon = "Interface\\Icons\\Achievement_dungeon_utgardepinnacle_25man",
+
+	OnClick = function (self, button) 
+		if button == "LeftButton" then
+			UI.Show()
+        end
+	end,
+
+	OnTooltipShow = function (tooltip)
+		tooltip:AddLine("DoMeWhen", 1, 1, 1);
+	end,
+})
+
 function UI.Show()
     if not UI.ConfigFrame then
         UI.ConfigFrame = AceGUI:Create("Frame")
@@ -169,6 +204,8 @@ end
 function UI.Init()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("DMW", Options)
     LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 400, 750)
+    UI.MinimapIcon = LibStub("LibDBIcon-1.0")
+	UI.MinimapIcon:Register("MinimapIcon", MinimapIcon, DMW.Settings.profile.MinimapIcon)
 end
 
 function UI.AddHeader(Text)
