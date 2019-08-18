@@ -163,7 +163,7 @@ function Unit:Interrupt()
 end
 
 function Unit:Dispel(Spell)
-    local AuraCache = DMW.Tables.AuraCache[Unit]
+    local AuraCache = DMW.Tables.AuraCache[self.Pointer]
     if not AuraCache or not Spell then
         return false
     end
@@ -175,21 +175,23 @@ function Unit:Dispel(Spell)
     local Delay = DMW.Settings.profile.DispelDelay - 0.2 + (math.random(1, 4) / 10)
     local ReturnValue = false
     --name, icon, count, debuffType, duration, expirationTime, source, isStealable, nameplateShowPersonal, spellId
-    for k, v in pairs(AuraCache) do
-        Elapsed = AuraCache[5] - (AuraCache[6] - DMW.Time)
-        if AuraCache[4] and DispelTypes[AuraCache[4]] and Elapsed > Delay then
-            if DMW.Enums.NoDispel[AuraCache[10]] then
+    local AuraReturn
+    for _, Aura in pairs(AuraCache) do
+        AuraReturn = Aura.AuraReturn 
+        Elapsed = AuraReturn[5] - (AuraReturn[6] - DMW.Time)
+        if AuraReturn[4] and DispelTypes[AuraReturn[4]] and Elapsed > Delay then
+            if DMW.Enums.NoDispel[AuraReturn[10]] then
                 ReturnValue = false
                 break                
-            elseif DMW.Enums.SpecialDispel[AuraCache[10]] and DMW.Enums.SpecialDispel[AuraCache[10]].Stacks then 
-                if AuraCache[3] >= DMW.Enums.SpecialDispel[AuraCache[10]].Stacks then
+            elseif DMW.Enums.SpecialDispel[AuraReturn[10]] and DMW.Enums.SpecialDispel[AuraReturn[10]].Stacks then 
+                if AuraReturn[3] >= DMW.Enums.SpecialDispel[AuraReturn[10]].Stacks then
                     ReturnValue = true
                 else
                     ReturnValue = false
                     break
                 end
-            elseif DMW.Enums.SpecialDispel[AuraCache[10]] and DMW.Enums.SpecialDispel[AuraCache[10]].Range then
-                if select(2, self:GetFriends(DMW.Enums.SpecialDispel[AuraCache[10]].Range)) < 2 then
+            elseif DMW.Enums.SpecialDispel[AuraReturn[10]] and DMW.Enums.SpecialDispel[AuraReturn[10]].Range then
+                if select(2, self:GetFriends(DMW.Enums.SpecialDispel[AuraReturn[10]].Range)) < 2 then
                     ReturnValue = true
                 else
                     ReturnValue = false
