@@ -152,7 +152,7 @@ local function Defensive()
     --Cleanse toxins
     if Setting("Cleanse Toxins") and Spell.CleanseToxins:IsReady() then
         local Player40Y, Player40YC = Player:GetFriends(40)
-        for _, Unit in pairs(Player40YC) do
+        for _, Unit in pairs(Player40Y) do
             if Unit:Dispel(Spell.CleanseToxins) then
                 Spell.CleanseToxins:Cast(Unit)
             end
