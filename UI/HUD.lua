@@ -4,9 +4,10 @@ local HUD = DMW.UI.HUD
 HUD.Frame = CreateFrame("BUTTON", "DMWHUD", UIParent)
 local HUDFrame = HUD.Frame
 local Status = CreateFrame("BUTTON", "DMWHUDStatusText", HUDFrame)
+local Settings
 
 function HUD.Init()
-    local Settings = DMW.Settings.profile
+    Settings = DMW.Settings.profile
     HUDFrame:SetWidth(120)
     HUDFrame:SetHeight(80)
     HUDFrame:SetPoint(Settings.HUDPosition.point, UIParent, Settings.HUDPosition.relativePoint, Settings.HUDPosition.xOfs, Settings.HUDPosition.yOfs)
@@ -50,10 +51,10 @@ function HUD.Init()
 end
 
 function HUD.Load()
-    local Settings = DMW.Settings.profile
-    local ofsy = -22
-    local Frame
     if HUD.Options then
+        Settings = DMW.Settings.profile
+        local ofsy = -22
+        local Frame
         for k, v in pairs(HUD.Options) do
             local OptionsCount = 0
             for k,_ in pairs(v) do

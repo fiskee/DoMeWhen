@@ -4,7 +4,7 @@ local Queue = DMW.Helpers.Queue
 DMW.Tables.Bindings = {}
 local QueueFrame
 
-local function GetBindings()
+function Queue.GetBindings()
     table.wipe(DMW.Tables.Bindings)
     local Type, ID, Key1, Key2
     for k, frame in pairs(ActionBarButtonEventsFrame.frames) do
@@ -85,7 +85,6 @@ local function CheckPress(self, Key)
 end
 
 function Queue.Run()
-    GetBindings()
     if not QueueFrame then
         QueueFrame = CreateFrame("Frame")
 		QueueFrame:SetPropagateKeyboardInput(true)

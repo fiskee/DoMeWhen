@@ -3,6 +3,7 @@ local EHFrame = CreateFrame("Frame")
 EHFrame:RegisterEvent("ENCOUNTER_START")
 EHFrame:RegisterEvent("ENCOUNTER_END")
 EHFrame:RegisterEvent("PLAYER_TOTEM_UPDATE")
+EHFrame:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
 
 local function EventHandler(self, event, ...)
     if event == "ENCOUNTER_START" then
@@ -21,6 +22,8 @@ local function EventHandler(self, event, ...)
                 DMW.Player.Consecration = false
             end
         end
+    elseif event == "ACTIONBAR_SLOT_CHANGED" then
+        DMW.Helpers.Queue.GetBindings()
     end
 end
 

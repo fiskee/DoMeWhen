@@ -17,6 +17,7 @@ function LocalPlayer:New(Pointer)
     self:GetTalents()
     self:GetTraits()
     self:GetEssences()
+    DMW.Helpers.Queue.GetBindings()
 end
 
 function LocalPlayer:Update()
@@ -74,4 +75,8 @@ function LocalPlayer:TTM()
     else
         return 0
     end
+end
+
+function LocalPlayer:UpdateEquipment()
+
 end

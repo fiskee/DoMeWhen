@@ -9,10 +9,11 @@ function AuraCache.Refresh(Unit)
     if DMW.Tables.AuraCache[Unit] ~= nil then
         DMW.Tables.AuraCache[Unit] = nil
     end
+    local AuraReturn, Name, Source
 
     for i = 1, 40 do
-        local AuraReturn = {UnitBuff(Unit, i)}
-        local Name, Source = GetSpellInfo(AuraReturn[10]), AuraReturn[7]
+        AuraReturn = {UnitBuff(Unit, i)}
+        Name, Source = GetSpellInfo(AuraReturn[10]), AuraReturn[7]
         if Name == nil then
             break
         end
@@ -32,8 +33,8 @@ function AuraCache.Refresh(Unit)
     end
 
     for i = 1, 40 do
-        local AuraReturn = {UnitDebuff(Unit, i)}
-        local Name, Source = GetSpellInfo(AuraReturn[10]), AuraReturn[7]
+        AuraReturn = {UnitDebuff(Unit, i)}
+        Name, Source = GetSpellInfo(AuraReturn[10]), AuraReturn[7]
         if Name == nil then
             break
         end

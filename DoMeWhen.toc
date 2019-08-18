@@ -35,6 +35,7 @@ Classes\LocalPlayer\Enemy.lua
 Classes\LocalPlayer\Friend.lua
 Classes\Aura\Aura.lua
 Classes\Aura\Cache.lua
+Classes\Item\Item.lua
 
 Helpers\Rotation.lua
 Helpers\Queue.lua
@@ -54,6 +55,7 @@ Enums\Spells\Warlock.lua
 Enums\Spells\Warrior.lua
 
 Enums\Specs.lua
+Enums\Items.lua
 Enums\Misc.lua
 Enums\Dispel.lua
 Enums\Dummy.lua
