@@ -104,9 +104,9 @@ local function UpdateUnits()
         if Unit.ValidEnemy then
             table.insert(Enemies, Unit)
         end
-        if DMW.Player.InGroup and Unit.Player and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
+        if Unit.Player and UnitIsUnit(Pointer, "player") then
             table.insert(Friends, Unit)
-        elseif Unit.Player and UnitIsUnit(Pointer, "player") then
+        elseif DMW.Player.InGroup and Unit.Player and Unit.LoS and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
             table.insert(Friends, Unit)
         end
     end

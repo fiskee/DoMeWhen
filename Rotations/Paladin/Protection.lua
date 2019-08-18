@@ -36,6 +36,7 @@ local function CreateSettings()
         UI.AddRange("Lay on Hands HP", "HP to use Lay on Hands", 0, 100, 1, 20)
         UI.AddToggle("Avenging Wrath", "Use Avenging Wrath", true)
         UI.AddRange("Avenging Wrath HP", "HP to use Avenging Wrath", 0, 100, 1, 50)
+        UI.AddToggle("Cleanse Toxins", "Use Cleanse Toxins", true)
         UI.AddHeader("DPS")
         UI.AddToggle("Consecration", "Use Consecration", true)
         UI.AddToggle("Seraphim", "Use Seraphim", true)
@@ -147,6 +148,16 @@ local function Defensive()
         if Spell.ShieldOfTheRighteous:Cast(Player) then
             return true
         end
+    end
+    --Cleanse toxins
+    if Setting("Cleanse Toxins") and Spell.CleanseToxins:IsReady() then
+        local Player40Y, Player40YC = Player:GetFriends(40)
+        for _, Unit in pairs(Player40YC) do
+            if Unit:Dispel(Spell.CleanseToxins) then
+                Spell.CleanseToxins:Cast(Unit)
+            end
+        end
+        
     end
 end
 
