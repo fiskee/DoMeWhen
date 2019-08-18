@@ -95,7 +95,7 @@ end
 function Unit:GetFriends(Yards)
     local Table = {}
     local Count = 0
-    for _, v in pairs(DMW.Friends) do
+    for _, v in pairs(DMW.Friends.Units) do
         if self:GetDistance(v) <= Yards then
             table.insert(Table, v)
             Count = Count + 1

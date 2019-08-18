@@ -4,7 +4,7 @@ local LocalPlayer = DMW.Classes.LocalPlayer
 function LocalPlayer:GetFriends(Yards)
     local Table = {}
     local Count = 0
-    for _, v in pairs(DMW.Friends) do
+    for _, v in pairs(DMW.Friends.Units) do
         if v.Distance <= Yards then
             table.insert(Table, v)
             Count = Count + 1
