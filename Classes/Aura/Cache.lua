@@ -22,12 +22,14 @@ function AuraCache.Refresh(Unit)
         end
         if DMW.Tables.AuraCache[Unit][Name] == nil then
             DMW.Tables.AuraCache[Unit][Name] = {
-                ["AuraReturn"] = AuraReturn
+                ["AuraReturn"] = AuraReturn,
+                Type = "HELPFUL"
             }
         end        
         if Source ~= nil and Source == "player" then
             DMW.Tables.AuraCache[Unit][Name]["player"] = {
-                ["AuraReturn"] = AuraReturn
+                ["AuraReturn"] = AuraReturn,
+                Type = "HELPFUL"
             }
         end
     end
@@ -43,12 +45,14 @@ function AuraCache.Refresh(Unit)
         end
         if DMW.Tables.AuraCache[Unit][Name] == nil then
             DMW.Tables.AuraCache[Unit][Name] = {
-                ["AuraReturn"] = AuraReturn
+                ["AuraReturn"] = AuraReturn,
+                Type = "HARMFUL"
             }
         end        
         if Source ~= nil and Source == "player" then
             DMW.Tables.AuraCache[Unit][Name]["player"] = {
-                ["AuraReturn"] = AuraReturn
+                ["AuraReturn"] = AuraReturn,
+                Type = "HARMFUL"
             }
         end
     end
