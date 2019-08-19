@@ -1,4 +1,4 @@
-DMW = LibStub("AceAddon-3.0"):NewAddon("DMW")
+DMW = LibStub("AceAddon-3.0"):NewAddon("DMW", "AceConsole-3.0")
 local DMW = DMW
 DMW.Tables = {}
 DMW.Enums = {}
