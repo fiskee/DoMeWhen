@@ -9,7 +9,12 @@ function Item:New(ItemID)
 end
 
 function Item:Equipped()
-
+    for _, ID in pairs(DMW.Player.Equipment) do
+        if ID == self.ItemID then
+            return true
+        end
+    end
+    return false
 end
 
 function Item:CD()
@@ -29,9 +34,10 @@ function Item:IsReady()
     return IsUsableItem(self.ItemID) and self:CD() == 0
 end
 
-function Item:Use()
+function Item:Use(Unit)
+    Unit = Unit or DMW.Player
     if self.SpellID and self:IsReady() then
-        RunMacroText("/use " .. self.ItemName)
+        UseItemByName(self.ItemName, Unit.Pointer)
         return true
     end
     return false

@@ -145,5 +145,8 @@ function LocalPlayer:UpdateEquipment()
 end
 
 function LocalPlayer:GetItems()
-
+    local Item = DMW.Classes.Item
+    for Name, ItemID in pairs(DMW.Enums.Items) do
+        self.Items[Name] = Item(ItemID)
+    end
 end

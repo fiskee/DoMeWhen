@@ -36,6 +36,8 @@ local function CreateSettings()
         UI.AddRange("Lay on Hands HP", "HP to use Lay on Hands", 0, 100, 1, 20)
         UI.AddToggle("Avenging Wrath", "Use Avenging Wrath", true)
         UI.AddRange("Avenging Wrath HP", "HP to use Avenging Wrath", 0, 100, 1, 50)
+        UI.AddToggle("Healthstone", "Use Healthstone", true)
+        UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 50)
         UI.AddToggle("Cleanse Toxins", "Use Cleanse Toxins", true)
         UI.AddHeader("DPS")
         UI.AddToggle("Consecration", "Use Consecration", true)
@@ -110,6 +112,12 @@ local function DPS()
 end
 
 local function Defensive()
+    --HS
+    if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") then
+        if Item.Healthstone:Use(Player) then
+            return true
+        end
+    end
     --Avenging Wrath
     if Setting("Avenging Wrath") and Player.HP <= Setting("Avenging Wrath HP") then
         if Spell.AvengingWrath:Cast(Player) then
