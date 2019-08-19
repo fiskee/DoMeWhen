@@ -11,8 +11,9 @@ function Rotation.Active()
 end
 
 function Rotation.GetSpellByID(SpellID)
+    local SpellName = GetSpellInfo(SpellID)
     for _, Spell in pairs(DMW.Player.Spells) do
-        if Spell.SpellID == SpellID then
+        if Spell.SpellName == SpellName then
             return Spell
         end
     end
