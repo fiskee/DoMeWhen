@@ -170,6 +170,15 @@ local function Defensive()
 end
 
 local function Cooldowns()
+    --Anima
+    if Spell.AnimaOfDeath:IsReady() and Player.HP < 90 then
+        local _, Player8YC = Player:GetEnemies(8)
+        if (Player8YC >= 4 and Player.HP < 80) or (Player:CDs() and Player.HP < 90) then
+            if Spell.AnimaOfDeath:Cast(Player) then
+                return true
+            end
+        end
+    end
     --Trinkets
     if Item.Trinket1 and Player:CDs() then
         if Item.Trinket1:Use() then
@@ -191,15 +200,6 @@ local function Cooldowns()
     if Target.Distance < 5 and Player:CDs() and Setting("Avenging Wrath") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) then
         if Spell.AvengingWrath:Cast(Player) then
             return true
-        end
-    end
-    --Anima
-    if Spell.AnimaOfDeath:IsReady() and Player.HP < 90 then
-        local _, Player8YC = Player:GetEnemies(8)
-        if (Player8YC >= 5 and Player.HP < 75) or (Player:CDs() and Player.HP < 90) then
-            if Spell.AnimaOfDeath:Cast(Player) then
-                return true
-            end
         end
     end
 end
