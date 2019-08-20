@@ -4,6 +4,7 @@ EHFrame:RegisterEvent("ENCOUNTER_START")
 EHFrame:RegisterEvent("ENCOUNTER_END")
 EHFrame:RegisterEvent("PLAYER_TOTEM_UPDATE")
 EHFrame:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
+EHFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 
 local function EventHandler(self, event, ...)
     if event == "ENCOUNTER_START" then
@@ -24,6 +25,8 @@ local function EventHandler(self, event, ...)
         end
     elseif event == "ACTIONBAR_SLOT_CHANGED" then
         DMW.Helpers.Queue.GetBindings()
+    elseif event == "PLAYER_SPECIALIZATION_CHANGED" then
+        DMW.Player:GetTalents()
     end
 end
 
