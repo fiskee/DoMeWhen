@@ -74,6 +74,9 @@ Rotations\Paladin\Holy.lua
 Rotations\Paladin\Protection.lua
 Rotations\Paladin\Retribution.lua
 
+Rotations\Rogue\Shared.lua
+Rotations\Rogue\Assassination.lua
+
 Rotations\Warlock\Shared.lua
 Rotations\Warlock\Affliction.lua
 
