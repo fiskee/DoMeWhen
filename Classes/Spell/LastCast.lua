@@ -16,7 +16,7 @@ local function AddSpell(SpellID)
         DMW.Player.LastCast = {}
     end
     for k, v in pairs(DMW.Player.Spells) do
-        if v.SpellID == SpellID then
+        if v.SpellName == GetSpellInfo(SpellID) then
             local Temp = {}
             v.LastCastTime = DMW.Time
             Temp.SpellName = v.SpellName
