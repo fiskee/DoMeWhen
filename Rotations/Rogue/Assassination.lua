@@ -192,24 +192,24 @@ local function Direct()
         end
     end
     -- actions.direct+=/variable,name=use_filler,value=combo_points.deficit>1|energy.deficit<=25+variable.energy_regen_combined|!variable.single_target
-    local UseFiller = (Player.ComboDeficit > 1 or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1) and not Rogue.Stealth()
+    local UseFiller = (Player.ComboDeficit > 1 or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1)
     -- # With Echoing Blades, Fan of Knives at 2+ targets.
     -- actions.direct+=/fan_of_knives,if=variable.use_filler&azerite.echoing_blades.enabled&spell_targets.fan_of_knives>=2
-    if UseFiller and Trait.EchoingBlades.Active and Player10YC > 1 then
+    if UseFiller and not Rogue.Stealth() and Trait.EchoingBlades.Active and Player10YC > 1 then
         if Spell.FanOfKnives:Cast(Player) then
             return true
         end
     end
     -- # Fan of Knives at 19+ stacks of Hidden Blades or against 4+ (5+ with Double Dose) targets.
     -- actions.direct+=/fan_of_knives,if=variable.use_filler&(buff.hidden_blades.stack>=19|(!priority_rotation&spell_targets.fan_of_knives>=4+(azerite.double_dose.rank>2)+stealthed.rogue))
-    if UseFiller and (Buff.HiddenBlades:Stacks() >= 19 or (not PriorityRotation and Player10YC >= (4 + (Trait.DoubleDose.Rank > 2 and 1 or 0) + (Rogue.Stealth() and 1 or 0)))) then
+    if UseFiller and not Rogue.Stealth() and (Buff.HiddenBlades:Stacks() >= 19 or (not PriorityRotation and Player10YC >= (4 + (Trait.DoubleDose.Rank > 2 and 1 or 0) + (Rogue.Stealth() and 1 or 0)))) then
         if Spell.FanOfKnives:Cast(Player) then
             return true
         end
     end
     -- # Fan of Knives to apply Deadly Poison if inactive on any target at 3 targets.
     -- actions.direct+=/fan_of_knives,target_if=!dot.deadly_poison_dot.ticking,if=variable.use_filler&spell_targets.fan_of_knives>=3
-    if UseFiller and Player10YC >= 3 then
+    if UseFiller and Player10YC >= 3 and not Rogue.Stealth() then
         local FoKUnit = Debuff.DeadlyPoison:Lowest(Player10Y)
         if not Debuff.DeadlyPoison:Exist(FoKUnit) then
             if Spell.FanOfKnives:Cast(Player) then
@@ -340,10 +340,10 @@ local function Stealthed()
     -- # Subterfuge: Apply or Refresh with buffed Garrotes
     -- actions.stealthed+=/pool_resource,for_next=1
     -- actions.stealthed+=/garrote,target_if=min:remains,if=talent.subterfuge.enabled&(remains<12|pmultiplier<=1)&target.time_to_die-remains>2
-    table.sort(Player5Y, function(x,y)
-        return Debuff.Garrote:Remain(x.Pointer) < Debuff.Garrote:Remain(y.Pointer)
-    end)
     if Talent.Subterfuge.Active then
+        table.sort(Player5Y, function(x,y)
+            return Debuff.Garrote:Remain(x.Pointer) < Debuff.Garrote:Remain(y.Pointer)
+        end)
         for _, Unit in pairs(Player5Y) do
             if (Debuff.Garrote:Remain(Unit) < 12 or Debuff.Garrote:PMultiplier(Unit) == 1) and (Unit.TTD - Debuff.Garrote:Remain(Unit)) > 2 then
                 if Spell.Garrote:CastPool(Unit) then

@@ -2,7 +2,7 @@ local DMW = DMW
 local LocalPlayer = DMW.Classes.LocalPlayer
 
 function LocalPlayer:AutoTarget(Yards)
-    if not self.Target and self.Combat then
+    if (not self.Target or self.Target.Dead) and self.Combat then
         for k,v in pairs(DMW.Enemies) do
             if v.Distance <= Yards then
                 TargetUnit(v.Pointer)
