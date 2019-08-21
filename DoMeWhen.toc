@@ -36,6 +36,7 @@ Classes\LocalPlayer\Enemy.lua
 Classes\LocalPlayer\Friend.lua
 Classes\Aura\Aura.lua
 Classes\Aura\Cache.lua
+Classes\Aura\DotTracker.lua
 Classes\Item\Item.lua
 
 Helpers\Rotation.lua

@@ -47,17 +47,30 @@ end
 
 local function OOC()
     if not Player.Moving then
-        
+        if not Spell.DeadlyPoison:LastCast() and Buff.DeadlyPoison:Remain() < 300 then
+            if Spell.DeadlyPoison:Cast(Player) then
+                return true
+            end
+        elseif not Spell.CripplingPoison:LastCast() and Buff.CripplingPoison:Remain() < 300 then
+            if Spell.CripplingPoison:Cast(Player) then
+                return true
+            end
+        end
+    end
+    if IsUsableSpell(Spell.Stealth.SpellName) and not Spell.Vanish:LastCast() and not IsResting() and (DMW.Time - Spell.Stealth.LastCastTime) > 0.2 then
+        if Spell.Stealth:Cast(Player) then
+            return true
+        end
     end
 end
 
 function Rogue.Assassination()
     Locals()
     CreateSettings()
-    if not Player.Combat then
-        OOC()
-    end
     if Rotation.Active() then
+        if not Player.Combat then
+            OOC()
+        end
         if (Target and Target.ValidEnemy) or Player.Combat then
             Player:AutoTarget(5)
         end

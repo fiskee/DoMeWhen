@@ -4,6 +4,7 @@ local Unit = DMW.Classes.Unit
 function Unit:New(Pointer)
     self.Pointer = Pointer
     self.Name = UnitName(Pointer)
+    self.GUID = UnitGUID(Pointer)
     self.Player = UnitIsPlayer(Pointer)
     self.Friend = UnitIsFriend("player", self.Pointer)
     self.CombatReach = UnitCombatReach(Pointer)
