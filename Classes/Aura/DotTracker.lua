@@ -4,6 +4,7 @@ DMW.Tables.Exsanguinated = {}
 local Debuff = DMW.Classes.Debuff
 
 function Debuff:PMultiplier(Unit)
+    Unit = Unit or DMW.Player.Target
     if not DMW.Tables.PMultiplier[self.SpellName] then
         DMW.Tables.PMultiplier[self.SpellName] = {}
     end
@@ -14,6 +15,7 @@ function Debuff:PMultiplier(Unit)
 end
 
 function Debuff:Exsanguinated(Unit)
+    Unit = Unit or DMW.Player.Target
     if not DMW.Tables.Exsanguinated[self.SpellName] then
         DMW.Tables.Exsanguinated[self.SpellName] = {}
     end

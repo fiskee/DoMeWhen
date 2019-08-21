@@ -32,6 +32,7 @@ function LocalPlayer:Update()
     self.HP = self.Health / self.HealthMax * 100
     self.Power = UnitPower(self.Pointer)
     self.PowerMax = UnitPowerMax(self.Pointer)
+    self.PowerDeficit = self.PowerMax - self.Power
     self.PowerPct = self.Power / self.PowerMax * 100
     self.PowerRegen = GetPowerRegen()
     if self.Class == "ROGUE" or self.Class == "DRUID" then

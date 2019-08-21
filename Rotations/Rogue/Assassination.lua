@@ -46,6 +46,7 @@ local function Locals()
     HUD = DMW.Settings.profile.HUD
     SingleTarget = #DMW.Enemies == 1
     Player5Y, Player5YC = Player:GetEnemies(5)
+    Player10Y, Player10YC = Player:GetEnemies(10)
 end
 
 local function OOC()
@@ -109,17 +110,61 @@ end
 local function Direct()
     -- # Envenom at 4+ (5+ with DS) CP. Immediately on 2+ targets, with Vendetta, or with TB; otherwise wait for some energy. Also wait if Exsg combo is coming up.
     -- actions.direct=envenom,if=combo_points>=4+talent.deeper_stratagem.enabled&(debuff.vendetta.up|debuff.toxic_blade.up|energy.deficit<=25+variable.energy_regen_combined|!variable.single_target)&(!talent.exsanguinate.enabled|cooldown.exsanguinate.remains>2)
+    local RegenCombined = Player.PowerRegen + ((Debuff.Garrote:Count() + Debuff.Rupture:Count()) * 7 / (2 * (1 / (1 + (GetHaste()/100)))))
+    if Player.ComboPoints >= (Player.ComboMax - 1) and (Debuff.Vendetta:Exist() or Debuff.ToxicBlade:Exist() or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1) and (not Talent.Exsanguinate.Active or Spell.Exsanguinate:CD() > 2) then
+        if Spell.Envenom:Cast(Target) then
+            return true
+        end
+    end
     -- actions.direct+=/variable,name=use_filler,value=combo_points.deficit>1|energy.deficit<=25+variable.energy_regen_combined|!variable.single_target
+    local UseFiller = (Player.ComboDeficit > 1 or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1) and not Rogue.Stealth()
     -- # With Echoing Blades, Fan of Knives at 2+ targets.
     -- actions.direct+=/fan_of_knives,if=variable.use_filler&azerite.echoing_blades.enabled&spell_targets.fan_of_knives>=2
+    if UseFiller and Trait.EchoingBlades.Active and Player10YC > 1 then
+        if Spell.FanOfKnives:Cast(Player) then
+            return true
+        end
+    end
     -- # Fan of Knives at 19+ stacks of Hidden Blades or against 4+ (5+ with Double Dose) targets.
     -- actions.direct+=/fan_of_knives,if=variable.use_filler&(buff.hidden_blades.stack>=19|(!priority_rotation&spell_targets.fan_of_knives>=4+(azerite.double_dose.rank>2)+stealthed.rogue))
+    if UseFiller and (Buff.HiddenBlades:Stacks() >= 19 or (Player10YC >= (4 + (Trait.DoubleDose.Rank > 2 and 1 or 0) + (Rogue.Stealth() and 1 or 0)))) then
+        if Spell.FanOfKnives:Cast(Player) then
+            return true
+        end
+    end
     -- # Fan of Knives to apply Deadly Poison if inactive on any target at 3 targets.
     -- actions.direct+=/fan_of_knives,target_if=!dot.deadly_poison_dot.ticking,if=variable.use_filler&spell_targets.fan_of_knives>=3
+    if UseFiller and Player10YC >= 3 then
+        local FoKUnit = Debuff.DeadlyPoison:Lowest(Player10Y)
+        if not Debuff.DeadlyPoison:Exist(FoKUnit) then
+            if Spell.FanOfKnives:Cast(Player) then
+                return true
+            end
+        end
+    end
     -- actions.direct+=/blindside,if=variable.use_filler&(buff.blindside.up|!talent.venom_rush.enabled&!azerite.double_dose.enabled)
+    if UseFiller and Talent.Blindside.Active and (Buff.Blindside:Exist() or (not Talent.VenomRush.Active and not Trait.DoubleDose.Active and Target.HP < 35)) then
+        if Spell.Blindside:Cast(Target) then
+            return true
+        end
+    end
     -- # Tab-Mutilate to apply Deadly Poison at 2 targets
     -- actions.direct+=/mutilate,target_if=!dot.deadly_poison_dot.ticking,if=variable.use_filler&spell_targets.fan_of_knives=2
+    if UseFiller and Player10YC == 2 then
+        for _, Unit in pairs(Player10Y) do
+            if not Debuff.DeadlyPoison:Exist(Unit) then
+                if Spell.Mutilate:Cast(Unit) then
+                    return true
+                end
+            end
+        end  
+    end
     -- actions.direct+=/mutilate,if=variable.use_filler
+    if UseFiller then
+        if Spell.Mutilate:Cast(Target) then
+            return true
+        end
+    end
 end
 
 local function Dots()
@@ -131,16 +176,53 @@ local function Dots()
     -- actions.dot+=/variable,name=skip_rupture,value=debuff.vendetta.up&(debuff.toxic_blade.up|master_assassin_remains>0)&dot.rupture.remains>2
     -- # Special Rupture setup for Exsg
     -- actions.dot+=/rupture,if=talent.exsanguinate.enabled&((combo_points>=cp_max_spend&cooldown.exsanguinate.remains<1)|(!ticking&(time>10|combo_points>=2)))
+    if Talent.Exsanguinate.Active and ((Player.ComboPoints >= Player.ComboMax and Spell.Exsanguinate:CD() < 1) or (not Debuff.Rupture:Exist(Target) and (Player.CombatTime > 10 or Player.ComboPoints >= 2))) then
+        if Spell.Rupture:Cast(Target) then
+            return true
+        end
+    end
     -- # Garrote upkeep, also tries to use it as a special generator for the last CP before a finisher
     -- actions.dot+=/pool_resource,for_next=1
     -- actions.dot+=/garrote,if=(!talent.subterfuge.enabled|!(cooldown.vanish.up&cooldown.vendetta.remains<=4))&combo_points.deficit>=1+3*(azerite.shrouded_suffocation.enabled&cooldown.vanish.up)&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&!ss_buffed&(target.time_to_die-remains)>4&(master_assassin_remains=0|!ticking&azerite.shrouded_suffocation.enabled)
+    local TickTime = 2 / (1 + (GetHaste()/100))
+    if (not Talent.Subterfuge.Active or not (Spell.Vanish:CD() > 0 and Spell.Vendetta:CD() <= 4)) and Player.ComboDeficit >= 1 + 3 * (Trait.ShroudedSuffocation.Active and Spell.Vanish:CD() > 0 and 1 or 0) and Debuff.Garrote:Refresh() and (Debuff.Garrote:PMultiplier() == 1 or (Debuff.Garrote:Remain() <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Garrote:Exsanguinated() or (Debuff.Garrote:Remain() <= (TickTime * 2) and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Debuff.Garrote:PMultiplier() == 1 or not Trait.ShroudedSuffocation.Active) and (Target.TTD - Debuff.Garrote:Remain()) > 4 and (not Buff.MasterAssassin:Exist() or (Trait.ShroudedSuffocation.Active and not Debuff.Garrote:Exist())) then
+        if Spell.Garrote:CastPool(Target) then
+            return true
+        end
+    end
     -- actions.dot+=/pool_resource,for_next=1
     -- actions.dot+=/garrote,cycle_targets=1,if=!variable.skip_cycle_garrote&target!=self.target&(!talent.subterfuge.enabled|!(cooldown.vanish.up&cooldown.vendetta.remains<=4))&combo_points.deficit>=1+3*(azerite.shrouded_suffocation.enabled&cooldown.vanish.up)&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&!ss_buffed&(target.time_to_die-remains)>12&(master_assassin_remains=0|!ticking&azerite.shrouded_suffocation.enabled)
+    for _, Unit in pairs(Player5Y) do
+        if (not Talent.Subterfuge.Active or not (Spell.Vanish:CD() > 0 and Spell.Vendetta:CD() <= 4)) and Player.ComboDeficit >= 1 + 3 * (Trait.ShroudedSuffocation.Active and Spell.Vanish:CD() > 0 and 1 or 0) and Debuff.Garrote:Refresh(Unit) and (Debuff.Garrote:PMultiplier(Unit) == 1 or (Debuff.Garrote:Remain(Unit) <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Garrote:Exsanguinated(Unit) or (Debuff.Garrote:Remain(Unit) <= (TickTime * 2) and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Debuff.Garrote:PMultiplier(Unit) == 1 or not Trait.ShroudedSuffocation.Active) and (Unit.TTD - Debuff.Garrote:Remain()) > 12 and (not Buff.MasterAssassin:Exist() or (Trait.ShroudedSuffocation.Active and not Debuff.Garrote:Exist(Unit))) then
+            if Spell.Garrote:CastPool(Unit) then
+                return true
+            end
+        end
+    end
+    
     -- # Crimson Tempest only on multiple targets at 4+ CP when running out in 2s (up to 4 targets) or 3s (5+ targets)
     -- actions.dot+=/crimson_tempest,if=spell_targets>=2&remains<2+(spell_targets>=5)&combo_points>=4
+    if Player10YC > 1 and Debuff.CrimsonTempest:Remain() < 2 + (Player10YC > 4 and 1 or 0) and Player.ComboPoints > 3 then
+        if Spell.CrimsonTempest:Cast(Player) then
+            return true
+        end
+    end
     -- # Keep up Rupture at 4+ on all targets (when living long enough and not snapshot)
     -- actions.dot+=/rupture,if=!variable.skip_rupture&combo_points>=4&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&target.time_to_die-remains>4
+    if Player.ComboPoints > 3 and Debuff.Rupture:Refresh() and (Debuff.Rupture:PMultiplier() <= 1 or (Debuff.Rupture:Remain() <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Rupture:Exsanguinated() or (Debuff.Rupture:Remain() <= TickTime * 2 and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Target.TTD - Debuff.Rupture:Remain()) > 4 then
+        if Spell.Rupture:Cast(Target) then
+            return true
+        end
+    end
     -- actions.dot+=/rupture,cycle_targets=1,if=!variable.skip_cycle_rupture&!variable.skip_rupture&target!=self.target&combo_points>=4&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&target.time_to_die-remains>4
+    for _, Unit in pairs(Player5Y) do
+        if Player.ComboPoints > 3 and Debuff.Rupture:Refresh(Unit) and (Debuff.Rupture:PMultiplier(Unit) <= 1 or (Debuff.Rupture:Remain(Unit) <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Rupture:Exsanguinated(Unit) or (Debuff.Rupture:Remain(Unit) <= TickTime * 2 and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Unit.TTD - Debuff.Rupture:Remain(Unit)) > 4 then
+            if Spell.Rupture:Cast(Unit) then
+                return true
+            end
+        end
+    end
+    
 end
 
 local function Essences()
@@ -231,6 +313,12 @@ function Rogue.Assassination()
                 if Stealthed() then
                     return true
                 end
+            end
+            if Dots() then
+                return true
+            end
+            if Direct() then
+                return true
             end
         end
     end
