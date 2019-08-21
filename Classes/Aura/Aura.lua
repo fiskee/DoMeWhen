@@ -142,7 +142,30 @@ function Debuff:Stacks(Unit, OnlyPlayer)
     return 0
 end
 
+function Buff:Count(Table)
+    local Count = 0
+    Table = Table or DMW.Player:GetFriends(40)
+    for _, Unit in pairs(Table) do
+        if self:Exist(Unit) then
+            Count = Count + 1
+        end
+    end
+    return Count
+end
+
+function Debuff:Count(Table)
+    local Count = 0
+    Table = Table or DMW.Player:GetEnemies(40)
+    for _, Unit in pairs(Table) do
+        if self:Exist(Unit) then
+            Count = Count + 1
+        end
+    end
+    return Count
+end
+
 function Buff:Lowest(Table)
+    Table = Table or DMW.Player:GetFriends(40)
     local LowestSec, LowestUnit
     for _, v in pairs(Table) do
         if not LowestSec or self:Remain(v) < LowestSec then
@@ -154,6 +177,7 @@ function Buff:Lowest(Table)
 end
 
 function Debuff:Lowest(Table)
+    Table = Table or DMW.Player:GetEnemies(40)
     local LowestSec, LowestUnit
     for _, v in pairs(Table) do
         if not LowestSec or self:Remain(v) < LowestSec then
