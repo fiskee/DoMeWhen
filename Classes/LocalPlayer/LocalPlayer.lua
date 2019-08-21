@@ -11,6 +11,7 @@ function LocalPlayer:New(Pointer)
     self.SpecID = GetSpecializationInfo(GetSpecialization())
     self.Spec = DMW.Enums.Specs[self.SpecID] or ""
     self.Distance = 0
+    self.Combat = UnitAffectingCombat(self.Pointer)
     self.EID = false
     DMW.Functions.AuraCache.Refresh(Pointer)
     self:GetSpells()
@@ -40,10 +41,10 @@ function LocalPlayer:Update()
     end
     self.Instance = select(2, IsInInstance())
     self.Casting = UnitCastingInfo(self.Pointer) or UnitChannelInfo(self.Pointer)
-    self.Combat = UnitAffectingCombat(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
     self.PetActive = UnitIsVisible("pet")
     self.InGroup = IsInGroup()
+    self.CombatTime = self.Combat and (DMW.Time - self.Combat) or 0
 end
 
 function LocalPlayer:GCD()

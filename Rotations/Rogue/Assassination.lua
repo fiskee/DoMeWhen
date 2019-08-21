@@ -1,6 +1,6 @@
 local DMW = DMW
 local Rogue = DMW.Rotations.ROGUE
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
+local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC, SingleTarget
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -44,6 +44,8 @@ local function Locals()
     Target = Player.Target or false
     GCD = Player:GCD()
     HUD = DMW.Settings.profile.HUD
+    SingleTarget = #DMW.Enemies == 1
+    Player5Y, Player5YC = Player:GetEnemies(5)
 end
 
 local function OOC()
@@ -159,20 +161,61 @@ end
 local function Stealthed()
     -- # Nighstalker, or Subt+Exsg on 1T: Snapshot Rupture
     -- actions.stealthed=rupture,if=combo_points>=4&(talent.nightstalker.enabled|talent.subterfuge.enabled&(talent.exsanguinate.enabled&cooldown.exsanguinate.remains<=2|!ticking)&variable.single_target)&target.time_to_die-remains>6
+    if Player.ComboPoints >= 4 and (Talent.Nightstalker.Active or (Talent.Subterfuge.Active and ((Talent.Exsanguinate.Active and Spell.Exsanguinate:CD() <= 2) or not Debuff.Rupture:Exist(Target)) and SingleTarget)) and (Target.TTD - Debuff.Rupture:Remain(Target)) > 6 then
+        if Spell.Rupture:Cast(Target) then
+            return true
+        end
+    end
     -- # Subterfuge + Shrouded Suffocation: Ensure we use one global to apply Garrote to the main target if it is not snapshot yet, so all other main target abilities profit.
     -- actions.stealthed+=/pool_resource,for_next=1
     -- actions.stealthed+=/garrote,if=azerite.shrouded_suffocation.enabled&buff.subterfuge.up&buff.subterfuge.remains<1.3&!ss_buffed
+    if Trait.ShroudedSuffocation.Active and Buff.Subterfuge:Exist() and Buff.Subterfuge:Remain() < 1.3 and Debuff.Garrote:PMultiplier(Target) == 1 then
+        if Spell.Garrote:CastPool(Target) then
+            return true
+        end
+    end
     -- # Subterfuge: Apply or Refresh with buffed Garrotes
     -- actions.stealthed+=/pool_resource,for_next=1
     -- actions.stealthed+=/garrote,target_if=min:remains,if=talent.subterfuge.enabled&(remains<12|pmultiplier<=1)&target.time_to_die-remains>2
+    table.sort(Player5Y, function(x,y)
+        return Debuff.Garrote:Remain(x.Pointer) < Debuff.Garrote:Remain(y.Pointer)
+    end)
+    if Talent.Subterfuge.Active then
+        for _, Unit in pairs(Player5Y) do
+            if (Debuff.Garrote:Remain(Unit) < 12 or Debuff.Garrote:PMultiplier(Unit) == 1) and (Unit.TTD - Debuff.Garrote:Remain(Unit)) > 2 then
+                if Spell.Garrote:CastPool(Unit) then
+                    return true
+                end
+            end
+        end
+    end
     -- # Subterfuge + Shrouded Suffocation in ST: Apply early Rupture that will be refreshed for pandemic
     -- actions.stealthed+=/rupture,if=talent.subterfuge.enabled&azerite.shrouded_suffocation.enabled&!dot.rupture.ticking&variable.single_target
+    if Talent.Subterfuge.Active and Trait.ShroudedSuffocation.Active and SingleTarget and not Debuff.Rupture:Exist(Target) then
+        if Spell.Rupture:Cast(Target) then
+            return true
+        end
+    end
     -- # Subterfuge w/ Shrouded Suffocation: Reapply for bonus CP and/or extended snapshot duration.
     -- actions.stealthed+=/pool_resource,for_next=1
     -- actions.stealthed+=/garrote,target_if=min:remains,if=talent.subterfuge.enabled&azerite.shrouded_suffocation.enabled&target.time_to_die>remains&(remains<18|!ss_buffed)
+    if Talent.Subterfuge.Active and Trait.ShroudedSuffocation.Active then
+        for _, Unit in pairs(Player5Y) do
+            if Unit.TTD > Debuff.Garrote:Remain(Unit) and (Debuff.Garrote:Remain(Unit) < 18 or Debuff.Garrote:PMultiplier(Unit) == 1) then
+                if Spell.Garrote:CastPool(Unit) then
+                    return true
+                end
+            end
+        end
+    end
     -- # Subterfuge + Exsg: Even override a snapshot Garrote right after Rupture before Exsanguination
     -- actions.stealthed+=/pool_resource,for_next=1
     -- actions.stealthed+=/garrote,if=talent.subterfuge.enabled&talent.exsanguinate.enabled&cooldown.exsanguinate.remains<1&prev_gcd.1.rupture&dot.rupture.remains>5+4*cp_max_spend
+    if Talent.Subterfuge.Active and Talent.Exsanguinate.Active and Spell.Exsanguinate:CD() < 1 and Spell.Rupture:LastCast() and Debuff.Rupture:Remain() > (5 + 4 * Player.ComboMax) then
+        if Spell.Garrote:CastPool(Target) then
+            return true
+        end
+    end
 end
 
 function Rogue.Assassination()
@@ -184,6 +227,11 @@ function Rogue.Assassination()
         end
         if (Target and Target.ValidEnemy) or Player.Combat then
             Player:AutoTarget(5)
+            if Rogue.Stealth() then
+                if Stealthed() then
+                    return true
+                end
+            end
         end
     end
 end

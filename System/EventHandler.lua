@@ -5,6 +5,8 @@ EHFrame:RegisterEvent("ENCOUNTER_END")
 EHFrame:RegisterEvent("PLAYER_TOTEM_UPDATE")
 EHFrame:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
 EHFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+EHFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+EHFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
 
 local function EventHandler(self, event, ...)
     if event == "ENCOUNTER_START" then
@@ -27,6 +29,10 @@ local function EventHandler(self, event, ...)
         DMW.Helpers.Queue.GetBindings()
     elseif event == "PLAYER_SPECIALIZATION_CHANGED" then
         DMW.Player:GetTalents()
+    elseif event == "PLAYER_REGEN_ENABLED" then
+        DMW.Player.Combat = false
+    elseif event == "PLAYER_REGEN_DISABLED" then
+        DMW.Player.Combat = DMW.Time
     end
 end
 
