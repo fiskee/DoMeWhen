@@ -29,6 +29,7 @@ local function CreateSettings()
 
         UI.AddHeader("General")
         UI.AddDropdown("Auto Stealth", nil, {"Disabled", "Always", "20 Yards"}, 2)
+        UI.AddDropdown("Auto Tricks", "Select Tricks of the Trade Option", {"Disabled", "Tank", "Focus"}, 2)
         UI.AddHeader("DPS")
         UI.AddToggle("Trinkets", "Use Trinkets", true)
         UI.AddToggle("Vendetta", "Use Vendetta", true)
@@ -391,7 +392,7 @@ local function Interrupt()
             end
         end
         if Player5YC > 0 and Player.ComboPoints <= 3 and Spell.KidneyShot:IsReady() then
-            for _, Unit in pairs(Player5YC) do
+            for _, Unit in pairs(Player5Y) do
                 if Unit:HardCC() then
                     if Spell.KidneyShot:Cast(Unit) then
                         return true
@@ -401,6 +402,18 @@ local function Interrupt()
         end
     end
     return false
+end
+
+local function Tricks()
+    if Setting("Auto Tricks") == 2 then
+        if DMW.Friends.Tanks[1] and Target.Distance < 5 and UnitThreatSituation("player") and UnitThreatSituation("player") >= 2 then
+            Spell.TricksOfTheTrade:Cast(DMW.Friends.Tanks[1])
+        end
+    elseif Setting("Auto Tricks") == 3 then
+        if Player.Focus and Target.Distance < 5 and UnitThreatSituation("player") and UnitThreatSituation("player") >= 2 then
+            Spell.TricksOfTheTrade:Cast(Player.Focus)
+        end
+    end
 end
 
 function Rogue.Assassination()
@@ -414,6 +427,7 @@ function Rogue.Assassination()
             if not Rogue.Stealth() and Interrupt() then
                 return true
             end
+            Tricks()
             Player:AutoTarget(5)
             if Spell.GCD:CD() == 0 then
                 if Cooldowns() then
