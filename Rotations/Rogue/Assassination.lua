@@ -37,6 +37,10 @@ local function CreateSettings()
         UI.AddHeader("Defensive")
         UI.AddToggle("Healthstone", "Use Healthstone", true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
+        UI.AddToggle("Crimson Vial", "Use Crimson Vial", true)
+        UI.AddRange("Crimson Vial HP", "HP to use Crimson Vial", 0, 100, 1, 30)
+        UI.AddToggle("Feint", "Use Feint", false)
+        UI.AddRange("Feint HP", "HP to use Feint", 0, 100, 1, 20)
     end
 end
 
@@ -52,7 +56,7 @@ local function Locals()
     GCD = Player:GCD()
     HUD = DMW.Settings.profile.HUD
     CDs = Player:CDs() and Target and Target.TTD > 5 and Target.Distance < 5
-    
+
     Player5Y, Player5YC = Player:GetEnemies(5)
     Player10Y, Player10YC = Player:GetEnemies(10)
     SingleTarget = Player10YC == 1
@@ -75,7 +79,7 @@ local function OOC()
         if Spell.Stealth:Cast(Player) then
             return true
         end
-        --TODO: Add 20 yards OOC
+    --TODO: Add 20 yards OOC
     end
 end
 
@@ -84,30 +88,30 @@ local function Cooldowns()
     -- # If adds are up, snipe the one with lowest TTD. Use when dying faster than CP deficit or without any CP.
     -- actions.cds+=/marked_for_death,target_if=min:target.time_to_die,if=raid_event.adds.up&(target.time_to_die<combo_points.deficit*1.5|combo_points.deficit>=cp_max_spend)
     if CDs then
-    -- # If no adds will die within the next 30s, use MfD on boss without any CP.
-    -- actions.cds+=/marked_for_death,if=raid_event.adds.in>30-raid_event.adds.duration&combo_points.deficit>=cp_max_spend
-    -- actions.cds+=/vendetta,if=!stealthed.rogue&dot.rupture.ticking&!debuff.vendetta.up&(!talent.subterfuge.enabled|!azerite.shrouded_suffocation.enabled|dot.garrote.pmultiplier>1&(spell_targets.fan_of_knives<6|!cooldown.vanish.up))&(!talent.nightstalker.enabled|!talent.exsanguinate.enabled|cooldown.exsanguinate.remains<5-2*talent.deeper_stratagem.enabled)&(!equipped.azsharas_font_of_power|azerite.shrouded_suffocation.enabled|debuff.razor_coral_debuff.down|trinket.ashvanes_razor_coral.cooldown.remains<10&cooldown.toxic_blade.remains<1)
+        -- # If no adds will die within the next 30s, use MfD on boss without any CP.
+        -- actions.cds+=/marked_for_death,if=raid_event.adds.in>30-raid_event.adds.duration&combo_points.deficit>=cp_max_spend
+        -- actions.cds+=/vendetta,if=!stealthed.rogue&dot.rupture.ticking&!debuff.vendetta.up&(!talent.subterfuge.enabled|!azerite.shrouded_suffocation.enabled|dot.garrote.pmultiplier>1&(spell_targets.fan_of_knives<6|!cooldown.vanish.up))&(!talent.nightstalker.enabled|!talent.exsanguinate.enabled|cooldown.exsanguinate.remains<5-2*talent.deeper_stratagem.enabled)&(!equipped.azsharas_font_of_power|azerite.shrouded_suffocation.enabled|debuff.razor_coral_debuff.down|trinket.ashvanes_razor_coral.cooldown.remains<10&cooldown.toxic_blade.remains<1)
         if not Rogue.Stealth() and Debuff.Rupture:Exist() and not Debuff.Vendetta:Exist() and (not Talent.Subterfuge.Active or not Trait.ShroudedSuffocation.Active or (Debuff.Garrote:PMultiplier() > 1 and (Player10YC < 6 or Spell.Vanish:IsReady()))) and (not Talent.Nightstalker.Active or not Talent.Exsanguinate.Active or Spell.Exsanguinate:CD() < 5 - 2 * Talent.DeeperStratagem.Value) then
             if Spell.Vendetta:Cast(Target) then --TODO: Add tinket logic
                 return true
             end
         end
-    -- # Vanish with Exsg + (Nightstalker, or Subterfuge only on 1T): Maximum CP and Exsg ready for next GCD
-    -- actions.cds+=/vanish,if=talent.exsanguinate.enabled&(talent.nightstalker.enabled|talent.subterfuge.enabled&variable.single_target)&combo_points>=cp_max_spend&cooldown.exsanguinate.remains<1&(!talent.subterfuge.enabled|!azerite.shrouded_suffocation.enabled|dot.garrote.pmultiplier<=1)
+        -- # Vanish with Exsg + (Nightstalker, or Subterfuge only on 1T): Maximum CP and Exsg ready for next GCD
+        -- actions.cds+=/vanish,if=talent.exsanguinate.enabled&(talent.nightstalker.enabled|talent.subterfuge.enabled&variable.single_target)&combo_points>=cp_max_spend&cooldown.exsanguinate.remains<1&(!talent.subterfuge.enabled|!azerite.shrouded_suffocation.enabled|dot.garrote.pmultiplier<=1)
         if Talent.Exsanguinate.Active and (Talent.Nightstalker.Active or (Talent.Subterfuge.Active and Player10YC == 1)) and Player.ComboPoints >= Player.ComboMax and Spell.Exsanguinate:CD() < 2 and (not Talent.Subterfuge.Active or not Trait.ShroudedSuffocation.Active or Debuff.Garrote:PMultiplier() <= 1) then
             if Spell.Vanish:Cast(Player) then
                 return true
             end
         end
-    -- # Vanish with Nightstalker + No Exsg: Maximum CP and Vendetta up
-    -- actions.cds+=/vanish,if=talent.nightstalker.enabled&!talent.exsanguinate.enabled&combo_points>=cp_max_spend&debuff.vendetta.up
+        -- # Vanish with Nightstalker + No Exsg: Maximum CP and Vendetta up
+        -- actions.cds+=/vanish,if=talent.nightstalker.enabled&!talent.exsanguinate.enabled&combo_points>=cp_max_spend&debuff.vendetta.up
         if Talent.Nightstalker.Active and not Talent.Exsanguinate.Active and Player.ComboPoints >= Player.ComboMax and Debuff.Vendetta:Exist() then
             if Spell.Vanish:Cast(Player) then
                 return true
             end
         end
-    -- # See full comment on https://github.com/Ravenholdt-TC/Rogue/wiki/Assassination-APL-Research.
-    -- actions.cds+=/variable,name=ss_vanish_condition,value=azerite.shrouded_suffocation.enabled&(non_ss_buffed_targets>=1|spell_targets.fan_of_knives=3)&(ss_buffed_targets_above_pandemic=0|spell_targets.fan_of_knives>=6)
+        -- # See full comment on https://github.com/Ravenholdt-TC/Rogue/wiki/Assassination-APL-Research.
+        -- actions.cds+=/variable,name=ss_vanish_condition,value=azerite.shrouded_suffocation.enabled&(non_ss_buffed_targets>=1|spell_targets.fan_of_knives=3)&(ss_buffed_targets_above_pandemic=0|spell_targets.fan_of_knives>=6)
         local SSVanish = false
         if Trait.ShroudedSuffocation.Active and Talent.Subterfuge.Active then
             local NonSS, PandemicSS = 0, 0
@@ -122,15 +126,15 @@ local function Cooldowns()
             end
             SSVanish = (NonSS > 0 or Player10YC == 3) and (PandemicSS == 0 or Player10YC > 5)
         end
-    -- actions.cds+=/pool_resource,for_next=1,extra_amount=45
-    -- actions.cds+=/vanish,if=talent.subterfuge.enabled&!stealthed.rogue&cooldown.garrote.up&(variable.ss_vanish_condition|!azerite.shrouded_suffocation.enabled&dot.garrote.refreshable)&combo_points.deficit>=((1+2*azerite.shrouded_suffocation.enabled)*spell_targets.fan_of_knives)>?4&raid_event.adds.in>12
+        -- actions.cds+=/pool_resource,for_next=1,extra_amount=45
+        -- actions.cds+=/vanish,if=talent.subterfuge.enabled&!stealthed.rogue&cooldown.garrote.up&(variable.ss_vanish_condition|!azerite.shrouded_suffocation.enabled&dot.garrote.refreshable)&combo_points.deficit>=((1+2*azerite.shrouded_suffocation.enabled)*spell_targets.fan_of_knives)>?4&raid_event.adds.in>12
         if Talent.Subterfuge.Active and not Rogue.Stealth() and Spell.Garrote:CD() == 0 and (SSVanish or (not Trait.ShroudedSuffocation.Active and Debuff.Garrote:Refresh())) and Player.ComboDeficit >= math.min(4, ((1 + 2 * Trait.ShroudedSuffocation.Value) * Player10YC)) then
             if Spell.Vanish:CastPool(Player, 45) then
                 return true
             end
         end
-    -- # Vanish with Master Assasin: No stealth and no active MA buff, Rupture not in refresh range, during Vendetta+TB, during Blood essenz if available.
-    -- actions.cds+=/vanish,if=talent.master_assassin.enabled&!stealthed.all&master_assassin_remains<=0&!dot.rupture.refreshable&dot.garrote.remains>3&debuff.vendetta.up&(!talent.toxic_blade.enabled|debuff.toxic_blade.up)&(!essence.blood_of_the_enemy.major|debuff.blood_of_the_enemy.up)
+        -- # Vanish with Master Assasin: No stealth and no active MA buff, Rupture not in refresh range, during Vendetta+TB, during Blood essenz if available.
+        -- actions.cds+=/vanish,if=talent.master_assassin.enabled&!stealthed.all&master_assassin_remains<=0&!dot.rupture.refreshable&dot.garrote.remains>3&debuff.vendetta.up&(!talent.toxic_blade.enabled|debuff.toxic_blade.up)&(!essence.blood_of_the_enemy.major|debuff.blood_of_the_enemy.up)
         if Talent.MasterAssassin.Active and not Rogue.Stealth() and not Buff.MasterAssassin:Exist() and not Debuff.Rupture:Refresh() and Debuff.Garrote:Remain() > 3 and Debuff.Vendetta:Exist() and (not Talent.ToxicBlade.Active or Debuff.ToxicBlade:Exist()) then
             if Spell.Vanish:Cast(Player) then -- TODO: Add blood logic
                 return true
@@ -153,20 +157,20 @@ local function Cooldowns()
         end
     end
     if CDs then
-    -- actions.cds+=/potion,if=buff.bloodlust.react|debuff.vendetta.up
-    -- actions.cds+=/blood_fury,if=debuff.vendetta.up
-    -- actions.cds+=/berserking,if=debuff.vendetta.up
-    -- actions.cds+=/fireblood,if=debuff.vendetta.up
-    -- actions.cds+=/ancestral_call,if=debuff.vendetta.up
-    -- actions.cds+=/use_item,name=galecallers_boon,if=cooldown.vendetta.remains>45
-    -- actions.cds+=/use_item,name=ashvanes_razor_coral,if=debuff.razor_coral_debuff.down|debuff.vendetta.remains>10-4*equipped.azsharas_font_of_power|target.time_to_die<20
-    -- actions.cds+=/use_item,name=lurkers_insidious_gift,if=debuff.vendetta.up
-    -- actions.cds+=/use_item,name=lustrous_golden_plumage,if=debuff.vendetta.up
-    -- actions.cds+=/use_item,effect_name=gladiators_medallion,if=debuff.vendetta.up
-    -- actions.cds+=/use_item,effect_name=gladiators_badge,if=debuff.vendetta.up
-    -- actions.cds+=/use_item,effect_name=cyclotronic_blast,if=master_assassin_remains=0&!debuff.vendetta.up&!debuff.toxic_blade.up&buff.memory_of_lucid_dreams.down&energy<80&dot.rupture.remains>4
-    -- # Default fallback for usable items: Use on cooldown.
-    -- actions.cds+=/use_items
+        -- actions.cds+=/potion,if=buff.bloodlust.react|debuff.vendetta.up
+        -- actions.cds+=/blood_fury,if=debuff.vendetta.up
+        -- actions.cds+=/berserking,if=debuff.vendetta.up
+        -- actions.cds+=/fireblood,if=debuff.vendetta.up
+        -- actions.cds+=/ancestral_call,if=debuff.vendetta.up
+        -- actions.cds+=/use_item,name=galecallers_boon,if=cooldown.vendetta.remains>45
+        -- actions.cds+=/use_item,name=ashvanes_razor_coral,if=debuff.razor_coral_debuff.down|debuff.vendetta.remains>10-4*equipped.azsharas_font_of_power|target.time_to_die<20
+        -- actions.cds+=/use_item,name=lurkers_insidious_gift,if=debuff.vendetta.up
+        -- actions.cds+=/use_item,name=lustrous_golden_plumage,if=debuff.vendetta.up
+        -- actions.cds+=/use_item,effect_name=gladiators_medallion,if=debuff.vendetta.up
+        -- actions.cds+=/use_item,effect_name=gladiators_badge,if=debuff.vendetta.up
+        -- actions.cds+=/use_item,effect_name=cyclotronic_blast,if=master_assassin_remains=0&!debuff.vendetta.up&!debuff.toxic_blade.up&buff.memory_of_lucid_dreams.down&energy<80&dot.rupture.remains>4
+        -- # Default fallback for usable items: Use on cooldown.
+        -- actions.cds+=/use_items
         if Setting("Trinkets") then
             if Item.Trinket1 then
                 if Item.Trinket1:Use() then
@@ -185,7 +189,7 @@ end
 local function Direct()
     -- # Envenom at 4+ (5+ with DS) CP. Immediately on 2+ targets, with Vendetta, or with TB; otherwise wait for some energy. Also wait if Exsg combo is coming up.
     -- actions.direct=envenom,if=combo_points>=4+talent.deeper_stratagem.enabled&(debuff.vendetta.up|debuff.toxic_blade.up|energy.deficit<=25+variable.energy_regen_combined|!variable.single_target)&(!talent.exsanguinate.enabled|cooldown.exsanguinate.remains>2)
-    local RegenCombined = Player.PowerRegen + ((Debuff.Garrote:Count() + Debuff.Rupture:Count()) * 7 / (2 * (1 / (1 + (GetHaste()/100)))))
+    local RegenCombined = Player.PowerRegen + ((Debuff.Garrote:Count() + Debuff.Rupture:Count()) * 7 / (2 * (1 / (1 + (GetHaste() / 100)))))
     if Player.ComboPoints >= (Player.ComboMax - 1) and (Debuff.Vendetta:Exist() or Debuff.ToxicBlade:Exist() or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1) and (not Talent.Exsanguinate.Active or Spell.Exsanguinate:CD() > 2) then
         if Spell.Envenom:Cast(Target) then
             return true
@@ -232,7 +236,7 @@ local function Direct()
                     return true
                 end
             end
-        end  
+        end
     end
     -- actions.direct+=/mutilate,if=variable.use_filler
     if UseFiller then
@@ -341,9 +345,12 @@ local function Stealthed()
     -- actions.stealthed+=/pool_resource,for_next=1
     -- actions.stealthed+=/garrote,target_if=min:remains,if=talent.subterfuge.enabled&(remains<12|pmultiplier<=1)&target.time_to_die-remains>2
     if Talent.Subterfuge.Active then
-        table.sort(Player5Y, function(x,y)
-            return Debuff.Garrote:Remain(x.Pointer) < Debuff.Garrote:Remain(y.Pointer)
-        end)
+        table.sort(
+            Player5Y,
+            function(x, y)
+                return Debuff.Garrote:Remain(x.Pointer) < Debuff.Garrote:Remain(y.Pointer)
+            end
+        )
         for _, Unit in pairs(Player5Y) do
             if (Debuff.Garrote:Remain(Unit) < 12 or Debuff.Garrote:PMultiplier(Unit) == 1) and (Unit.TTD - Debuff.Garrote:Remain(Unit)) > 2 then
                 if Spell.Garrote:CastPool(Unit) then
@@ -413,6 +420,24 @@ local function Tricks()
     elseif Setting("Auto Tricks") == 3 then
         if Player.Focus and Target.Distance < 5 and UnitThreatSituation("player") and UnitThreatSituation("player") >= 2 then
             Spell.TricksOfTheTrade:Cast(Player.Focus)
+        end
+    end
+end
+
+local function Defensives()
+    if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") then
+        if Item.Healthstone:Use(Player) then
+            return true
+        end
+    end
+    if Setting("Crimsom Vial") and Player.HP <= Setting("Crimsom Vial HP") then
+        if Spell.CrimsonVial:Cast(Player) then
+            return true
+        end
+    end
+    if Setting("Feint") and Player.HP <= Setting("Feint HP") then
+        if Spell.Feint:Cast(Player) then
+            return true
         end
     end
 end
