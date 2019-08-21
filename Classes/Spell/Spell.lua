@@ -34,8 +34,11 @@ function Spell:CD()
     end
     self.CDUpdate = DMW.Pulses
     local LocStart, LocDuration = GetSpellLossOfControlCooldown(self.SpellName)
-	local Start, CD = GetSpellCooldown(self.SpellName)
-	if (LocStart + LocDuration) > (Start + CD) then
+    local Start, CD = GetSpellCooldown(self.SpellName)
+    if not Start then
+        Start, CD = GetSpellCooldown(self.SpellID)
+    end
+	if LocStart and (LocStart + LocDuration) > (Start + CD) then
 		Start = LocStart
 		CD = LocDuration
 	end
