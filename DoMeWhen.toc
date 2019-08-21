@@ -63,6 +63,7 @@ Enums\Dispel.lua
 Enums\Dummy.lua
 Enums\Overrides.lua
 Enums\HardCC.lua
+Enums\Interrupts.lua
 
 UI\Main.lua
 UI\HUD.lua

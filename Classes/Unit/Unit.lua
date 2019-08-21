@@ -147,18 +147,20 @@ function Unit:Interrupt()
     else
         return false
     end
-    if Type == "Cast" then
-        local Pct = (DMW.Time - StartTime) / (EndTime - StartTime) * 100
-        if Pct >= Settings.Enemy.InterruptPct then
-            return true
-        end
-    else
-        local Delay = Settings.Enemy.ChannelInterrupt - 0.2 + (math.random(1, 4) / 10)
-        if Delay < 0.1 then
-            Delay = 0.1
-        end
-        if (DMW.Time - StartTime) > Delay then
-            return true
+    if not DMW.Enums.InterruptBlacklist[SpellID] then
+        if Type == "Cast" then
+            local Pct = (DMW.Time - StartTime) / (EndTime - StartTime) * 100
+            if Pct >= Settings.Enemy.InterruptPct then
+                return true
+            end
+        else
+            local Delay = Settings.Enemy.ChannelInterrupt - 0.2 + (math.random(1, 4) / 10)
+            if Delay < 0.1 then
+                Delay = 0.1
+            end
+            if (DMW.Time - StartTime) > Delay then
+                return true
+            end
         end
     end
     return false
