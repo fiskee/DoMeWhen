@@ -31,11 +31,13 @@ local function CreateSettings()
         UI.AddDropdown("Auto Stealth", nil, {"Disabled", "Always", "20 Yards"}, 2)
         UI.AddDropdown("Auto Tricks", "Select Tricks of the Trade Option", {"Disabled", "Tank", "Focus"}, 2)
         UI.AddHeader("DPS")
-        UI.AddToggle("Trinkets", "Use Trinkets", true)
-        UI.AddToggle("Vendetta", "Use Vendetta", true)
-        UI.AddToggle("Vanish", "Use Vanish", true)
+        UI.AddToggle("Trinkets", nil, true)
+        UI.AddToggle("Vendetta", nil, true)
+        UI.AddToggle("Vanish", nil, true)
+        UI.AddToggle("Focused Azerite Beam", nil, false)
+        UI.AddRange("Focused Azerite Beam Units", nil, 1, 10, 1, 3)
         UI.AddHeader("Defensive")
-        UI.AddToggle("Healthstone", "Use Healthstone", true)
+        UI.AddToggle("Healthstone", nil, true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
         UI.AddToggle("Crimson Vial", "Use Crimson Vial", true)
         UI.AddRange("Crimson Vial HP", "HP to use Crimson Vial", 0, 100, 1, 30)
@@ -162,6 +164,7 @@ local function Cooldowns()
         -- actions.cds+=/berserking,if=debuff.vendetta.up
         -- actions.cds+=/fireblood,if=debuff.vendetta.up
         -- actions.cds+=/ancestral_call,if=debuff.vendetta.up
+        if Setting("Trinkets") then
         -- actions.cds+=/use_item,name=galecallers_boon,if=cooldown.vendetta.remains>45
         -- actions.cds+=/use_item,name=ashvanes_razor_coral,if=debuff.razor_coral_debuff.down|debuff.vendetta.remains>10-4*equipped.azsharas_font_of_power|target.time_to_die<20
         -- actions.cds+=/use_item,name=lurkers_insidious_gift,if=debuff.vendetta.up
@@ -171,7 +174,6 @@ local function Cooldowns()
         -- actions.cds+=/use_item,effect_name=cyclotronic_blast,if=master_assassin_remains=0&!debuff.vendetta.up&!debuff.toxic_blade.up&buff.memory_of_lucid_dreams.down&energy<80&dot.rupture.remains>4
         -- # Default fallback for usable items: Use on cooldown.
         -- actions.cds+=/use_items
-        if Setting("Trinkets") then
             if Item.Trinket1 then
                 if Item.Trinket1:Use() then
                     return true
@@ -318,6 +320,17 @@ local function Essences()
     -- actions.essences+=/guardian_of_azeroth,if=cooldown.vendetta.remains<3|debuff.vendetta.up|target.time_to_die<30
     -- actions.essences+=/guardian_of_azeroth,if=floor((target.time_to_die-30)%cooldown)>floor((target.time_to_die-30-cooldown.vendetta.remains)%cooldown)
     -- actions.essences+=/focused_azerite_beam,if=spell_targets.fan_of_knives>=2|raid_event.adds.in>60&energy<70
+    if Setting("Focused Azerite Beam") then
+        if CDs and Player.Power < 70 and Target.Facing and Target.Distance < 20 and not Player.Moving then
+            if Spell.FocusedAzeriteBeam:Cast(Player) then
+                return true
+            end
+        elseif not Player.Moving and Player:GetEnemiesRect(30, 6, 4) > Setting("Focused Azerite Beam Units") then
+            if Spell.FocusedAzeriteBeam:Cast(Player) then
+                return true
+            end
+        end
+    end
     -- actions.essences+=/purifying_blast,if=spell_targets.fan_of_knives>=2|raid_event.adds.in>60
     -- actions.essences+=/the_unbound_force,if=buff.reckless_force.up|buff.reckless_force_counter.stack<10
     -- actions.essences+=/ripple_in_space
@@ -456,6 +469,12 @@ function Rogue.Assassination()
             Tricks()
             Player:AutoTarget(5)
             if Spell.GCD:CD() == 0 then
+                --actions.cds=call_action_list,name=essences,if=!stealthed.all&dot.rupture.ticking&master_assassin_remains=0
+                if not Rogue.Stealth() and Debuff.Rupture:Exist() and not Buff.MasterAssassin:Exist() then
+                    if Essences() then
+                        return true
+                    end
+                end
                 if Cooldowns() then
                     return true
                 end

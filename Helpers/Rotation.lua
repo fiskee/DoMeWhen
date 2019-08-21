@@ -1,10 +1,11 @@
 local DMW = DMW
 DMW.Helpers.Rotation = {}
 local Rotation = DMW.Helpers.Rotation
-local Player = DMW.Player
 
-function Rotation.Active()
-    if DMW.Settings.profile.Active and not (IsMounted() or IsFlying()) then
+function Rotation.Active(CastingCheck)
+    CastingCheck = CastingCheck or true
+    if DMW.Settings.profile.Active and (not CastingCheck or not DMW.Player.Casting) and not (IsMounted() or IsFlying()) and 
+        (not DMW.Player.Spells.FocusedAzeriteBeam:LastCast() or (DMW.Player.LastCast[1].SuccessTime and (DMW.Time - DMW.Player.LastCast[1].SuccessTime) > 0.2)) then
         return true
     end
     return false
