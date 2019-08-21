@@ -83,7 +83,7 @@ local function CheckPress(self, Key)
                         Queue.Type = 5
                     end
                 end
-            elseif Type == "item" then
+            elseif Type == "item" and DMW.Settings.profile.Queue.Items then
                 Queue.Item = DMW.Classes.Item(ID)
                 Queue.Time = DMW.Time
                 if DMW.Player.Target then

@@ -152,7 +152,7 @@ local Options = {
             args = {
                 QueueTime = {
                     type = "range",
-                    order = 2,
+                    order = 1,
                     name = "Queue Time",
                     desc = "Set maximum seconds to attempt casting queued spell",
                     width = "full",
@@ -164,6 +164,19 @@ local Options = {
                     end,
                     set = function(info, value)
                         DMW.Settings.profile.Queue.Wait = value
+                    end
+                },
+                QueueItems = {
+                    type = "toggle",
+                    order = 2,
+                    name = "Items",
+                    desc = "Enable item queue",
+                    width = "full",
+                    get = function()
+                        return DMW.Settings.profile.Queue.Items
+                    end,
+                    set = function(info, value)
+                        DMW.Settings.profile.Queue.Items = value
                     end
                 }
             }

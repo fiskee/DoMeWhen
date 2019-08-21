@@ -24,7 +24,8 @@ local defaults = {
         DispelDelay = 1,
         Rotation = {},
         Queue = {
-            Wait = 2
+            Wait = 2,
+            Items = true
         }
     }
 }
