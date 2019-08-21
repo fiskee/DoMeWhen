@@ -50,8 +50,9 @@ function Spell:Cast(Unit)
     return false
 end
 
-function Spell:CastPool(Unit)
-	if self.Cost > DMW.Player.Power then
+function Spell:CastPool(Unit, Extra)
+	Extra = Extra or 0
+	if (self.Cost + Extra) > DMW.Player.Power then
 		return true
 	end
 	return self:Cast(Unit)

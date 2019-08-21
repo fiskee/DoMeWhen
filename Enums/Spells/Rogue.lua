@@ -61,6 +61,7 @@ Spells.ROGUE = {
         Traits = {
             DoubleDose = 273007,
             EchoingBlades = 287649,
+            ScentOfBlood = 277679,
             ShroudedSuffocation = 278666
         }
     },
