@@ -7,7 +7,9 @@ EHFrame:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
 EHFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 EHFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 EHFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
-
+EHFrame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+EHFrame:RegisterEvent("AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED")
+EHFrame:RegisterEvent("AZERITE_ESSENCE_CHANGED")
 local function EventHandler(self, event, ...)
     if event == "ENCOUNTER_START" then
         DMW.Player.EID = select(1, ...)
@@ -33,6 +35,13 @@ local function EventHandler(self, event, ...)
         DMW.Player.Combat = false
     elseif event == "PLAYER_REGEN_DISABLED" then
         DMW.Player.Combat = DMW.Time
+    elseif event == "PLAYER_EQUIPMENT_CHANGED" then
+        DMW.Player:UpdateEquipment()
+        DMW.Player:GetTraits()
+    elseif event == "AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED" then
+        DMW.Player:GetTraits()
+    elseif event == "AZERITE_ESSENCE_CHANGED" then
+        DMW.Player:GetEssences()
     end
 end
 

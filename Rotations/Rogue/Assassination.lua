@@ -52,9 +52,10 @@ local function Locals()
     GCD = Player:GCD()
     HUD = DMW.Settings.profile.HUD
     CDs = Player:CDs() and Target and Target.TTD > 5 and Target.Distance < 5
-    SingleTarget = #DMW.Enemies == 1
+    
     Player5Y, Player5YC = Player:GetEnemies(5)
     Player10Y, Player10YC = Player:GetEnemies(10)
+    SingleTarget = Player10YC == 1
     PriorityRotation = HUD.Priority == 2
 end
 
@@ -124,7 +125,7 @@ local function Cooldowns()
     -- actions.cds+=/pool_resource,for_next=1,extra_amount=45
     -- actions.cds+=/vanish,if=talent.subterfuge.enabled&!stealthed.rogue&cooldown.garrote.up&(variable.ss_vanish_condition|!azerite.shrouded_suffocation.enabled&dot.garrote.refreshable)&combo_points.deficit>=((1+2*azerite.shrouded_suffocation.enabled)*spell_targets.fan_of_knives)>?4&raid_event.adds.in>12
         if Talent.Subterfuge.Active and not Rogue.Stealth() and Spell.Garrote:CD() == 0 and (SSVanish or (not Trait.ShroudedSuffocation.Active and Debuff.Garrote:Refresh())) and Player.ComboDeficit >= math.min(4, ((1 + 2 * Trait.ShroudedSuffocation.Value) * Player10YC)) then
-            if Spell.Vanish:Cast(Player) then
+            if Spell.Vanish:CastPool(Player, 45) then
                 return true
             end
         end
