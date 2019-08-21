@@ -22,7 +22,8 @@ local function CreateSettings()
                 [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
             }
         }
-
+        UI.AddHeader("General")
+        UI.AddDropdown("Auto Stealth", nil, {"Disabled", "Always", "20 Yards"}, 2)
         UI.AddHeader("DPS")
         UI.AddToggle("Vendetta", "Use Vendetta", true)
         UI.AddToggle("Vanish", "Use Vanish", true)
@@ -57,11 +58,16 @@ local function OOC()
             end
         end
     end
-    if IsUsableSpell(Spell.Stealth.SpellName) and not Spell.Vanish:LastCast() and not IsResting() and (DMW.Time - Spell.Stealth.LastCastTime) > 0.2 then
+    if Setting("Auto Stealth") ~= 1 and IsUsableSpell(Spell.Stealth.SpellName) and not Spell.Vanish:LastCast() and not IsResting() and (DMW.Time - Spell.Stealth.LastCastTime) > 0.2 then
         if Spell.Stealth:Cast(Player) then
             return true
         end
+        --TODO: Add 20 yards OOC
     end
+end
+
+local function Stealthed()
+
 end
 
 function Rogue.Assassination()
