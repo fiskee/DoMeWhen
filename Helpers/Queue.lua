@@ -24,13 +24,16 @@ function Queue.GetBindings()
 end
 
 local function SpellSuccess(self, event, ...)
-    if event == "UNIT_SPELLCAST_SUCCEEDED" and Queue.Spell then
-        local sourceUnit = select(1, ...)
-        local spellID = select(3, ...)
-        if sourceUnit == "player" then
-            if spellID == Queue.Spell.SpellID then
+    if event == "UNIT_SPELLCAST_SUCCEEDED" and (Queue.Spell or Queue.Item) then
+        local SourceUnit = select(1, ...)
+        local SpellID = select(3, ...)
+        if SourceUnit == "player" then
+            if Queue.Spell and Queue.Spell.SpellID == SpellID then
                 --print("Queue Casted: " .. Queue.Spell.SpellName)
                 Queue.Spell = false
+                Queue.Target = false
+            elseif Queue.Item and Queue.Item.SpellID == SpellID then
+                Queue.Item = false
                 Queue.Target = false
             end
         end
@@ -60,6 +63,8 @@ local function CheckPress(self, Key)
                         Queue.Type = 2
                         if DMW.Player.Target then
                             Queue.Target = DMW.Player.Target
+                        else
+                            Queue.Target = DMW.Player
                         end
                     elseif QueueSetting == 3 and DMW.Player.Mouseover then
                         Queue.Spell = Spell
@@ -77,6 +82,14 @@ local function CheckPress(self, Key)
                         Queue.Time = DMW.Time
                         Queue.Type = 5
                     end
+                end
+            elseif Type == "item" then
+                Queue.Item = DMW.Classes.Item(ID)
+                Queue.Time = DMW.Time
+                if DMW.Player.Target then
+                    Queue.Target = DMW.Player.Target
+                else
+                    Queue.Target = DMW.Player
                 end
             end
         end
@@ -100,6 +113,7 @@ function Queue.Run()
     if Queue.Spell and (DMW.Time - Queue.Time) > 2 then
         Queue.Spell = false
         Queue.Target = false
+        Queue.Item = false
     end
     if Queue.Spell and DMW.Player.Combat then
         if Queue.Type == 2 then
@@ -126,5 +140,7 @@ function Queue.Run()
                 return true
             end
         end
+    elseif Queue.Item and DMW.Player.Combat then
+        Queue.Item:Use(Queue.Target)
     end
 end
