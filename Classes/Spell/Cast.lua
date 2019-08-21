@@ -50,6 +50,13 @@ function Spell:Cast(Unit)
     return false
 end
 
+function Spell:CastPool(Unit)
+	if self.Cost > DMW.Player.Power then
+		return true
+	end
+	return self:Cast(Unit)
+end
+
 function Spell:CastGround(X, Y, Z)
     if self:IsReady() then
         local MouseLooking = false
