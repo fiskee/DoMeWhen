@@ -30,6 +30,7 @@ local function CreateSettings()
         UI.AddHeader("General")
         UI.AddDropdown("Auto Stealth", nil, {"Disabled", "Always", "20 Yards"}, 2)
         UI.AddHeader("DPS")
+        UI.AddToggle("Trinkets", "Use Trinkets", true)
         UI.AddToggle("Vendetta", "Use Vendetta", true)
         UI.AddToggle("Vanish", "Use Vanish", true)
         UI.AddHeader("Defensive")
@@ -164,6 +165,18 @@ local function Cooldowns()
     -- actions.cds+=/use_item,effect_name=cyclotronic_blast,if=master_assassin_remains=0&!debuff.vendetta.up&!debuff.toxic_blade.up&buff.memory_of_lucid_dreams.down&energy<80&dot.rupture.remains>4
     -- # Default fallback for usable items: Use on cooldown.
     -- actions.cds+=/use_items
+        if Setting("Trinkets") then
+            if Item.Trinket1 then
+                if Item.Trinket1:Use() then
+                    return true
+                end
+            end
+            if Item.Trinket2 then
+                if Item.Trinket2:Use() then
+                    return true
+                end
+            end
+        end
     end
 end
 
