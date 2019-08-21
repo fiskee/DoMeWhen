@@ -366,6 +366,30 @@ local function Stealthed()
     end
 end
 
+local function Interrupt()
+    if HUD.Interrupts == 1 then
+        if Player5YC > 0 and Spell.Kick:IsReady() then
+            for _, Unit in pairs(Player5Y) do
+                if Unit:Interrupt() then
+                    if Spell.Kick:Cast(Unit) then
+                        return true
+                    end
+                end
+            end
+        end
+        if Player5YC > 0 and Player.ComboPoints <= 3 and Spell.KidneyShot:IsReady() then
+            for _, Unit in pairs(Player5YC) do
+                if Unit:HardCC() then
+                    if Spell.KidneyShot:Cast(Unit) then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+    return false
+end
+
 function Rogue.Assassination()
     Locals()
     CreateSettings()
@@ -374,15 +398,16 @@ function Rogue.Assassination()
             OOC()
         end
         if (Target and Target.ValidEnemy) then
+            if not Rogue.Stealth() and Interrupt() then
+                return true
+            end
             Player:AutoTarget(5)
             if Spell.GCD:CD() == 0 then
                 if Cooldowns() then
                     return true
                 end
-                if Rogue.Stealth() then
-                    if Stealthed() then
-                        return true
-                    end
+                if Rogue.Stealth() and Stealthed() then
+                    return true
                 end
                 if Dots() then
                     return true
