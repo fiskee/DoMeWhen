@@ -26,6 +26,7 @@ function Unit:Update()
     if self.Distance < 50 and not self.Dead then
         self.LoS = self:LineOfSight()
     end
+    self.Attackable = self.LoS and UnitCanAttack("player", self.Pointer) or false
     self.ValidEnemy = self:IsEnemy()
     self.Target = UnitTarget(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
@@ -49,7 +50,7 @@ function Unit:LineOfSight(OtherUnit)
 end
 
 function Unit:IsEnemy()
-    return self.LoS and UnitCanAttack("player", self.Pointer) and self:HasThreat()
+    return self.LoS and self.Attackable and self:HasThreat()
 end
 
 function Unit:IsBoss()

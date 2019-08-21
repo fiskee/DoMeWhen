@@ -1,8 +1,8 @@
 local DMW = DMW
-DMW.Enemies, DMW.Units, DMW.Friends = {}, {}, {}
+DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends = {}, {}, {}, {}
 DMW.Friends.Units = {}
 DMW.Friends.Tanks = {}
-local Enemies, Units, Friends = DMW.Enemies, DMW.Units, DMW.Friends.Units
+local Enemies, Attackable, Units, Friends = DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends.Units
 local Unit, LocalPlayer = DMW.Classes.Unit, DMW.Classes.LocalPlayer
 
 local function RemoveUnit(Pointer)
@@ -84,6 +84,7 @@ local function HandleFriends()
 end
 
 local function UpdateUnits()
+    table.wipe(Attackable)
     table.wipe(Enemies)
     table.wipe(Friends)
     DMW.Player.Target = nil
@@ -100,6 +101,9 @@ local function UpdateUnits()
             DMW.Player.Mouseover = Unit
         elseif DMW.Player.PetActive and not DMW.Player.Pet and UnitIsUnit(Pointer, "pet") then
             DMW.Player.Pet = Unit
+        end
+        if Unit.Attackable then
+            table.insert(Attackable, Unit)
         end
         if Unit.ValidEnemy then
             table.insert(Enemies, Unit)

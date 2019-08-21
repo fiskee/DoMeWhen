@@ -33,6 +33,11 @@ function LocalPlayer:Update()
     self.PowerMax = UnitPowerMax(self.Pointer)
     self.PowerPct = self.Power / self.PowerMax * 100
     self.PowerRegen = GetPowerRegen()
+    if self.Class == "ROGUE" or self.Class == "DRUID" then
+        self.ComboPoints = UnitPower(self.Pointer, 4)
+        self.ComboMax = UnitPowerMax(self.Pointer, 4)
+        self.ComboDeficit = self.ComboMax - self.ComboPoints
+    end
     self.Instance = select(2, IsInInstance())
     self.Casting = UnitCastingInfo(self.Pointer) or UnitChannelInfo(self.Pointer)
     self.Combat = UnitAffectingCombat(self.Pointer)
