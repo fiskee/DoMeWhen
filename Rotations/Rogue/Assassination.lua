@@ -469,6 +469,9 @@ function Rogue.Assassination()
             Tricks()
             Player:AutoTarget(5)
             if Spell.GCD:CD() == 0 then
+                if Target.Distance < 5 and not IsCurrentSpell(6603) and not Rogue.Stealth() then
+                    StartAttack(Target.Pointer)
+                end
                 --actions.cds=call_action_list,name=essences,if=!stealthed.all&dot.rupture.ticking&master_assassin_remains=0
                 if not Rogue.Stealth() and Debuff.Rupture:Exist() and not Buff.MasterAssassin:Exist() then
                     if Essences() then
