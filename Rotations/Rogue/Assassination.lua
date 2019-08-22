@@ -138,7 +138,7 @@ local function Cooldowns()
         end
         -- actions.cds+=/pool_resource,for_next=1,extra_amount=45
         -- actions.cds+=/vanish,if=talent.subterfuge.enabled&!stealthed.rogue&cooldown.garrote.up&(variable.ss_vanish_condition|!azerite.shrouded_suffocation.enabled&dot.garrote.refreshable)&combo_points.deficit>=((1+2*azerite.shrouded_suffocation.enabled)*spell_targets.fan_of_knives)>?4&raid_event.adds.in>12
-        if Talent.Subterfuge.Active and not Rogue.Stealth() and Spell.Garrote:CD() == 0 and (SSVanish or (not Trait.ShroudedSuffocation.Active and Debuff.Garrote:Refresh())) and Player.ComboDeficit >= math.min(4, ((1 + 2 * Trait.ShroudedSuffocation.Value) * Player10YC)) then
+        if Talent.Subterfuge.Active and not Rogue.Stealth() and Spell.Garrote:IsReady() and (SSVanish or (not Trait.ShroudedSuffocation.Active and Debuff.Garrote:Refresh())) and Player.ComboDeficit >= math.min(4, ((1 + 2 * Trait.ShroudedSuffocation.Value) * Player10YC)) then
             if Spell.Vanish:CastPool(Player, 45) then
                 return true
             end
@@ -278,7 +278,7 @@ local function Dots()
     -- actions.dot+=/pool_resource,for_next=1
     -- actions.dot+=/garrote,if=(!talent.subterfuge.enabled|!(cooldown.vanish.up&cooldown.vendetta.remains<=4))&combo_points.deficit>=1+3*(azerite.shrouded_suffocation.enabled&cooldown.vanish.up)&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&!ss_buffed&(target.time_to_die-remains)>4&(master_assassin_remains=0|!ticking&azerite.shrouded_suffocation.enabled)
     local TickTime = 2 / (1 + (GetHaste()/100))
-    if (not Talent.Subterfuge.Active or not (Spell.Vanish:CD() > 0 and Spell.Vendetta:CD() <= 4)) and Player.ComboDeficit >= 1 + 3 * (CDs and Trait.ShroudedSuffocation.Active and Spell.Vanish:CD() > 0 and 1 or 0) and Debuff.Garrote:Refresh() and (Debuff.Garrote:PMultiplier() == 1 or (Debuff.Garrote:Remain() <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Garrote:Exsanguinated() or (Debuff.Garrote:Remain() <= (TickTime * 2) and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Debuff.Garrote:PMultiplier() == 1 or not Trait.ShroudedSuffocation.Active) and (Target.TTD - Debuff.Garrote:Remain()) > 4 and (not Buff.MasterAssassin:Exist() or (Trait.ShroudedSuffocation.Active and not Debuff.Garrote:Exist())) then
+    if (not Talent.Subterfuge.Active or (not CDs or not (Spell.Vanish:IsReady() and Spell.Vendetta:CD() <= 4))) and Player.ComboDeficit >= 1 + 3 * (CDs and Trait.ShroudedSuffocation.Active and Spell.Vanish:CD() > 0 and 1 or 0) and Debuff.Garrote:Refresh() and (Debuff.Garrote:PMultiplier() == 1 or (Debuff.Garrote:Remain() <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Garrote:Exsanguinated() or (Debuff.Garrote:Remain() <= (TickTime * 2) and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Debuff.Garrote:PMultiplier() == 1 or not Trait.ShroudedSuffocation.Active) and (Target.TTD - Debuff.Garrote:Remain()) > 4 and (not Buff.MasterAssassin:Exist() or (Trait.ShroudedSuffocation.Active and not Debuff.Garrote:Exist())) then
         if Spell.Garrote:CastPool(Target) then
             return true
         end
@@ -287,7 +287,7 @@ local function Dots()
     -- actions.dot+=/garrote,cycle_targets=1,if=!variable.skip_cycle_garrote&target!=self.target&(!talent.subterfuge.enabled|!(cooldown.vanish.up&cooldown.vendetta.remains<=4))&combo_points.deficit>=1+3*(azerite.shrouded_suffocation.enabled&cooldown.vanish.up)&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&!ss_buffed&(target.time_to_die-remains)>12&(master_assassin_remains=0|!ticking&azerite.shrouded_suffocation.enabled)
     if not SkipCycleGarrote then
         for _, Unit in pairs(Player5Y) do
-            if (not Talent.Subterfuge.Active or not (Spell.Vanish:CD() > 0 and Spell.Vendetta:CD() <= 4)) and Player.ComboDeficit >= 1 + 3 * (CDs and Trait.ShroudedSuffocation.Active and Spell.Vanish:CD() > 0 and 1 or 0) and Debuff.Garrote:Refresh(Unit) and (Debuff.Garrote:PMultiplier(Unit) == 1 or (Debuff.Garrote:Remain(Unit) <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Garrote:Exsanguinated(Unit) or (Debuff.Garrote:Remain(Unit) <= (TickTime * 2) and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Debuff.Garrote:PMultiplier(Unit) == 1 or not Trait.ShroudedSuffocation.Active) and (Unit.TTD - Debuff.Garrote:Remain()) > 12 and (not Buff.MasterAssassin:Exist() or (Trait.ShroudedSuffocation.Active and not Debuff.Garrote:Exist(Unit))) then
+            if (not Talent.Subterfuge.Active or (not CDs or not (Spell.Vanish:IsReady() and Spell.Vendetta:CD() <= 4))) and Player.ComboDeficit >= 1 + 3 * (CDs and Trait.ShroudedSuffocation.Active and Spell.Vanish:CD() > 0 and 1 or 0) and Debuff.Garrote:Refresh(Unit) and (Debuff.Garrote:PMultiplier(Unit) == 1 or (Debuff.Garrote:Remain(Unit) <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Garrote:Exsanguinated(Unit) or (Debuff.Garrote:Remain(Unit) <= (TickTime * 2) and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Debuff.Garrote:PMultiplier(Unit) == 1 or not Trait.ShroudedSuffocation.Active) and (Unit.TTD - Debuff.Garrote:Remain()) > 12 and (not Buff.MasterAssassin:Exist() or (Trait.ShroudedSuffocation.Active and not Debuff.Garrote:Exist(Unit))) then
                 if Spell.Garrote:CastPool(Unit) then
                     return true
                 end
@@ -486,7 +486,7 @@ function Rogue.Assassination()
                         return true
                     end
                 end
-                if Cooldowns() then
+                if not Rogue.Stealth() and Cooldowns() then
                     return true
                 end
                 if Rogue.Stealth() and Stealthed() then
