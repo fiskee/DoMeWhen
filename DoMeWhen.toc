@@ -78,7 +78,15 @@ Rotations\Paladin\Retribution.lua
 
 Rotations\Rogue\Shared.lua
 Rotations\Rogue\Assassination.lua
+Rotations\Rogue\Outlaw.lua
+Rotations\Rogue\Subtlety.lua
 
 Rotations\Warlock\Shared.lua
 Rotations\Warlock\Affliction.lua
+Rotations\Warlock\Demonology.lua
+Rotations\Warlock\Destruction.lua
 
+Rotations\Warrior\Shared.lua
+Rotations\Warrior\Arms.lua
+Rotations\Warrior\Fury.lua
+Rotations\Warrior\Protection.lua
