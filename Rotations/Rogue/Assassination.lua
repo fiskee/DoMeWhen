@@ -8,22 +8,30 @@ local Setting = DMW.Helpers.Rotation.Setting
 local function CreateSettings()
     if not UI.HUD.Options then
         UI.HUD.Options = {
-            CDs = {
-                [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
-                [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
-                [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
+            [1] = {
+                CDs = {
+                    [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
+                    [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
+                    [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
+                }
             },
-            Mode = {
-                [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
-                [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
+            [2] = {
+                Mode = {
+                    [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
+                    [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
+                }
             },
-            Interrupts = {
-                [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
-                [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
+            [3] = {
+                Interrupts = {
+                    [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
+                    [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
+                }
             },
-            Priority = {
-                [1] = {Text = "AoE Mode |cFF00FF00Normal", Tooltip = ""},
-                [2] = {Text = "AoE Mode |cFFFFFF00Priority", Tooltip = ""}
+            [4] = {
+                Priority = {
+                    [1] = {Text = "AoE Mode |cFF00FF00Normal", Tooltip = ""},
+                    [2] = {Text = "AoE Mode |cFFFFFF00Priority", Tooltip = ""}
+                }
             }
         }
 
@@ -165,15 +173,15 @@ local function Cooldowns()
         -- actions.cds+=/fireblood,if=debuff.vendetta.up
         -- actions.cds+=/ancestral_call,if=debuff.vendetta.up
         if Setting("Trinkets") then
-        -- actions.cds+=/use_item,name=galecallers_boon,if=cooldown.vendetta.remains>45
-        -- actions.cds+=/use_item,name=ashvanes_razor_coral,if=debuff.razor_coral_debuff.down|debuff.vendetta.remains>10-4*equipped.azsharas_font_of_power|target.time_to_die<20
-        -- actions.cds+=/use_item,name=lurkers_insidious_gift,if=debuff.vendetta.up
-        -- actions.cds+=/use_item,name=lustrous_golden_plumage,if=debuff.vendetta.up
-        -- actions.cds+=/use_item,effect_name=gladiators_medallion,if=debuff.vendetta.up
-        -- actions.cds+=/use_item,effect_name=gladiators_badge,if=debuff.vendetta.up
-        -- actions.cds+=/use_item,effect_name=cyclotronic_blast,if=master_assassin_remains=0&!debuff.vendetta.up&!debuff.toxic_blade.up&buff.memory_of_lucid_dreams.down&energy<80&dot.rupture.remains>4
-        -- # Default fallback for usable items: Use on cooldown.
-        -- actions.cds+=/use_items
+            -- actions.cds+=/use_item,name=galecallers_boon,if=cooldown.vendetta.remains>45
+            -- actions.cds+=/use_item,name=ashvanes_razor_coral,if=debuff.razor_coral_debuff.down|debuff.vendetta.remains>10-4*equipped.azsharas_font_of_power|target.time_to_die<20
+            -- actions.cds+=/use_item,name=lurkers_insidious_gift,if=debuff.vendetta.up
+            -- actions.cds+=/use_item,name=lustrous_golden_plumage,if=debuff.vendetta.up
+            -- actions.cds+=/use_item,effect_name=gladiators_medallion,if=debuff.vendetta.up
+            -- actions.cds+=/use_item,effect_name=gladiators_badge,if=debuff.vendetta.up
+            -- actions.cds+=/use_item,effect_name=cyclotronic_blast,if=master_assassin_remains=0&!debuff.vendetta.up&!debuff.toxic_blade.up&buff.memory_of_lucid_dreams.down&energy<80&dot.rupture.remains>4
+            -- # Default fallback for usable items: Use on cooldown.
+            -- actions.cds+=/use_items
             if Item.Trinket1 then
                 if Item.Trinket1:Use() then
                     return true

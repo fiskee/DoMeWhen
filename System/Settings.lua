@@ -3,7 +3,6 @@ local AceGUI = LibStub("AceGUI-3.0")
 
 local defaults = {
     profile = {
-        Active = false,
         MinimapIcon = {
             hide = false
         },
@@ -14,6 +13,7 @@ local defaults = {
             yOfs = 100
         },
         HUD = {
+            Rotation = 1,
             Show = true
         },
         Enemy = {

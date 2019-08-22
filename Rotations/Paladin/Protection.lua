@@ -8,18 +8,24 @@ local Setting = DMW.Helpers.Rotation.Setting
 local function CreateSettings()
     if not UI.HUD.Options then
         UI.HUD.Options = {
-            CDs = {
-                [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
-                [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
-                [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
+            [1] = {
+                CDs = {
+                    [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
+                    [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
+                    [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
+                }
             },
-            Mode = {
-                [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
-                [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
+            [2] = {
+                Mode = {
+                    [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
+                    [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
+                }
             },
-            Interrupts = {
-                [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
-                [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
+            [3] = {
+                Interrupts = {
+                    [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
+                    [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
+                }
             }
         }
 
@@ -165,7 +171,6 @@ local function Defensive()
                 Spell.CleanseToxins:Cast(Unit)
             end
         end
-        
     end
 end
 
@@ -240,13 +245,13 @@ function Paladin.Protection()
                 StartAttack(Target.Pointer)
             end
             Interrupt()
-            if Cooldowns() then 
+            if Cooldowns() then
                 return true
             end
-            if Defensive() then 
+            if Defensive() then
                 return true
             end
-            if DPS() then 
+            if DPS() then
                 return true
             end
         end
