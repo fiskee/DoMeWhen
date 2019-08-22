@@ -30,7 +30,7 @@ function HUD.Load()
         table.insert(HUD.Options, 1, RotationSetting)
         for i = 1, #HUD.Options do
             for Name, Setting in pairs(HUD.Options[i]) do
-                Frame = CreateFrame("BUTTON", "DMWHUD" .. Name, HUDFrame)
+                Frame = CreateFrame("BUTTON", "DMWHUD" .. strupper(Name), HUDFrame)
                 Frame.HUDName = Name
                 Frame.Options = Setting
                 Frame.OptionsCount = #Setting

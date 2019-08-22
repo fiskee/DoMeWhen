@@ -4,10 +4,11 @@ DMW:RegisterChatCommand("dmw", "ChatCommand")
 
 local function SplitInput(Input)
     local Table = {}
-	for i in string.gmatch(Input, "%S+") do
+    Input = strupper(Input)
+    for i in string.gmatch(Input, "%S+") do
         table.insert(Table, i)
     end
-    return table
+    return Table
 end
 
 function DMW:ChatCommand(Input)
@@ -16,6 +17,20 @@ function DMW:ChatCommand(Input)
     else
         local Commands = SplitInput(Input)
         if Commands[1] == "HUD" then
+            if Commands[2] then
+                if _G["DMWHUD" .. Commands[2]] then
+                    _G["DMWHUD" .. Commands[2]]:Toggle(tonumber(Commands[3]))
+                end
+            end
+        elseif Commands[1] == "HELP" then
+            print("Main UI:")
+            print("/DMW")
+            print("HUD Buttons:")
+            for i = 1, #DMW.UI.HUD.Options do
+                for Name, Setting in pairs(DMW.UI.HUD.Options[i]) do
+                    print("/DMW HUD " .. Name .. " 1 - " .. #Setting)
+                end
+            end
             
         else
             LibStub("AceConfigCmd-3.0").HandleCommand(DMW, "dmw", "DMW", Input)
