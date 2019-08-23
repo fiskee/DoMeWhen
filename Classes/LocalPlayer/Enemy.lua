@@ -36,6 +36,13 @@ end
 function LocalPlayer:GetEnemies(Yards)
     local Table = {}
     local Count = 0
+    if DMW.Settings.profile.HUD.Mode and DMW.Settings.profile.HUD.Mode == 2 then
+        if self.Target and self.Target.ValidEnemy and self.Target.Distance <= Yards then
+            table.insert(Table, self.Target)
+            Count = 1
+        end
+        return Table, Count
+    end
     for _, v in ipairs(DMW.Enemies) do
         if v.Distance <= Yards then
             table.insert(Table, v)

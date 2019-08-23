@@ -2,6 +2,7 @@ local DMW = DMW
 DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends = {}, {}, {}, {}
 DMW.Friends.Units = {}
 DMW.Friends.Tanks = {}
+DMW.Tables.Sanguine = {}
 local Enemies, Attackable, Units, Friends = DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends.Units
 local Unit, LocalPlayer = DMW.Classes.Unit, DMW.Classes.LocalPlayer
 
@@ -14,6 +15,9 @@ local function RemoveUnit(Pointer)
     end
     if DMW.Tables.AuraCache[Pointer] ~= nil then
         DMW.Tables.AuraCache[Pointer] = nil
+    end
+    if DMW.Tables.Sanguine[Pointer] then
+        DMW.Tables.Sanguine[Pointer] = nil
     end
 end
 
@@ -132,6 +136,9 @@ function DMW.UpdateOM()
         for _, v in pairs(added) do
             if ObjectIsUnit(v) then
                 Units[v] = Unit(v)
+            elseif ObjectIsAreaTrigger(v) and ObjectID(v) == 12765 then
+				DMW.Tables.Sanguine[v] = {}
+				DMW.Tables.Sanguine[v].PosX, DMW.Tables.Sanguine[v].PosY, DMW.Tables.Sanguine[v].PosZ = ObjectPosition(v)
             end
         end
     end

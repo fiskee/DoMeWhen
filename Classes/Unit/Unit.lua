@@ -121,7 +121,7 @@ function Unit:HardCC()
         StartTime = ChannelInfo[4] / 1000
         SpellID = ChannelInfo[8]
     end
-    if StartTime and SpellID and DMW.Enums.HardCCCasts[SpellID] and (DMW.Time - StartTime) > 0.4 then
+    if StartTime and SpellID and DMW.Enums.HardCCCasts[SpellID] and (DMW.Time - StartTime) > 0.4 and not self:InSanguine() then
         return true
     end
     return false
@@ -241,4 +241,13 @@ function Unit:PredictPosition(Time)
         return X, Y, Z
     end
     return self.X, self.Y, self.Z
+end
+
+function Unit:InSanguine()
+    for _, v in pairs(DMW.Tables.Sanguine) do
+        if sqrt(((self.PosX - v.PosX) ^ 2) + ((self.PosY - v.PosY) ^ 2) + ((self.PosZ - v.PosZ) ^ 2)) < 5 then
+            return true
+        end
+    end
+    return false
 end
