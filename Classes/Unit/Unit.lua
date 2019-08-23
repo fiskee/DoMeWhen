@@ -27,7 +27,7 @@ function Unit:Update()
         self.LoS = self:LineOfSight()
     end
     self.Attackable = self.LoS and UnitCanAttack("player", self.Pointer) or false
-    self.ValidEnemy = self:IsEnemy()
+    self.ValidEnemy = self.Attackable and self:IsEnemy() or false
     self.Target = UnitTarget(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
     self.Facing = ObjectIsFacing("Player", self.Pointer)

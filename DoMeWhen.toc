@@ -81,6 +81,10 @@ Rotations\Rogue\Assassination.lua
 Rotations\Rogue\Outlaw.lua
 Rotations\Rogue\Subtlety.lua
 
+Rotations\Priest\Shared.lua
+Rotations\Priest\Discipline.lua
+Rotations\Priest\Holy.lua
+
 Rotations\Warlock\Shared.lua
 Rotations\Warlock\Affliction.lua
 Rotations\Warlock\Demonology.lua

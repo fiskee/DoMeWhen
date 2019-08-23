@@ -125,7 +125,7 @@ local function Cooldowns()
         local SSVanish = false
         if Trait.ShroudedSuffocation.Active and Talent.Subterfuge.Active then
             local NonSS, PandemicSS = 0, 0
-            for _, Unit in pairs(Player5Y) do
+            for _, Unit in ipairs(Player5Y) do
                 if Debuff.Garrote:PMultiplier(Unit) == 1 then
                     NonSS = NonSS + 1
                 else
@@ -240,7 +240,7 @@ local function Direct()
     -- # Tab-Mutilate to apply Deadly Poison at 2 targets
     -- actions.direct+=/mutilate,target_if=!dot.deadly_poison_dot.ticking,if=variable.use_filler&spell_targets.fan_of_knives=2
     if UseFiller and Player10YC == 2 then
-        for _, Unit in pairs(Player10Y) do
+        for _, Unit in ipairs(Player10Y) do
             if not Debuff.DeadlyPoison:Exist(Unit) then
                 if Spell.Mutilate:Cast(Unit) then
                     return true
@@ -286,7 +286,7 @@ local function Dots()
     -- actions.dot+=/pool_resource,for_next=1
     -- actions.dot+=/garrote,cycle_targets=1,if=!variable.skip_cycle_garrote&target!=self.target&(!talent.subterfuge.enabled|!(cooldown.vanish.up&cooldown.vendetta.remains<=4))&combo_points.deficit>=1+3*(azerite.shrouded_suffocation.enabled&cooldown.vanish.up)&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&!ss_buffed&(target.time_to_die-remains)>12&(master_assassin_remains=0|!ticking&azerite.shrouded_suffocation.enabled)
     if not SkipCycleGarrote then
-        for _, Unit in pairs(Player5Y) do
+        for _, Unit in ipairs(Player5Y) do
             if (not Talent.Subterfuge.Active or (not CDs or not (Spell.Vanish:IsReady() and Spell.Vendetta:CD() <= 4))) and Player.ComboDeficit >= 1 + 3 * (CDs and Trait.ShroudedSuffocation.Active and Spell.Vanish:CD() > 0 and 1 or 0) and Debuff.Garrote:Refresh(Unit) and (Debuff.Garrote:PMultiplier(Unit) == 1 or (Debuff.Garrote:Remain(Unit) <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Garrote:Exsanguinated(Unit) or (Debuff.Garrote:Remain(Unit) <= (TickTime * 2) and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Debuff.Garrote:PMultiplier(Unit) == 1 or not Trait.ShroudedSuffocation.Active) and (Unit.TTD - Debuff.Garrote:Remain()) > 12 and (not Buff.MasterAssassin:Exist() or (Trait.ShroudedSuffocation.Active and not Debuff.Garrote:Exist(Unit))) then
                 if Spell.Garrote:CastPool(Unit) then
                     return true
@@ -310,7 +310,7 @@ local function Dots()
     end
     -- actions.dot+=/rupture,cycle_targets=1,if=!variable.skip_cycle_rupture&!variable.skip_rupture&target!=self.target&combo_points>=4&refreshable&(pmultiplier<=1|remains<=tick_time&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&(!exsanguinated|remains<=tick_time*2&spell_targets.fan_of_knives>=3+azerite.shrouded_suffocation.enabled)&target.time_to_die-remains>4
     if not SkipCycleRupture then
-        for _, Unit in pairs(Player5Y) do
+        for _, Unit in ipairs(Player5Y) do
             if Player.ComboPoints > 3 and Debuff.Rupture:Refresh(Unit) and (Debuff.Rupture:PMultiplier(Unit) <= 1 or (Debuff.Rupture:Remain(Unit) <= TickTime and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (not Debuff.Rupture:Exsanguinated(Unit) or (Debuff.Rupture:Remain(Unit) <= TickTime * 2 and Player10YC >= (3 + Trait.ShroudedSuffocation.Value))) and (Unit.TTD - Debuff.Rupture:Remain(Unit)) > 4 then
                 if Spell.Rupture:Cast(Unit) then
                     return true
@@ -372,7 +372,7 @@ local function Stealthed()
                 return Debuff.Garrote:Remain(x.Pointer) < Debuff.Garrote:Remain(y.Pointer)
             end
         )
-        for _, Unit in pairs(Player5Y) do
+        for _, Unit in ipairs(Player5Y) do
             if (Debuff.Garrote:Remain(Unit) < 12 or Debuff.Garrote:PMultiplier(Unit) == 1) and (Unit.TTD - Debuff.Garrote:Remain(Unit)) > 2 then
                 if Spell.Garrote:CastPool(Unit) then
                     return true
@@ -391,7 +391,7 @@ local function Stealthed()
     -- actions.stealthed+=/pool_resource,for_next=1
     -- actions.stealthed+=/garrote,target_if=min:remains,if=talent.subterfuge.enabled&azerite.shrouded_suffocation.enabled&target.time_to_die>remains&(remains<18|!ss_buffed)
     if Talent.Subterfuge.Active and Trait.ShroudedSuffocation.Active then
-        for _, Unit in pairs(Player5Y) do
+        for _, Unit in ipairs(Player5Y) do
             if Unit.TTD > Debuff.Garrote:Remain(Unit) and (Debuff.Garrote:Remain(Unit) < 18 or Debuff.Garrote:PMultiplier(Unit) == 1) then
                 if Spell.Garrote:CastPool(Unit) then
                     return true
@@ -412,7 +412,7 @@ end
 local function Interrupt()
     if HUD.Interrupts == 1 then
         if Player5YC > 0 and Spell.Kick:IsReady() then
-            for _, Unit in pairs(Player5Y) do
+            for _, Unit in ipairs(Player5Y) do
                 if Unit:Interrupt() then
                     if Spell.Kick:Cast(Unit) then
                         return true
@@ -421,7 +421,7 @@ local function Interrupt()
             end
         end
         if Player5YC > 0 and Player.ComboPoints <= 3 and Spell.KidneyShot:IsReady() then
-            for _, Unit in pairs(Player5Y) do
+            for _, Unit in ipairs(Player5Y) do
                 if Unit:HardCC() then
                     if Spell.KidneyShot:Cast(Unit) then
                         return true
