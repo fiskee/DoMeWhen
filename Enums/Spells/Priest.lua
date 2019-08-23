@@ -46,8 +46,10 @@ Spells.PRIEST = {
         Debuffs = {
             PurgeTheWicked = {SpellID = 204213},
             Schism = {SpellID = 214621},
+            ShadowMend = {SpellID = 187464},
             ShadowWordPain = {SpellID = 589, BaseDuration = 16},
-            Smite = {SpellID = 585}
+            Smite = {SpellID = 585},
+            WeakenedSoul = {SpellID = 6788}
         },
         Talents = {},
         Traits = {}

@@ -29,10 +29,14 @@ local function CreateSettings()
             }
         }
 
-        UI.AddHeader("General")
+        UI.AddHeader("Healing")
+        UI.AddToggle("Shadow Mend", nil, true)
+        UI.AddRange("Shadow Mend HP", nil, 0, 100, 1, 60)
+        UI.AddToggle("Power Word: Shield", nil, true)
+        UI.AddRange("Power Word: Shield HP", "HP to use Power Word: Shield", 0, 100, 1, 90)
         UI.AddHeader("Defensive")
         UI.AddToggle("Healthstone", nil, true)
-        UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
+        UI.AddRange("Healthstone HP", nil, 0, 100, 1, 40)
     end
 end
 
@@ -53,9 +57,9 @@ local function Locals()
 end
 
 local function OOC()
-    for _, Unit in ipairs(Friends40Y) do
-        if Buff.Atonement:Remain(Unit) < 3 then
-            if Spell.PowerWordShield:Cast(Unit) then
+    for _, Friend in ipairs(Friends40Y) do
+        if Buff.Atonement:Remain(Friend) < 3 then
+            if Spell.PowerWordShield:Cast(Friend) then
                 return true
             end
         end
@@ -63,11 +67,35 @@ local function OOC()
 end
 
 local function Heals()
-
+    --SM
+    if Setting("Shadow Mend") then
+        for _, Friend in ipairs(Friends40Y) do
+            if Friend.HP < Setting("Shadow Mend HP") then
+                if Spell.ShadowMend:Cast(Friend) then
+                    return true
+                end
+            else
+                break
+            end
+        end
+    end
+    --PWS
+    if Setting("Power Word: Shield") then
+        for _, Friend in ipairs(Friends40Y) do
+            if Friend.HP < Setting("Power Word: Shield HP") then
+                if not Buff.PowerWordShield:Exist(Friend) and not Debuff.WeakenedSoul:Exist(Friend) then
+                    if Spell.PowerWordShield:Cast(Friend) then
+                        return true
+                    end
+                end
+            else
+                break
+            end
+        end
+    end
 end
 
 local function DPS()
-    --SWP
     for _, Unit in ipairs(Player40Y) do
         if Debuff.ShadowWordPain:Refresh(Unit) then
             if Spell.ShadowWordPain:Cast(Unit) then
@@ -90,15 +118,16 @@ function Priest.Discipline()
     CreateSettings()
     if Rotation.Active() then
         if not Player.Combat then
-            if OOC() then
-                return true
-            end
+            -- if OOC() then
+            --     return true
+            -- end
             if Target and Target.ValidEnemy then
                 if Spell.ShadowWordPain:Cast(Target) then
                     return true
                 end
             end
         else
+            Player:AutoTarget(40, true)
             if Heals() then
                 return true
             end

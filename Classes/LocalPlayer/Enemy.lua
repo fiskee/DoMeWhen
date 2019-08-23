@@ -21,11 +21,12 @@ local function IsInside(x, y, ax, ay, bx, by, dx, dy) -- Stolen at BadRotations
     return true
 end
 
-function LocalPlayer:AutoTarget(Yards)
+function LocalPlayer:AutoTarget(Yards, Facing)
+    local Facing = Facing or false
     if (not self.Target or self.Target.Dead) and self.Combat then
-        for k, v in pairs(DMW.Enemies) do
-            if v.Distance <= Yards then
-                TargetUnit(v.Pointer)
+        for _, Unit in ipairs(DMW.Enemies) do
+            if Unit.Distance <= Yards and not Facing or Unit.Facing == true then
+                TargetUnit(Unit.Pointer)
                 return true
             end
         end
@@ -35,7 +36,7 @@ end
 function LocalPlayer:GetEnemies(Yards)
     local Table = {}
     local Count = 0
-    for _, v in pairs(DMW.Enemies) do
+    for _, v in ipairs(DMW.Enemies) do
         if v.Distance <= Yards then
             table.insert(Table, v)
             Count = Count + 1
@@ -47,7 +48,7 @@ end
 function LocalPlayer:GetAttackable(Yards)
     local Table = {}
     local Count = 0
-    for _, v in pairs(DMW.Attackable) do
+    for _, v in ipairs(DMW.Attackable) do
         if v.Distance <= Yards then
             table.insert(Table, v)
             Count = Count + 1
