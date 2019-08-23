@@ -1,6 +1,6 @@
 local DMW = DMW
 local Rogue = DMW.Rotations.ROGUE
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, CDs, HUD, Player5Y, Player5YC, Player10Y, Player10YC, SingleTarget, PriorityRotation
+local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, CDs, HUD, Player5Y, Player5YC, Player10Y, Player10YC, SingleTarget, PriorityRotation, Stealth
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -66,7 +66,7 @@ local function Locals()
     GCD = Player:GCD()
     HUD = DMW.Settings.profile.HUD
     CDs = Player:CDs() and Target and Target.TTD > 5 and Target.Distance < 5
-
+    Stealth = Rogue.Stealth()
     Player5Y, Player5YC = Player:GetEnemies(5)
     Player10Y, Player10YC = Player:GetEnemies(10)
     SingleTarget = Player10YC == 1
@@ -101,7 +101,7 @@ local function Cooldowns()
         -- # If no adds will die within the next 30s, use MfD on boss without any CP.
         -- actions.cds+=/marked_for_death,if=raid_event.adds.in>30-raid_event.adds.duration&combo_points.deficit>=cp_max_spend
         -- actions.cds+=/vendetta,if=!stealthed.rogue&dot.rupture.ticking&!debuff.vendetta.up&(!talent.subterfuge.enabled|!azerite.shrouded_suffocation.enabled|dot.garrote.pmultiplier>1&(spell_targets.fan_of_knives<6|!cooldown.vanish.up))&(!talent.nightstalker.enabled|!talent.exsanguinate.enabled|cooldown.exsanguinate.remains<5-2*talent.deeper_stratagem.enabled)&(!equipped.azsharas_font_of_power|azerite.shrouded_suffocation.enabled|debuff.razor_coral_debuff.down|trinket.ashvanes_razor_coral.cooldown.remains<10&cooldown.toxic_blade.remains<1)
-        if not Rogue.Stealth() and Debuff.Rupture:Exist() and not Debuff.Vendetta:Exist() and (not Talent.Subterfuge.Active or not Trait.ShroudedSuffocation.Active or (Debuff.Garrote:PMultiplier() > 1 and (Player10YC < 6 or Spell.Vanish:IsReady()))) and (not Talent.Nightstalker.Active or not Talent.Exsanguinate.Active or Spell.Exsanguinate:CD() < 5 - 2 * Talent.DeeperStratagem.Value) then
+        if not Stealth and Debuff.Rupture:Exist() and not Debuff.Vendetta:Exist() and (not Talent.Subterfuge.Active or not Trait.ShroudedSuffocation.Active or (Debuff.Garrote:PMultiplier() > 1 and (Player10YC < 6 or Spell.Vanish:IsReady()))) and (not Talent.Nightstalker.Active or not Talent.Exsanguinate.Active or Spell.Exsanguinate:CD() < 5 - 2 * Talent.DeeperStratagem.Value) then
             if Spell.Vendetta:Cast(Target) then --TODO: Add tinket logic
                 return true
             end
@@ -138,14 +138,14 @@ local function Cooldowns()
         end
         -- actions.cds+=/pool_resource,for_next=1,extra_amount=45
         -- actions.cds+=/vanish,if=talent.subterfuge.enabled&!stealthed.rogue&cooldown.garrote.up&(variable.ss_vanish_condition|!azerite.shrouded_suffocation.enabled&dot.garrote.refreshable)&combo_points.deficit>=((1+2*azerite.shrouded_suffocation.enabled)*spell_targets.fan_of_knives)>?4&raid_event.adds.in>12
-        if Talent.Subterfuge.Active and not Rogue.Stealth() and Spell.Garrote:IsReady() and (SSVanish or (not Trait.ShroudedSuffocation.Active and Debuff.Garrote:Refresh())) and Player.ComboDeficit >= math.min(4, ((1 + 2 * Trait.ShroudedSuffocation.Value) * Player10YC)) then
+        if Talent.Subterfuge.Active and not Stealth and Spell.Garrote:IsReady() and (SSVanish or (not Trait.ShroudedSuffocation.Active and Debuff.Garrote:Refresh())) and Player.ComboDeficit >= math.min(4, ((1 + 2 * Trait.ShroudedSuffocation.Value) * Player10YC)) then
             if Spell.Vanish:CastPool(Player, 45) then
                 return true
             end
         end
         -- # Vanish with Master Assasin: No stealth and no active MA buff, Rupture not in refresh range, during Vendetta+TB, during Blood essenz if available.
         -- actions.cds+=/vanish,if=talent.master_assassin.enabled&!stealthed.all&master_assassin_remains<=0&!dot.rupture.refreshable&dot.garrote.remains>3&debuff.vendetta.up&(!talent.toxic_blade.enabled|debuff.toxic_blade.up)&(!essence.blood_of_the_enemy.major|debuff.blood_of_the_enemy.up)
-        if Talent.MasterAssassin.Active and not Rogue.Stealth() and not Buff.MasterAssassin:Exist() and not Debuff.Rupture:Refresh() and Debuff.Garrote:Remain() > 3 and Debuff.Vendetta:Exist() and (not Talent.ToxicBlade.Active or Debuff.ToxicBlade:Exist()) then
+        if Talent.MasterAssassin.Active and not Stealth and not Buff.MasterAssassin:Exist() and not Debuff.Rupture:Refresh() and Debuff.Garrote:Remain() > 3 and Debuff.Vendetta:Exist() and (not Talent.ToxicBlade.Active or Debuff.ToxicBlade:Exist()) then
             if Spell.Vanish:Cast(Player) then -- TODO: Add blood logic
                 return true
             end
@@ -209,21 +209,21 @@ local function Direct()
     local UseFiller = (Player.ComboDeficit > 1 or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1)
     -- # With Echoing Blades, Fan of Knives at 2+ targets.
     -- actions.direct+=/fan_of_knives,if=variable.use_filler&azerite.echoing_blades.enabled&spell_targets.fan_of_knives>=2
-    if UseFiller and not Rogue.Stealth() and Trait.EchoingBlades.Active and Player10YC > 1 then
+    if UseFiller and not Stealth and Trait.EchoingBlades.Active and Player10YC > 1 then
         if Spell.FanOfKnives:Cast(Player) then
             return true
         end
     end
     -- # Fan of Knives at 19+ stacks of Hidden Blades or against 4+ (5+ with Double Dose) targets.
     -- actions.direct+=/fan_of_knives,if=variable.use_filler&(buff.hidden_blades.stack>=19|(!priority_rotation&spell_targets.fan_of_knives>=4+(azerite.double_dose.rank>2)+stealthed.rogue))
-    if UseFiller and not Rogue.Stealth() and (Buff.HiddenBlades:Stacks() >= 19 or (not PriorityRotation and Player10YC >= (4 + (Trait.DoubleDose.Rank > 2 and 1 or 0) + (Rogue.Stealth() and 1 or 0)))) then
+    if UseFiller and not Stealth and (Buff.HiddenBlades:Stacks() >= 19 or (not PriorityRotation and Player10YC >= (4 + (Trait.DoubleDose.Rank > 2 and 1 or 0) + (Stealth and 1 or 0)))) then
         if Spell.FanOfKnives:Cast(Player) then
             return true
         end
     end
     -- # Fan of Knives to apply Deadly Poison if inactive on any target at 3 targets.
     -- actions.direct+=/fan_of_knives,target_if=!dot.deadly_poison_dot.ticking,if=variable.use_filler&spell_targets.fan_of_knives>=3
-    if UseFiller and Player10YC >= 3 and not Rogue.Stealth() then
+    if UseFiller and Player10YC >= 3 and not Stealth then
         local FoKUnit = Debuff.DeadlyPoison:Lowest(Player10Y)
         if not Debuff.DeadlyPoison:Exist(FoKUnit) then
             if Spell.FanOfKnives:Cast(Player) then
@@ -470,26 +470,28 @@ function Rogue.Assassination()
         if not Player.Combat and not Spell.Vanish:LastCast() then
             OOC()
         end
+        if not Stealth and Player.Combat then
+            Player:AutoTarget(5)
+        end
         if (Target and Target.ValidEnemy) then
-            if not Rogue.Stealth() and Interrupt() then
+            if not Stealth and Interrupt() then
                 return true
             end
             Tricks()
-            Player:AutoTarget(5)
             if Spell.GCD:CD() == 0 then
-                if Target.Distance < 5 and not IsCurrentSpell(6603) and not Rogue.Stealth() then
+                if Target.Distance < 5 and not IsCurrentSpell(6603) and not Stealth then
                     StartAttack(Target.Pointer)
                 end
                 --actions.cds=call_action_list,name=essences,if=!stealthed.all&dot.rupture.ticking&master_assassin_remains=0
-                if not Rogue.Stealth() and Debuff.Rupture:Exist() and not Buff.MasterAssassin:Exist() then
+                if not Stealth and Debuff.Rupture:Exist() and not Buff.MasterAssassin:Exist() then
                     if Essences() then
                         return true
                     end
                 end
-                if not Rogue.Stealth() and Cooldowns() then
+                if not Stealth and Cooldowns() then
                     return true
                 end
-                if Rogue.Stealth() and Stealthed() then
+                if Stealth and Stealthed() then
                     return true
                 end
                 if Dots() then
