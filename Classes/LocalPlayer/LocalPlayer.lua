@@ -13,6 +13,7 @@ function LocalPlayer:New(Pointer)
     self.Distance = 0
     self.Combat = UnitAffectingCombat(self.Pointer)
     self.EID = false
+    self.NoControl = false
     DMW.Functions.AuraCache.Refresh(Pointer)
     self:GetSpells()
     self:GetTalents()

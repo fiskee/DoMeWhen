@@ -10,6 +10,9 @@ EHFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
 EHFrame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 EHFrame:RegisterEvent("AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED")
 EHFrame:RegisterEvent("AZERITE_ESSENCE_CHANGED")
+EHFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
+EHFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+
 local function EventHandler(self, event, ...)
     if EWT then
         if event == "ENCOUNTER_START" then
@@ -43,7 +46,12 @@ local function EventHandler(self, event, ...)
             DMW.Player:GetTraits()
         elseif event == "AZERITE_ESSENCE_CHANGED" then
             DMW.Player:GetEssences()
+        elseif event == "UNIT_ENTERING_VEHICLE" then
+            DMW.Player.NoControl = true
+        elseif event == "UNIT_EXITED_VEHICLE" then
+            DMW.Player.NoControl = false
         end
+        
     end
 end
 
