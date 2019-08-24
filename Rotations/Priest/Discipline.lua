@@ -39,11 +39,11 @@ local function CreateSettings()
         UI.AddRange("Penance HP", nil, 0, 100, 1, 70)
         UI.AddToggle("Shadow Mend", nil, true)
         UI.AddRange("Shadow Mend HP", nil, 0, 100, 1, 60)
+        UI.AddRange("Atonement HP", "HP to use Power Word: Shield or Power Word: Radiance to apply Atonement", 0, 100, 1, 90)
         UI.AddToggle("Power Word: Shield", nil, true)
-        UI.AddRange("Power Word: Shield HP", "HP to use Power Word: Shield", 0, 100, 1, 90)
+        UI.AddRange("Power Word: Shield HP", "HP to use Power Word: Shield", 0, 100, 1, 80)
         UI.AddToggle("Power Word: Radiance", nil, true)
         UI.AddRange("Power Word: Radiance Units", nil, 0, 10, 1, 3)
-        UI.AddRange("Power Word: Radiance HP", nil, 0, 100, 1, 80)
         UI.AddToggle("Rapture", nil, true)
         UI.AddRange("Rapture Units", nil, 0, 10, 1, 3)
         UI.AddRange("Rapture HP", nil, 0, 100, 1, 60)
@@ -104,13 +104,15 @@ local function Heals()
         end
     end
     --Penance
-    for _, Friend in ipairs(Friends40Y) do
-        if Friend.HP < Setting("Penance HP") then
-            if Spell.Penance:Cast(Friend) then
-                return true
+    if Player.Moving or Buff.PowerOfTheDarkSide:Exist() then
+        for _, Friend in ipairs(Friends40Y) do
+            if Friend.HP < Setting("Penance HP") then
+                if Spell.Penance:Cast(Friend) then
+                    return true
+                end
+            else
+                break
             end
-        else
-            break
         end
     end
     --SM
@@ -126,11 +128,11 @@ local function Heals()
         end
     end
     --PWR
-    if not Player.Moving and not Spell.PowerWordRadiance:LastCast() and Setting("Power Word: Radiance") and Spell.PowerWordRadiance:IsReady() then
+    if not Player.Moving and not Spell.PowerWordRadiance:LastCast() and Setting("Power Word: Radiance") and Spell.PowerWordRadiance:IsReady() and not Buff.Rapture:Exist() then
         local RadianceTable, RadianceC
         for _, Friend in ipairs(Friends40Y) do
-            if Friend.HP < Setting("Power Word: Radiance HP") then
-                RadianceTable, RadianceC = Friend:GetFriends(30, Setting("Power Word: Radiance HP"))
+            if Friend.HP < Setting("Atonement HP") then
+                RadianceTable, RadianceC = Friend:GetFriends(30, Setting("Atonement HP"))
                 if RadianceC >= Setting("Power Word: Radiance Units") and Buff.Atonement:Count(RadianceTable) <= (math.max(RadianceC - 1, 0)) then
                     if Spell.PowerWordRadiance:Cast(Friend) then
                         return true
@@ -152,7 +154,7 @@ local function Heals()
     --PWS
     if Setting("Power Word: Shield") then
         for _, Friend in ipairs(Friends40Y) do
-            if Friend.HP < Setting("Power Word: Shield HP") or (Player.Instance ~= "none" and Friend.Role == "TANK") then
+            if Friend.HP < Setting("Power Word: Shield HP") or (Player.Instance ~= "none" and Friend.Role == "TANK") or (Friend.HP < Setting("Atonement HP") and not Buff.Atonement:Exist(Friend)) then
                 if not Buff.PowerWordShield:Exist(Friend) and (not Debuff.WeakenedSoul:Exist(Friend) or Buff.Rapture:Exist()) then
                     if Spell.PowerWordShield:Cast(Friend) then
                         return true
@@ -183,7 +185,7 @@ local function DPS()
         if Target.TTD > 8 and not Player.Moving and Spell.Schism:Cast(Target) then
             return true
         end
-        if Target.TTD > 4 and Spell.Penance:Cast(Target) then
+        if Target.TTD > 4 and (Player.Moving or Buff.PowerOfTheDarkSide:Exist()) and Spell.Penance:Cast(Target) then
             return true
         end
         if Spell.PowerWordSolace:Cast(Target) then
