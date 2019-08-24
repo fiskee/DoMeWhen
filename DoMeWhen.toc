@@ -65,6 +65,7 @@ Enums\Dummy.lua
 Enums\Overrides.lua
 Enums\HardCC.lua
 Enums\Interrupts.lua
+Enums\CC.lua
 
 UI\Main.lua
 UI\HUD.lua

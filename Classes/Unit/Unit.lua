@@ -50,7 +50,7 @@ function Unit:LineOfSight(OtherUnit)
 end
 
 function Unit:IsEnemy()
-    return self.LoS and self.Attackable and self:HasThreat() and (not self.Friend or UnitIsUnit(self.Pointer, "target"))
+    return self.LoS and self.Attackable and self:HasThreat() and (not self.Friend or UnitIsUnit(self.Pointer, "target")) and not self:CCed()
 end
 
 function Unit:IsBoss()
@@ -246,6 +246,31 @@ end
 function Unit:InSanguine()
     for _, v in pairs(DMW.Tables.Sanguine) do
         if sqrt(((self.PosX - v.PosX) ^ 2) + ((self.PosY - v.PosY) ^ 2) + ((self.PosZ - v.PosZ) ^ 2)) < 5 then
+            return true
+        end
+    end
+    return false
+end
+
+function Unit:AuraByID(SpellID, OnlyPlayer)
+    OnlyPlayer = OnlyPlayer or false
+    local SpellName = GetSpellInfo(SpellID)
+    Unit = self.Pointer
+    if DMW.Tables.AuraCache[Unit] ~= nil and DMW.Tables.AuraCache[Unit][SpellName] ~= nil and (not OnlyPlayer or DMW.Tables.AuraCache[Unit][SpellName]["player"] ~= nil) then
+        local AuraReturn
+        if OnlyPlayer then
+            AuraReturn = DMW.Tables.AuraCache[Unit][SpellName]["player"].AuraReturn
+        else
+            AuraReturn = DMW.Tables.AuraCache[Unit][SpellName].AuraReturn
+        end
+        return unpack(AuraReturn)
+    end
+    return nil
+end
+
+function Unit:CCed()
+    for SpellID, _ in pairs(DMW.Enums.CCBuffs) do
+        if self:AuraByID(SpellID) then
             return true
         end
     end
