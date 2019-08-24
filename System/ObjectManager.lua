@@ -116,8 +116,10 @@ local function UpdateUnits()
             table.insert(Enemies, Unit)
         end
         if Unit.Player and UnitIsUnit(Pointer, "player") then
+            Unit:CalculateHP()
             table.insert(Friends, Unit)
-        elseif DMW.Player.InGroup and Unit.Player and Unit.LoS and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
+        elseif DMW.Player.InGroup and Unit.Player and not Unit.Attackable and Unit.LoS and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
+            Unit:CalculateHP()
             table.insert(Friends, Unit)
         end
     end

@@ -26,6 +26,12 @@ local function CreateSettings()
                     [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
                     [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
                 }
+            },
+            [4] = {
+                Dispel = {
+                    [1] = {Text = "Dispel |cFF00FF00Enabled", Tooltip = ""},
+                    [2] = {Text = "Dispel |cffff0000Disabled", Tooltip = ""}
+                }
             }
         }
 
@@ -34,6 +40,14 @@ local function CreateSettings()
         UI.AddRange("Shadow Mend HP", nil, 0, 100, 1, 60)
         UI.AddToggle("Power Word: Shield", nil, true)
         UI.AddRange("Power Word: Shield HP", "HP to use Power Word: Shield", 0, 100, 1, 90)
+        UI.AddToggle("Power Word: Radiance", nil, true)
+        UI.AddRange("Power Word: Radiance Units", nil, 0, 10, 1, 3)
+        UI.AddRange("Power Word: Radiance HP", nil, 0, 100, 1, 80)
+        UI.AddToggle("Rapture", nil, true)
+        UI.AddRange("Rapture Units", nil, 0, 10, 1, 3)
+        UI.AddRange("Rapture HP", nil, 0, 100, 1, 60)
+        UI.AddHeader("DPS")
+        UI.AddRange("Shadow Word: Pain Units", "Max active Shadow Word: Pain dots active", 0, 10, 1, 3)
         UI.AddHeader("Defensive")
         UI.AddToggle("Healthstone", nil, true)
         UI.AddRange("Healthstone HP", nil, 0, 100, 1, 40)
@@ -67,8 +81,29 @@ local function OOC()
 end
 
 local function Heals()
+    --Rapture
+    if Setting("Rapture") then
+        if Spell.Rapture:IsReady() then
+            local RaptureUnits, RaptureCount = Player:GetFriends(40, Setting("Rapture HP"))
+            if RaptureCount >= Setting("Rapture Units") then
+                if Spell.Rapture:Cast(Player) then
+                    return true
+                end
+            end
+        elseif Buff.Rapture:Exist() then
+            for _, Friend in ipairs(Friends40Y) do
+                if Friend.HP < Setting("Power Word: Shield HP") or (Player.Instance ~= "none" and Friend.Role == "TANK") then
+                    if not Buff.PowerWordShield:Exist(Friend) then
+                        if Spell.PowerWordShield:Cast(Friend) then
+                            return true
+                        end
+                    end
+                end
+            end
+        end
+    end
     --SM
-    if Setting("Shadow Mend") then
+    if Setting("Shadow Mend") and not Player.Moving then
         for _, Friend in ipairs(Friends40Y) do
             if Friend.HP < Setting("Shadow Mend HP") then
                 if Spell.ShadowMend:Cast(Friend) then
@@ -79,12 +114,12 @@ local function Heals()
             end
         end
     end
-    --PWS
-    if Setting("Power Word: Shield") then
+    --PWR TODO: Make this actually have logic
+    if not Player.Moving and Setting("Power Word: Radiance") and Spell.PowerWordRadiance:IsReady() then
         for _, Friend in ipairs(Friends40Y) do
-            if Friend.HP < Setting("Power Word: Shield HP") then
-                if not Buff.PowerWordShield:Exist(Friend) and not Debuff.WeakenedSoul:Exist(Friend) then
-                    if Spell.PowerWordShield:Cast(Friend) then
+            if Friend.HP < Setting("Power Word: Radiance HP") then
+                if select(2, Friend:GetFriends(30, Setting("Power Word: Radiance HP"))) >= Setting("Power Word: Radiance Units") then
+                    if Spell.PowerWordRadiance:Cast(Friend) then
                         return true
                     end
                 end
@@ -93,21 +128,52 @@ local function Heals()
             end
         end
     end
+    --Dispel
+    if HUD.Dispel == 1 and Spell.Purify:IsReady() then
+        for _, Friend in pairs(Friends40Y) do
+            if Friend:Dispel(Spell.Purify) then
+                Spell.Purify:Cast(Friend)
+            end
+        end
+    end
+    --PWS
+    if Setting("Power Word: Shield") then
+        for _, Friend in ipairs(Friends40Y) do
+            if Friend.HP < Setting("Power Word: Shield HP") or (Player.Instance ~= "none" and Friend.Role == "TANK") then
+                if not Buff.PowerWordShield:Exist(Friend) and (not Debuff.WeakenedSoul:Exist(Friend) or Buff.Rapture:Exist()) then
+                    if Spell.PowerWordShield:Cast(Friend) then
+                        return true
+                    end
+                end
+            end
+        end
+    end
 end
 
 local function DPS()
-    for _, Unit in ipairs(Player40Y) do
-        if Debuff.ShadowWordPain:Refresh(Unit) then
-            if Spell.ShadowWordPain:Cast(Unit) then
-                return true
+    if Target and Target.ValidEnemy then
+        if Player:CDs() and Spell.Shadowfiend:Cast(Target) then
+            return true
+        end
+    end
+    local SWPCount = Debuff.ShadowWordPain:Count(Player40Y)
+    if Friends40Y[1].HP > 50 and SWPCount <= Setting("Shadow Word: Pain Units") then
+        for _, Unit in ipairs(Player40Y) do
+            if Debuff.ShadowWordPain:Refresh(Unit) and (Unit.TTD - Debuff.ShadowWordPain:Remain(Unit)) > 4 and (SWPCount < Setting("Shadow Word: Pain Units") or Debuff.ShadowWordPain:Exist(Unit)) then
+                if Spell.ShadowWordPain:Cast(Unit) then
+                    return true
+                end
             end
         end
     end
     if Target and Target.ValidEnemy then
+        if Spell.PowerWordSolace:Cast(Target) then
+            return true
+        end
         if Target.TTD > 4 and Spell.Penance:Cast(Target) then
             return true
         end
-        if Spell.Smite:Cast(Target) then
+        if not Player.Moving and Spell.Smite:Cast(Target) then
             return true
         end
     end

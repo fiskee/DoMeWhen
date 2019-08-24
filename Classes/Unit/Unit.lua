@@ -50,7 +50,7 @@ function Unit:LineOfSight(OtherUnit)
 end
 
 function Unit:IsEnemy()
-    return self.LoS and self.Attackable and self:HasThreat()
+    return self.LoS and self.Attackable and self:HasThreat() and (not self.Friend or UnitIsUnit(self.Pointer, "target"))
 end
 
 function Unit:IsBoss()
@@ -95,11 +95,11 @@ function Unit:GetEnemies(Yards)
     return Table, Count
 end
 
-function Unit:GetFriends(Yards)
+function Unit:GetFriends(Yards, HP)
     local Table = {}
     local Count = 0
     for _, v in pairs(DMW.Friends.Units) do
-        if self:GetDistance(v) <= Yards then
+        if (not HP or v.HP < HP) and self:GetDistance(v) <= Yards then
             table.insert(Table, v)
             Count = Count + 1
         end
