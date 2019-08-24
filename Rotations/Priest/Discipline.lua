@@ -36,6 +36,7 @@ local function CreateSettings()
         }
 
         UI.AddHeader("Healing")
+        UI.AddRange("Penance HP", nil, 0, 100, 1, 70)
         UI.AddToggle("Shadow Mend", nil, true)
         UI.AddRange("Shadow Mend HP", nil, 0, 100, 1, 60)
         UI.AddToggle("Power Word: Shield", nil, true)
@@ -102,6 +103,16 @@ local function Heals()
             end
         end
     end
+    --Penance
+    for _, Friend in ipairs(Friends40Y) do
+        if Friend.HP < Setting("Penance HP") then
+            if Spell.Penance:Cast(Friend) then
+                return true
+            end
+        else
+            break
+        end
+    end
     --SM
     if Setting("Shadow Mend") and not Player.Moving then
         for _, Friend in ipairs(Friends40Y) do
@@ -114,11 +125,13 @@ local function Heals()
             end
         end
     end
-    --PWR TODO: Make this actually have logic
+    --PWR
     if not Player.Moving and Setting("Power Word: Radiance") and Spell.PowerWordRadiance:IsReady() then
+        local RadianceTable, RadianceC
         for _, Friend in ipairs(Friends40Y) do
             if Friend.HP < Setting("Power Word: Radiance HP") then
-                if select(2, Friend:GetFriends(30, Setting("Power Word: Radiance HP"))) >= Setting("Power Word: Radiance Units") then
+                RadianceTable, RadianceC = Friend:GetFriends(30, Setting("Power Word: Radiance HP"))
+                if RadianceC >= Setting("Power Word: Radiance Units") and Buff.Atonement:Count(RadianceTable) <= (math.max(RadianceC - 1, 0)) then
                     if Spell.PowerWordRadiance:Cast(Friend) then
                         return true
                     end
@@ -167,10 +180,13 @@ local function DPS()
         end
     end
     if Target and Target.ValidEnemy then
-        if Spell.PowerWordSolace:Cast(Target) then
+        if Target.TTD > 8 and not Player.Moving and Spell.Schism:Cast(Target) then
             return true
         end
         if Target.TTD > 4 and Spell.Penance:Cast(Target) then
+            return true
+        end
+        if Spell.PowerWordSolace:Cast(Target) then
             return true
         end
         if not Player.Moving and Spell.Smite:Cast(Target) then
