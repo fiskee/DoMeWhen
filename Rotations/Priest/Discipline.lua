@@ -126,7 +126,7 @@ local function Heals()
         end
     end
     --PWR
-    if not Player.Moving and Setting("Power Word: Radiance") and Spell.PowerWordRadiance:IsReady() then
+    if not Player.Moving and not Spell.PowerWordRadiance:LastCast() and Setting("Power Word: Radiance") and Spell.PowerWordRadiance:IsReady() then
         local RadianceTable, RadianceC
         for _, Friend in ipairs(Friends40Y) do
             if Friend.HP < Setting("Power Word: Radiance HP") then
