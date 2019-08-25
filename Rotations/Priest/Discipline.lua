@@ -54,6 +54,8 @@ local function CreateSettings()
         UI.AddHeader("Defensive")
         UI.AddToggle("Healthstone", nil, true)
         UI.AddRange("Healthstone HP", nil, 0, 100, 1, 40)
+        UI.AddToggle("Desperate Prayer", nil, true)
+        UI.AddRange("Desperate Prayer HP", nil, 0, 100, 1, 20)
     end
 end
 
@@ -180,10 +182,10 @@ local function DPS()
         if Player:CDs() and Spell.Shadowfiend:Cast(Target) then
             return true
         end
-        if Target.TTD > 4 and (Player.Moving or Buff.PowerOfTheDarkSide:Exist()) and Spell.Penance:Cast(Target) then
+        if Target.TTD > 8 and not Player.Moving and Spell.Schism:Cast(Target) then
             return true
         end
-        if Target.TTD > 8 and not Player.Moving and Spell.Schism:Cast(Target) then
+        if Target.TTD > 4 and (Player.Moving or Buff.PowerOfTheDarkSide:Exist()) and Spell.Penance:Cast(Target) then
             return true
         end
         if Spell.PowerWordSolace:Cast(Target) then
@@ -202,6 +204,10 @@ end
 local function Defensive()
     --HS
     if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") and Item.Healthstone:Use(Player) then
+        return true
+    end
+    --DP
+    if Setting("Desperate Prayer") and Player.HP <= Setting("Desperate Prayer HP") and Spell.DesperatePrayer:Cast(Player) then
         return true
     end
     --PS

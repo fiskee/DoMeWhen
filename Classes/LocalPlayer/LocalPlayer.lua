@@ -11,7 +11,7 @@ function LocalPlayer:New(Pointer)
     self.SpecID = GetSpecializationInfo(GetSpecialization())
     self.Spec = DMW.Enums.Specs[self.SpecID] or ""
     self.Distance = 0
-    self.Combat = UnitAffectingCombat(self.Pointer)
+    self.Combat = UnitAffectingCombat(self.Pointer) and DMW.Time or false
     self.EID = false
     self.NoControl = false
     DMW.Functions.AuraCache.Refresh(Pointer)
