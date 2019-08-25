@@ -27,7 +27,8 @@ function Item:CD()
         return 99
     end
     local CD = Start + Duration - DMW.Time
-    return CD > 0 and CD or 0
+    self.Cache.CD = CD > 0 and CD or 0
+    return self.Cache.CD
 end
 
 function Item:IsReady()
