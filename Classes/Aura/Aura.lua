@@ -167,10 +167,10 @@ end
 function Buff:Lowest(Table)
     Table = Table or DMW.Player:GetFriends(40)
     local LowestSec, LowestUnit
-    for _, v in pairs(Table) do
-        if not LowestSec or self:Remain(v) < LowestSec then
-            LowestSec = self:Remain(v)
-            LowestUnit = v
+    for _, Unit in ipairs(Table) do
+        if not LowestSec or self:Remain(Unit) < LowestSec then
+            LowestSec = self:Remain(Unit)
+            LowestUnit = Unit
         end
     end
     return LowestUnit
@@ -179,10 +179,10 @@ end
 function Debuff:Lowest(Table)
     Table = Table or DMW.Player:GetEnemies(40)
     local LowestSec, LowestUnit
-    for _, v in pairs(Table) do
-        if not LowestSec or self:Remain(v) < LowestSec then
-            LowestSec = self:Remain(v)
-            LowestUnit = v
+    for _, Unit in ipairs(Table) do
+        if not LowestSec or self:Remain(Unit) < LowestSec then
+            LowestSec = self:Remain(Unit)
+            LowestUnit = Unit
         end
     end
     return LowestUnit

@@ -47,6 +47,8 @@ local function CreateSettings()
         UI.AddToggle("Rapture", nil, true)
         UI.AddRange("Rapture Units", nil, 0, 10, 1, 3)
         UI.AddRange("Rapture HP", nil, 0, 100, 1, 60)
+        UI.AddToggle("Pain Suppression", nil, true)
+        UI.AddRange("Pain Suppression HP", nil, 0, 100, 1, 20)
         UI.AddHeader("DPS")
         UI.AddRange("Shadow Word: Pain Units", "Max active Shadow Word: Pain dots active", 0, 10, 1, 3)
         UI.AddHeader("Defensive")
@@ -94,10 +96,8 @@ local function Heals()
         elseif Buff.Rapture:Exist() then
             for _, Friend in ipairs(Friends40Y) do
                 if Friend.HP < Setting("Power Word: Shield HP") or (Player.Instance ~= "none" and Friend.Role == "TANK") then
-                    if not Buff.PowerWordShield:Exist(Friend) then
-                        if Spell.PowerWordShield:Cast(Friend) then
-                            return true
-                        end
+                    if not Buff.PowerWordShield:Exist(Friend) and Spell.PowerWordShield:Cast(Friend) then
+                        return true
                     end
                 end
             end
@@ -146,8 +146,8 @@ local function Heals()
     --Dispel
     if HUD.Dispel == 1 and Spell.Purify:IsReady() then
         for _, Friend in pairs(Friends40Y) do
-            if Friend:Dispel(Spell.Purify) then
-                Spell.Purify:Cast(Friend)
+            if Friend:Dispel(Spell.Purify) and Spell.Purify:Cast(Friend) then
+                return true
             end
         end
     end
@@ -166,11 +166,6 @@ local function Heals()
 end
 
 local function DPS()
-    if Target and Target.ValidEnemy then
-        if Player:CDs() and Spell.Shadowfiend:Cast(Target) then
-            return true
-        end
-    end
     local SWPCount = Debuff.ShadowWordPain:Count(Player40Y)
     if Friends40Y[1].HP > 50 and SWPCount <= Setting("Shadow Word: Pain Units") then
         for _, Unit in ipairs(Player40Y) do
@@ -182,10 +177,13 @@ local function DPS()
         end
     end
     if Target and Target.ValidEnemy then
-        if Target.TTD > 8 and not Player.Moving and Spell.Schism:Cast(Target) then
+        if Player:CDs() and Spell.Shadowfiend:Cast(Target) then
             return true
         end
         if Target.TTD > 4 and (Player.Moving or Buff.PowerOfTheDarkSide:Exist()) and Spell.Penance:Cast(Target) then
+            return true
+        end
+        if Target.TTD > 8 and not Player.Moving and Spell.Schism:Cast(Target) then
             return true
         end
         if Spell.PowerWordSolace:Cast(Target) then
@@ -193,6 +191,25 @@ local function DPS()
         end
         if not Player.Moving and Spell.Smite:Cast(Target) then
             return true
+        end
+        local LowestSWP = Debuff.ShadowWordPain:Lowest(Player40Y)
+        if LowestSWP and Spell.ShadowWordPain:Cast(LowestSWP) then
+            return true
+        end
+    end
+end
+
+local function Defensive()
+    --HS
+    if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") and Item.Healthstone:Use(Player) then
+        return true
+    end
+    --PS
+    if Setting("Pain Suppression") then
+        for _, Tank in ipairs(DMW.Friends.Tanks) do
+            if Tank.HP < Setting("Pain Suppression HP") and Spell.PainSuppression:Cast(Tank) then
+                return true
+            end
         end
     end
 end
@@ -212,11 +229,16 @@ function Priest.Discipline()
             end
         else
             Player:AutoTarget(40, true)
-            if Heals() then
+            if Defensive() then
                 return true
             end
-            if DPS() then
-                return true
+            if Spell.GCD:CD() == 0 then
+                if Heals() then
+                    return true
+                end
+                if DPS() then
+                    return true
+                end
             end
         end
     end
