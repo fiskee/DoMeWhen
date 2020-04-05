@@ -3,13 +3,14 @@ local Unit = DMW.Classes.Unit
 
 function Unit:New(Pointer)
     self.Pointer = Pointer
-    self.Name = UnitName(Pointer)
+    self.Name = not UnitIsUnit(Pointer, "player") and UnitName(Pointer) or "LocalPlayer"
     self.GUID = UnitGUID(Pointer)
     self.Player = UnitIsPlayer(Pointer)
     self.Friend = UnitIsFriend("player", self.Pointer)
     self.CombatReach = UnitCombatReach(Pointer)
     self.PosX, self.PosY, self.PosZ = ObjectPosition(Pointer)
     self.ObjectID = ObjectID(Pointer)
+    self.LoSCache = {}
     DMW.Functions.AuraCache.Refresh(Pointer)
 end
 
@@ -30,11 +31,19 @@ function Unit:Update()
     if self.Distance < 50 and not self.Dead then
         self.LoS = self:LineOfSight()
     end
+    if self.Name == "Unknown" then
+        self.Name = UnitName(self.Pointer)
+    end
     self.Attackable = self.LoS and UnitCanAttack("player", self.Pointer) or false
     self.ValidEnemy = self.Attackable and self:IsEnemy() or false
     self.Target = UnitTarget(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
     self.Facing = ObjectIsFacing("Player", self.Pointer)
+    self.IsQuest = self:IsQuestUnit()
+end
+
+function Unit:UpdatePosition()
+    self.PosX, self.PosY, self.PosZ = ObjectPosition(self.Pointer)
 end
 
 function Unit:GetDistance(OtherUnit)
@@ -50,7 +59,13 @@ function Unit:LineOfSight(OtherUnit)
         return true
     end
     OtherUnit = OtherUnit or DMW.Player
-    return TraceLine(self.PosX, self.PosY, self.PosZ + 2, OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ + 2, 0x100010) == nil
+    if self.LoSCache.Result ~= nil and self.PosX == self.LoSCache.PosX and self.PosY == self.LoSCache.PosY and self.PosZ == self.LoSCache.PosZ and OtherUnit.PosX == self.LoSCache.OPosX and OtherUnit.PosY == self.LoSCache.OPosY and OtherUnit.PosZ == self.LoSCache.OPosZ then
+        return self.LoSCache.Result
+    end
+    self.LoSCache.Result = TraceLine(self.PosX, self.PosY, self.PosZ + 2, OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ + 2, 0x100010) == nil
+    self.LoSCache.PosX, self.LoSCache.PosY, self.LoSCache.PosZ = self.PosX, self.PosY, self.PosZ
+    self.LoSCache.OPosX, self.LoSCache.OPosY, self.LoSCache.OPosZ = OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ
+    return self.LoSCache.Result
 end
 
 function Unit:IsEnemy()

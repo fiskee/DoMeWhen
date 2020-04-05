@@ -1,5 +1,6 @@
 local DMW = DMW
 local Spell = DMW.Classes.Spell
+local CastTimer = GetTime()
 
 local function FacingCast(SpellName, Target)
 	local CastTime = select(4, GetSpellInfo(SpellName))
@@ -34,7 +35,8 @@ function Spell:Cast(Unit)
             return false
         end
     end
-    if self:IsReady() and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) then
+	if self:IsReady() and (DMW.Time - CastTimer) > 0.1 and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) then
+		CastTimer = DMW.Time
         if self.CastType == "Ground" then
             if self:CastGround(Unit.PosX, Unit.PosY, Unit.PosZ) then
                 self.LastBotTarget = Unit.Pointer

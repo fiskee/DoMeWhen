@@ -24,11 +24,11 @@ function Queue.GetBindings()
 end
 
 local function SpellSuccess(self, event, ...)
-    if event == "UNIT_SPELLCAST_SUCCEEDED" and (Queue.Spell or Queue.Item) then
+    if (event == "UNIT_SPELLCAST_SUCCEEDED" or event == "UNIT_SPELLCAST_START") and (Queue.Spell or Queue.Item) then
         local SourceUnit = select(1, ...)
         local SpellID = select(3, ...)
         if SourceUnit == "player" then
-            if Queue.Spell and Queue.Spell.SpellID == SpellID then
+            if Queue.Spell and Queue.Spell.SpellName == GetSpellInfo(SpellID) then
                 --print("Queue Casted: " .. Queue.Spell.SpellName)
                 Queue.Spell = false
                 Queue.Target = false
@@ -102,6 +102,7 @@ function Queue.Run()
         QueueFrame:SetPropagateKeyboardInput(true)
         QueueFrame:SetScript("OnKeyDown", CheckPress)
         QueueFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+        QueueFrame:RegisterEvent("UNIT_SPELLCAST_START")
         QueueFrame:SetScript("OnEvent", SpellSuccess)
         DMW.UI.InitQueue()
     end
@@ -110,12 +111,12 @@ function Queue.Run()
     elseif GetKeyState(0x06) then
         CheckPress(nil, "BUTTON5")
     end
-    if Queue.Spell and (DMW.Time - Queue.Time) > 2 then
+    if (Queue.Spell or Queue.Item) and (DMW.Time - Queue.Time) > 2 then
         Queue.Spell = false
         Queue.Target = false
         Queue.Item = false
     end
-    if Queue.Spell and DMW.Player.Combat then
+    if Queue.Spell and DMW.Player.Combat and not DMW.Player.Casting then
         if Queue.Type == 2 then
             if Queue.Target and IsSpellInRange(Queue.Spell.SpellName, Queue.Target.Pointer) ~= nil then
                 if Queue.Spell:Cast(Queue.Target) then

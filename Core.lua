@@ -24,6 +24,7 @@ f:SetScript(
         DMW.Time = GetTime()
         DMW.Pulses = DMW.Pulses + 1
         if EWT ~= nil then
+            LibStub("LibDraw-1.0").clearCanvas()
             if not Init then
                 DMW.Init()
                 DMW.UI.HUD.Init()
@@ -37,6 +38,7 @@ f:SetScript(
                 return
             end
             DMW.UpdateOM()
+            DMW.Helpers.Trackers.Run()
             if not DMW.Player.Rotation then
                 FindRotation()
             else

@@ -16,6 +16,7 @@ Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\LibDBIcon-1.0\LibDataBroker-1.1\LibDataBroker-1.1.lua
 Libs\LibDBIcon-1.0\LibDBIcon-1.0\lib.xml
+Libs\!LibDraw\LibDraw.lua
 
 Core.lua
 Classes\Classes.lua
@@ -28,6 +29,7 @@ System\SlashHandler.lua
 Classes\Unit\Unit.lua
 Classes\Unit\TimeToDie.lua
 Classes\Unit\Friend.lua
+Classes\Unit\Quest.lua
 Classes\Spell\Spell.lua
 Classes\Spell\Cast.lua
 Classes\Spell\LastCast.lua
@@ -43,6 +45,7 @@ Classes\GameObject\GameObject.lua
 
 Helpers\Rotation.lua
 Helpers\Queue.lua
+Helpers\Trackers.lua
 
 Enums\Spells\Global.lua
 Enums\Spells\DeathKnight.lua
@@ -70,6 +73,7 @@ Enums\CC.lua
 
 UI\Main.lua
 UI\HUD.lua
+UI\Debug.lua
 
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
