@@ -1,6 +1,7 @@
 local DMW = DMW
 DMW.Tables.AuraCache = {}
 DMW.Functions.AuraCache = {}
+DMW.Tables.AuraUpdate = {}
 local AuraCache = DMW.Functions.AuraCache
 local Buff = DMW.Classes.Buff
 local Debuff = DMW.Classes.Debuff

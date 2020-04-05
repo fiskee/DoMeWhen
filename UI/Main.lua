@@ -2,6 +2,8 @@ local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 local DMW = DMW
 local UI = DMW.UI
 local RotationOrder = 1
+local CurrentTab = "GeneralTab"
+local TabIndex = 2
 
 local Options = {
     name = "DoMeWhen",
@@ -218,14 +220,23 @@ end
 
 function UI.Init()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("DMW", Options)
-    LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 400, 750)
+    LibStub("AceConfigDialog-3.0"):SetDefaultSize("DMW", 580, 750)
     UI.MinimapIcon = LibStub("LibDBIcon-1.0")
     UI.MinimapIcon:Register("MinimapIcon", MinimapIcon, DMW.Settings.profile.MinimapIcon)
 end
 
 function UI.AddHeader(Text)
+    if RotationOrder > 1 then
+        Options.args.RotationTab.args[CurrentTab].args["Blank" .. RotationOrder] = {
+            type = "description",
+            order = RotationOrder,
+            name = " ",
+            width = "full"
+        }
+        RotationOrder = RotationOrder + 1
+    end
     local Setting = Text:gsub("%s+", "")
-    Options.args.RotationTab.args[Setting .. "Header"] = {
+    Options.args.RotationTab.args[CurrentTab].args[Setting .. "Header"] = {
         type = "header",
         order = RotationOrder,
         name = Text
@@ -233,13 +244,14 @@ function UI.AddHeader(Text)
     RotationOrder = RotationOrder + 1
 end
 
-function UI.AddToggle(Name, Desc, Default)
-    Options.args.RotationTab.args[Name] = {
+function UI.AddToggle(Name, Desc, Default, FullWidth)
+    local Width = FullWidth and "full" or 0.9
+    Options.args.RotationTab.args[CurrentTab].args[Name] = {
         type = "toggle",
         order = RotationOrder,
         name = Name,
         desc = Desc,
-        width = "full",
+        width = Width,
         get = function()
             return DMW.Settings.profile.Rotation[Name]
         end,
@@ -253,13 +265,14 @@ function UI.AddToggle(Name, Desc, Default)
     RotationOrder = RotationOrder + 1
 end
 
-function UI.AddRange(Name, Desc, Min, Max, Step, Default)
-    Options.args.RotationTab.args[Name] = {
+function UI.AddRange(Name, Desc, Min, Max, Step, Default, FullWidth)
+    local Width = FullWidth and "full" or 0.9
+    Options.args.RotationTab.args[CurrentTab].args[Name] = {
         type = "range",
         order = RotationOrder,
         name = Name,
         desc = Desc,
-        width = "full",
+        width = Width,
         min = Min,
         max = Max,
         step = Step,
@@ -276,13 +289,14 @@ function UI.AddRange(Name, Desc, Min, Max, Step, Default)
     RotationOrder = RotationOrder + 1
 end
 
-function UI.AddDropdown(Name, Desc, Values, Default)
-    Options.args.RotationTab.args[Name] = {
+function UI.AddDropdown(Name, Desc, Values, Default, FullWidth)
+    local Width = FullWidth and "full" or 0.9
+    Options.args.RotationTab.args[CurrentTab].args[Name] = {
         type = "select",
         order = RotationOrder,
         name = Name,
         desc = Desc,
-        width = "full",
+        width = Width,
         values = Values,
         style = "dropdown",
         get = function()
@@ -298,24 +312,49 @@ function UI.AddDropdown(Name, Desc, Values, Default)
     RotationOrder = RotationOrder + 1
 end
 
-function UI.AddQueue()
+function UI.AddBlank(FullWidth)
+    local Width = FullWidth and "full" or 0.9
+    Options.args.RotationTab.args[CurrentTab].args["Blank" .. RotationOrder] = {
+        type = "description",
+        order = RotationOrder,
+        name = " ",
+        width = Width
+    }
+    RotationOrder = RotationOrder + 1
+end
+
+function UI.AddTab(Name)
+    Options.args.RotationTab.args[Name .. "Tab"] = {
+        name = Name,
+        type = "group",
+        order = TabIndex,
+        args = {}
+    }
+    TabIndex = TabIndex + 1
+    CurrentTab = Name .. "Tab"
+    RotationOrder = 1
+end
+
+function UI.InitQueue()
     for k, v in pairs(DMW.Player.Spells) do
-        Options.args.QueueTab.args[k] = {
-            type = "select",
-            name = v.SpellName,
-            --desc = Desc,
-            width = "full",
-            values = {"Disabled", "Normal", "Mouseover", "Cursor", "Cursor - No Cast"},
-            style = "dropdown",
-            get = function()
-                return DMW.Settings.profile.Queue[v.SpellName]
-            end,
-            set = function(info, value)
-                DMW.Settings.profile.Queue[v.SpellName] = value
+        if v.CastType ~= "Profession" and v.CastType ~= "Toggle" then
+            Options.args.QueueTab.args[k] = {
+                type = "select",
+                name = v.SpellName,
+                --desc = Desc,
+                width = "full",
+                values = {"Disabled", "Normal", "Mouseover", "Cursor", "Cursor - No Cast"},
+                style = "dropdown",
+                get = function()
+                    return DMW.Settings.profile.Queue[v.SpellName]
+                end,
+                set = function(info, value)
+                    DMW.Settings.profile.Queue[v.SpellName] = value
+                end
+            }
+            if DMW.Settings.profile.Queue[v.SpellName] == nil then
+                DMW.Settings.profile.Queue[v.SpellName] = 1
             end
-        }
-        if DMW.Settings.profile.Queue[v.SpellName] == nil then
-            DMW.Settings.profile.Queue[v.SpellName] = 1
         end
     end
 end

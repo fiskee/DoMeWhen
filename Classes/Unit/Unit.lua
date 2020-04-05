@@ -14,7 +14,11 @@ function Unit:New(Pointer)
 end
 
 function Unit:Update()
-    self.NextUpdate = DMW.Time + (math.random(100, 400) / 1000)
+    if DMW.Player.Resting then
+        self.NextUpdate = DMW.Time + (math.random(100, 1500) / 1000)
+    else
+        self.NextUpdate = DMW.Time + (math.random(300, 1500) / 10000)
+    end
     self.PosX, self.PosY, self.PosZ = ObjectPosition(self.Pointer)
     self.Distance = self:GetDistance()
     self.Dead = UnitIsDeadOrGhost(self.Pointer)

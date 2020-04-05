@@ -44,9 +44,9 @@ f:SetScript(
                     return true
                 end
                 DMW.Player.Rotation()
-            end
-            if not DMW.UI.HUD.Loaded then
-                DMW.UI.HUD.Load()
+                if not DMW.UI.HUD.Loaded then
+                    DMW.UI.HUD.Load()
+                end
             end
         end
     end

@@ -47,6 +47,7 @@ function LocalPlayer:Update()
     self.PetActive = UnitIsVisible("pet")
     self.InGroup = IsInGroup()
     self.CombatTime = self.Combat and (DMW.Time - self.Combat) or 0
+    self.Resting = IsResting()
 end
 
 function LocalPlayer:GCD()

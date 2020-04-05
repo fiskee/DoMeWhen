@@ -1,6 +1,6 @@
-## Interface: 82000
+## Interface: 83000
 ## Author: Fisker
-## Version: 1
+## Version: 1.1
 ## Title: DoMeWhen
 ## Notes: Rotation Addon
 ## SavedVariables: DMWSettings
@@ -39,6 +39,7 @@ Classes\Aura\Aura.lua
 Classes\Aura\Cache.lua
 Classes\Aura\DotTracker.lua
 Classes\Item\Item.lua
+Classes\GameObject\GameObject.lua
 
 Helpers\Rotation.lua
 Helpers\Queue.lua

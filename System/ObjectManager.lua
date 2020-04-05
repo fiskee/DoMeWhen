@@ -1,23 +1,27 @@
 local DMW = DMW
-DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends = {}, {}, {}, {}
+DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends, DMW.GameObjects = {}, {}, {}, {}, {}
 DMW.Friends.Units = {}
 DMW.Friends.Tanks = {}
-DMW.Tables.Sanguine = {}
-local Enemies, Attackable, Units, Friends = DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends.Units
-local Unit, LocalPlayer = DMW.Classes.Unit, DMW.Classes.LocalPlayer
+local Enemies, Attackable, Units, Friends, GameObjects = DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends.Units, DMW.GameObjects
+local Unit, LocalPlayer, GameObject = DMW.Classes.Unit, DMW.Classes.LocalPlayer, DMW.Classes.GameObject
 
-local function RemoveUnit(Pointer)
+function DMW.Remove(Pointer)
+    local GUID
     if Units[Pointer] ~= nil then
+        GUID = Units[Pointer].GUID
         Units[Pointer] = nil
     end
     if DMW.Tables.TTD[Pointer] ~= nil then
         DMW.Tables.TTD[Pointer] = nil
     end
-    if DMW.Tables.AuraCache[Pointer] ~= nil then
-        DMW.Tables.AuraCache[Pointer] = nil
+    if GUID and DMW.Tables.AuraCache[GUID] ~= nil then
+        DMW.Tables.AuraCache[GUID] = nil
     end
-    if DMW.Tables.Sanguine[Pointer] then
-        DMW.Tables.Sanguine[Pointer] = nil
+    if GameObjects[Pointer] ~= nil then
+        GameObjects[Pointer] = nil
+    end
+    if DMW.Tables.AuraUpdate[Pointer] then
+        DMW.Tables.AuraUpdate[Pointer] = nil
     end
 end
 
@@ -56,16 +60,18 @@ local function SortEnemies()
                 return x.EnemyScore > y.EnemyScore
             end
         )
-        table.sort(
-            Enemies,
-            function(x)
-                if UnitIsUnit(x.Pointer, "target") then
-                    return true
-                else
-                    return false
+        if UnitIsVisible("target") then
+            table.sort(
+                Enemies,
+                function(x)
+                    if UnitIsUnit(x.Pointer, "target") then
+                        return true
+                    else
+                        return false
+                    end
                 end
-            end
-        )
+            )
+        end
     end
 end
 
@@ -102,11 +108,13 @@ local function UpdateUnits()
         end
         if not DMW.Player.Target and UnitIsUnit(Pointer, "target") then
             DMW.Player.Target = Unit
-        elseif not DMW.Player.Mouseover and UnitIsUnit(Pointer, "mouseover") then
+        end
+        if not DMW.Player.Mouseover and UnitIsUnit(Pointer, "mouseover") then
             DMW.Player.Mouseover = Unit
         elseif not DMW.Player.Focus and UnitIsUnit(Pointer, "focus") then
             DMW.Player.Focus = Unit
-        elseif DMW.Player.PetActive and not DMW.Player.Pet and UnitIsUnit(Pointer, "pet") then
+        end
+        if DMW.Player.PetActive and not DMW.Player.Pet and UnitIsUnit(Pointer, "pet") then
             DMW.Player.Pet = Unit
         end
         if Unit.Attackable then
@@ -127,23 +135,31 @@ local function UpdateUnits()
     HandleFriends()
 end
 
+local function UpdateGameObjects()
+    for _, Object in pairs(GameObjects) do
+        if not Object.NextUpdate or Object.NextUpdate < DMW.Time then
+            Object:Update()
+        end
+    end
+end
+
 function DMW.UpdateOM()
-    local _, updated, added, removed = GetObjectCount(true)
+    local _, updated, added, removed = GetObjectCount(true, "dmw")
     if updated and #removed > 0 then
         for _, v in pairs(removed) do
-            RemoveUnit(v)
+            DMW.Remove(v)
         end
     end
     if updated and #added > 0 then
         for _, v in pairs(added) do
-            if ObjectIsUnit(v) then
+            if ObjectIsUnit(v) and not Units[v] then
                 Units[v] = Unit(v)
-            elseif ObjectIsAreaTrigger(v) and ObjectID(v) == 12765 then
-				DMW.Tables.Sanguine[v] = {}
-				DMW.Tables.Sanguine[v].PosX, DMW.Tables.Sanguine[v].PosY, DMW.Tables.Sanguine[v].PosZ = ObjectPosition(v)
+            elseif ObjectIsGameObject(v) and not GameObjects[v] then
+                GameObjects[v] = GameObject(v)
             end
         end
     end
     DMW.Player:Update()
     UpdateUnits()
+    UpdateGameObjects()
 end

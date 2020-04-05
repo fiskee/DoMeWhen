@@ -9,25 +9,6 @@ local function CreateSettings()
     if not UI.HUD.Options then
         UI.HUD.Options = {
             [1] = {
-                CDs = {
-                    [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
-                    [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
-                    [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
-                }
-            },
-            [2] = {
-                Mode = {
-                    [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
-                    [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
-                }
-            },
-            [3] = {
-                Interrupts = {
-                    [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
-                    [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
-                }
-            },
-            [4] = {
                 Dispel = {
                     [1] = {Text = "Dispel |cFF00FF00Enabled", Tooltip = ""},
                     [2] = {Text = "Dispel |cffff0000Disabled", Tooltip = ""}
@@ -35,23 +16,23 @@ local function CreateSettings()
             }
         }
 
-        UI.AddHeader("Healing")
-        UI.AddRange("Penance HP", nil, 0, 100, 1, 70)
+        UI.AddTab("Healing")
+        UI.AddRange("Penance HP", nil, 0, 100, 1, 70,true)
         UI.AddToggle("Shadow Mend", nil, true)
         UI.AddRange("Shadow Mend HP", nil, 0, 100, 1, 60)
-        UI.AddRange("Atonement HP", "HP to use Power Word: Shield or Power Word: Radiance to apply Atonement", 0, 100, 1, 90)
+        UI.AddRange("Atonement HP", "HP to use Power Word: Shield or Power Word: Radiance to apply Atonement", 0, 100, 1, 90,true)
         UI.AddToggle("Power Word: Shield", nil, true)
         UI.AddRange("Power Word: Shield HP", "HP to use Power Word: Shield", 0, 100, 1, 80)
         UI.AddToggle("Power Word: Radiance", nil, true)
         UI.AddRange("Power Word: Radiance Units", nil, 0, 10, 1, 3)
-        UI.AddToggle("Rapture", nil, true)
+        UI.AddToggle("Rapture", nil, true,true)
         UI.AddRange("Rapture Units", nil, 0, 10, 1, 3)
         UI.AddRange("Rapture HP", nil, 0, 100, 1, 60)
         UI.AddToggle("Pain Suppression", nil, true)
         UI.AddRange("Pain Suppression HP", nil, 0, 100, 1, 20)
-        UI.AddHeader("DPS")
+        UI.AddTab("DPS")
         UI.AddRange("Shadow Word: Pain Units", "Max active Shadow Word: Pain dots active", 0, 10, 1, 3)
-        UI.AddHeader("Defensive")
+        UI.AddTab("Defensive")
         UI.AddToggle("Healthstone", nil, true)
         UI.AddRange("Healthstone HP", nil, 0, 100, 1, 40)
         UI.AddToggle("Desperate Prayer", nil, true)

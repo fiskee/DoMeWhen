@@ -103,7 +103,7 @@ function Queue.Run()
         QueueFrame:SetScript("OnKeyDown", CheckPress)
         QueueFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
         QueueFrame:SetScript("OnEvent", SpellSuccess)
-        DMW.UI.AddQueue()
+        DMW.UI.InitQueue()
     end
     if GetKeyState(0x05) then
         CheckPress(nil, "BUTTON4")
