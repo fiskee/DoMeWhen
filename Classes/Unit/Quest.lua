@@ -1,15 +1,15 @@
 local DMW = DMW
 local Unit = DMW.Classes.Unit
-local QuestPlateTooltip = CreateFrame("GameTooltip", "QuestPlateTooltip", nil, "GameTooltipTemplate")
 local LineText, LineCache, p1, p2
-QuestPlateTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+local QuestPlateTooltip = CreateFrame("GameTooltip", "QuestPlateTooltipScan", nil, "GameTooltipTemplate")
 
 function Unit:IsQuestUnit()
     if (not self.Dead or UnitCanBeLooted(self.Pointer)) and not UnitIsTapDenied(self.Pointer) then
         LineCache = {}
+        QuestPlateTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
         QuestPlateTooltip:SetHyperlink("unit:" .. self.GUID)
         for i = 1, QuestPlateTooltip:NumLines() do
-            LineCache[i] = _G["QuestPlateTooltipTextLeft" .. i]
+            LineCache[i] = _G["QuestPlateTooltipScanTextLeft" .. i]
         end
         if LineCache then
             for i = 1, #LineCache do
