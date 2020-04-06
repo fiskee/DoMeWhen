@@ -6,23 +6,7 @@ local Rotation = DMW.Helpers.Rotation
 
 local function CreateSettings()
     if not UI.HUD.Options then
-        UI.HUD.Options = {
-            CDs = {
-                [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
-                [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
-                [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
-            },
-            Mode = {
-                [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
-                [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
-            },
-            Interrupts = {
-                [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
-                [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
-            }
-        }
-
-        UI.AddHeader("General")
+        UI.AddTab("General")
         UI.AddToggle("Revive Pet", "Use Revive Pet", true)
     end
 end

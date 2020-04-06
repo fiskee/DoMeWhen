@@ -8,28 +8,9 @@ local Setting = DMW.Helpers.Rotation.Setting
 local function CreateSettings()
     if not UI.HUD.Options then
         UI.HUD.Options = {
-            [1] = {
-                CDs = {
-                    [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
-                    [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
-                    [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
-                }
-            },
-            [2] = {
-                Mode = {
-                    [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
-                    [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
-                }
-            },
-            [3] = {
-                Interrupts = {
-                    [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
-                    [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
-                }
-            }
         }
 
-        UI.AddHeader("Defensive")
+        UI.AddTab("Defensive")
         UI.AddToggle("Light of the Protector", "Use Light of the Protector", true)
         UI.AddRange("Light of the Protector HP", "HP to use Light of the Protector", 0, 100, 1, 70)
         UI.AddToggle("Shield of the Righteous", "Use Shield of the Righteous", true)
@@ -45,7 +26,7 @@ local function CreateSettings()
         UI.AddToggle("Healthstone", "Use Healthstone", true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
         UI.AddToggle("Cleanse Toxins", "Use Cleanse Toxins", true)
-        UI.AddHeader("DPS")
+        UI.AddTab("DPS")
         UI.AddToggle("Consecration", "Use Consecration", true)
         UI.AddToggle("Seraphim", "Use Seraphim", true)
         UI.AddToggle("Avenging Wrath DPS", "Use Avenging Wrath during CDs", true)

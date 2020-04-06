@@ -9,25 +9,6 @@ local function CreateSettings()
     if not UI.HUD.Options then
         UI.HUD.Options = {
             [1] = {
-                CDs = {
-                    [1] = {Text = "Cooldowns |cFF00FF00Auto", Tooltip = ""},
-                    [2] = {Text = "Cooldowns |cFFFFFF00Always On", Tooltip = ""},
-                    [3] = {Text = "Cooldowns |cffff0000Disabled", Tooltip = ""}
-                }
-            },
-            [2] = {
-                Mode = {
-                    [1] = {Text = "Rotation Mode |cFF00FF00Auto", Tooltip = ""},
-                    [2] = {Text = "Rotation Mode |cFFFFFF00Single", Tooltip = ""}
-                }
-            },
-            [3] = {
-                Interrupts = {
-                    [1] = {Text = "Interrupts |cFF00FF00Enabled", Tooltip = ""},
-                    [2] = {Text = "Interrupts |cffff0000Disabled", Tooltip = ""}
-                }
-            },
-            [4] = {
                 Priority = {
                     [1] = {Text = "AoE Mode |cFF00FF00Normal", Tooltip = ""},
                     [2] = {Text = "AoE Mode |cFFFFFF00Priority", Tooltip = ""}
@@ -35,16 +16,16 @@ local function CreateSettings()
             }
         }
 
-        UI.AddHeader("General")
+        UI.AddTab("General")
         UI.AddDropdown("Auto Stealth", nil, {"Disabled", "Always", "20 Yards"}, 2)
         UI.AddDropdown("Auto Tricks", "Select Tricks of the Trade Option", {"Disabled", "Tank", "Focus"}, 2)
-        UI.AddHeader("DPS")
+        UI.AddTab("DPS")
         UI.AddToggle("Trinkets", nil, true)
         UI.AddToggle("Vendetta", nil, true)
         UI.AddToggle("Vanish", nil, true)
         UI.AddToggle("Focused Azerite Beam", nil, false)
         UI.AddRange("Focused Azerite Beam Units", nil, 1, 10, 1, 3)
-        UI.AddHeader("Defensive")
+        UI.AddTab("Defensive")
         UI.AddToggle("Healthstone", nil, true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
         UI.AddToggle("Crimson Vial", "Use Crimson Vial", true)
