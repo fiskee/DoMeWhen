@@ -46,6 +46,8 @@ Classes\GameObject\GameObject.lua
 Helpers\Rotation.lua
 Helpers\Queue.lua
 Helpers\Trackers.lua
+Helpers\Navigation.lua
+Helpers\Gatherers.lua
 
 Enums\Spells\Global.lua
 Enums\Spells\DeathKnight.lua

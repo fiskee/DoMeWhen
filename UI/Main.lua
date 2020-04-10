@@ -22,46 +22,48 @@ local Options = {
             type = "group",
             order = 2,
             args = {
-                GeneralHeader = {
-                    type = "header",
+                DisplayTab = {
+                    type = "group",
                     order = 1,
-                    name = "General"
-                },
-                HUDEnabled = {
-                    type = "toggle",
-                    order = 2,
-                    name = "Show HUD",
-                    desc = "Toggle to show/hide the HUD",
-                    width = "full",
-                    get = function()
-                        return DMW.Settings.profile.HUD.Show
-                    end,
-                    set = function(info, value)
-                        DMW.Settings.profile.HUD.Show = value
-                        if value then
-                            DMW.UI.HUD.Frame:Show()
-                        else
-                            DMW.UI.HUD.Frame:Hide()
-                        end
-                    end
-                },
-                MMIconEnabled = {
-                    type = "toggle",
-                    order = 3,
-                    name = "Show Minimap Icon",
-                    desc = "Toggle to show/hide the minimap icon",
-                    width = "full",
-                    get = function()
-                        return not DMW.Settings.profile.MinimapIcon.hide
-                    end,
-                    set = function(info, value)
-                        DMW.Settings.profile.MinimapIcon.hide = not value
-                        if value then
-                            UI.MinimapIcon:Show("MinimapIcon")
-                        else
-                            UI.MinimapIcon:Hide("MinimapIcon")
-                        end
-                    end
+                    name = "Display",
+                    args = {
+                        HUDEnabled = {
+                            type = "toggle",
+                            order = 2,
+                            name = "Show HUD",
+                            desc = "Toggle to show/hide the HUD",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.HUD.Show
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.HUD.Show = value
+                                if value then
+                                    DMW.UI.HUD.Frame:Show()
+                                else
+                                    DMW.UI.HUD.Frame:Hide()
+                                end
+                            end
+                        },
+                        MMIconEnabled = {
+                            type = "toggle",
+                            order = 3,
+                            name = "Show Minimap Icon",
+                            desc = "Toggle to show/hide the minimap icon",
+                            width = "full",
+                            get = function()
+                                return not DMW.Settings.profile.MinimapIcon.hide
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.MinimapIcon.hide = not value
+                                if value then
+                                    UI.MinimapIcon:Show("MinimapIcon")
+                                else
+                                    UI.MinimapIcon:Hide("MinimapIcon")
+                                end
+                            end
+                        }
+                    }
                 }
             }
         },
@@ -71,56 +73,58 @@ local Options = {
             order = 3,
             args = {
                 InterruptHeader = {
-                    type = "header",
+                    type = "group",
                     order = 1,
-                    name = "Interrupts"
-                },
-                InterruptPct = {
-                    type = "range",
-                    order = 2,
-                    name = "Interrupt %",
-                    desc = "Set desired % for interrupting enemy casts",
-                    width = "full",
-                    min = 0,
-                    max = 100,
-                    step = 1,
-                    get = function()
-                        return DMW.Settings.profile.Enemy.InterruptPct
-                    end,
-                    set = function(info, value)
-                        DMW.Settings.profile.Enemy.InterruptPct = value
-                    end
-                },
-                ChannelInterrupt = {
-                    type = "range",
-                    order = 3,
-                    name = "Channel Interrupt",
-                    desc = "Set seconds to wait before interrupting enemy channels",
-                    width = "full",
-                    min = 0.0,
-                    max = 3.0,
-                    step = 0.1,
-                    get = function()
-                        return DMW.Settings.profile.Enemy.ChannelInterrupt
-                    end,
-                    set = function(info, value)
-                        DMW.Settings.profile.Enemy.ChannelInterrupt = value
-                    end
-                },
-                InterruptTarget = {
-                    type = "select",
-                    order = 4,
-                    name = "Interrupt Target",
-                    desc = "Select desired target setting for interrupts",
-                    width = "full",
-                    values = {"Any", "Target", "Focus", "Mouseover"},
-                    style = "dropdown",
-                    get = function()
-                        return DMW.Settings.profile.Enemy.InterruptTarget
-                    end,
-                    set = function(info, value)
-                        DMW.Settings.profile.Enemy.InterruptTarget = value
-                    end
+                    name = "Interrupts",
+                    args = {
+                        InterruptPct = {
+                            type = "range",
+                            order = 2,
+                            name = "Interrupt %",
+                            desc = "Set desired % for interrupting enemy casts",
+                            width = "full",
+                            min = 0,
+                            max = 100,
+                            step = 1,
+                            get = function()
+                                return DMW.Settings.profile.Enemy.InterruptPct
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Enemy.InterruptPct = value
+                            end
+                        },
+                        ChannelInterrupt = {
+                            type = "range",
+                            order = 3,
+                            name = "Channel Interrupt",
+                            desc = "Set seconds to wait before interrupting enemy channels",
+                            width = "full",
+                            min = 0.0,
+                            max = 3.0,
+                            step = 0.1,
+                            get = function()
+                                return DMW.Settings.profile.Enemy.ChannelInterrupt
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Enemy.ChannelInterrupt = value
+                            end
+                        },
+                        InterruptTarget = {
+                            type = "select",
+                            order = 4,
+                            name = "Interrupt Target",
+                            desc = "Select desired target setting for interrupts",
+                            width = "full",
+                            values = {"Any", "Target", "Focus", "Mouseover"},
+                            style = "dropdown",
+                            get = function()
+                                return DMW.Settings.profile.Enemy.InterruptTarget
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Enemy.InterruptTarget = value
+                            end
+                        }
+                    }
                 }
             }
         },
@@ -357,4 +361,126 @@ function UI.InitQueue()
             end
         end
     end
+end
+
+function UI.InitNavigation()
+    Options.args.NavigationTab = {
+        name = "Navigation",
+        type = "group",
+        order = 6,
+        args = {
+            Enable = {
+                type = "toggle",
+                order = 1,
+                name = "Enable Grinding",
+                desc = "Check to enable grinding",
+                width = "full",
+                get = function()
+                    return DMW.Helpers.Navigation.Mode == 1
+                end,
+                set = function(info, value)
+                    if value then
+                        DMW.Helpers.Navigation.Mode = 1
+                    else
+                        DMW.Helpers.Navigation.Mode = 0
+                    end
+                end
+            },
+            AttackDistance = {
+                type = "range",
+                order = 2,
+                name = "Attack Distance",
+                desc = "Set distance to stop moving towards target",
+                width = "full",
+                min = 0.0,
+                max = 40.0,
+                step = 0.2,
+                get = function()
+                    return DMW.Settings.profile.Navigation.AttackDistance
+                end,
+                set = function(info, value)
+                    DMW.Settings.profile.Navigation.AttackDistance = value
+                end
+            },
+            MaxDistance = {
+                type = "range",
+                order = 3,
+                name = "Max Attack Distance",
+                desc = "Set distance to start moving towards target again",
+                width = "full",
+                min = 0.0,
+                max = 40.0,
+                step = 0.2,
+                get = function()
+                    return DMW.Settings.profile.Navigation.MaxDistance
+                end,
+                set = function(info, value)
+                    DMW.Settings.profile.Navigation.MaxDistance = value
+                end
+            },
+            LevelRange = {
+                type = "range",
+                order = 4,
+                name = "Max level difference",
+                desc = "Set max level difference of mobs",
+                width = "full",
+                min = 0,
+                max = 60,
+                step = 1,
+                get = function()
+                    return DMW.Settings.profile.Navigation.LevelRange
+                end,
+                set = function(info, value)
+                    DMW.Settings.profile.Navigation.LevelRange = value
+                end
+            },
+            WorldMapHook = {
+                type = "toggle",
+                order = 5,
+                name = "World Map Hook",
+                desc = "Check to enable world map hook, hold shift and click on world map to generate path",
+                width = "full",
+                get = function()
+                    return DMW.Settings.profile.Navigation.WorldMapHook
+                end,
+                set = function(info, value)
+                    DMW.Settings.profile.Navigation.WorldMapHook = value
+                    ReloadUI()
+                end
+            },
+            FoodHP = {
+                type = "range",
+                order = 6,
+                name = "Food HP",
+                desc = "Set HP to eat at, remember to set item id for food",
+                width = 2,
+                min = 0,
+                max = 100,
+                step = 1,
+                get = function()
+                    return DMW.Settings.profile.Navigation.FoodHP
+                end,
+                set = function(info, value)
+                    DMW.Settings.profile.Navigation.FoodHP = value
+                end
+            },
+            FoodID = {
+                type = "input",
+                order = 7,
+                name = "Food ID",
+                desc = "Enter item id of food",
+                width = 0.6,
+                get = function()
+                    return tostring(DMW.Settings.profile.Navigation.FoodID)
+                end,
+                set = function(info, value)
+                    if tonumber(value) then
+                        DMW.Settings.profile.Navigation.FoodID = tonumber(value)
+                    else
+                        DMW.Settings.profile.Navigation.FoodID = 0
+                    end
+                end
+            },
+        }
+    }
 end

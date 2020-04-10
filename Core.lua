@@ -17,6 +17,20 @@ local function FindRotation()
     end
 end
 
+local function Initialize()
+    DMW.Init()
+    DMW.UI.HUD.Init()
+    InitializeNavigation(function(Result)
+        if Result then
+            if DMW.Settings.profile.Navigation.WorldMapHook then
+                DMW.Helpers.Navigation:InitWorldMap()
+            end
+            DMW.UI.InitNavigation()
+        end
+    end)
+    Init = true
+end
+
 local f = CreateFrame("Frame", "DoMeWhen", UIParent)
 f:SetScript(
     "OnUpdate",
@@ -26,9 +40,7 @@ f:SetScript(
         if EWT ~= nil then
             LibStub("LibDraw-1.0").clearCanvas()
             if not Init then
-                DMW.Init()
-                DMW.UI.HUD.Init()
-                Init = true
+                Initialize()
             end
             if not DMW.Player.Name then
                 DMW.Player = DMW.Classes.LocalPlayer(ObjectPointer("player"))
@@ -39,6 +51,7 @@ f:SetScript(
             end
             DMW.UpdateOM()
             DMW.Helpers.Trackers.Run()
+            DMW.Helpers.Gatherers.Run()
             if not DMW.Player.Rotation then
                 FindRotation()
             else
@@ -50,6 +63,7 @@ f:SetScript(
                     DMW.UI.HUD.Load()
                 end
             end
+            DMW.Helpers.Navigation:Pulse()
         end
     end
 )

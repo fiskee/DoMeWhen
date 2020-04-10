@@ -89,3 +89,31 @@ function LocalPlayer:TTM()
         return 0
     end
 end
+
+function LocalPlayer:Standing()
+    if ObjectDescriptor("player", GetOffset("CGUnitData__AnimTier"), Types.Byte) == 0 then
+        return true
+    end
+    return false
+end
+
+function LocalPlayer:HasFlag(Flag)
+    return bit.band(ObjectDescriptor(self.Pointer, GetOffset("CGUnitData__Flags"), "int"), Flag) > 0
+end
+
+function LocalPlayer:HasMovementFlag(Flag)
+    local SelfFlag = UnitMovementFlags(self.Pointer)
+    if SelfFlag then
+        return bit.band(UnitMovementFlags(self.Pointer), Flag) > 0
+    end
+    return false
+end
+
+function LocalPlayer:GetFreeBagSlots()
+    local Slots = 0
+    local Temp
+    for i = 0, 4, 1 do
+        Slots = Slots + GetContainerNumFreeSlots(i)
+    end
+    return Slots
+end

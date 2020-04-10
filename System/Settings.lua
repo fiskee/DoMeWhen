@@ -26,6 +26,22 @@ local defaults = {
         Queue = {
             Wait = 2,
             Items = true
+        },
+        Helpers = {
+            AutoLoot = false,
+            AutoSkinning = false,
+            AutoGather = false,
+        },
+        Tracker = {
+            Quests = true
+        },
+        Navigation = {
+            WorldMapHook = false,
+            AttackDistance = 14,
+            MaxDistance = 30,
+            FoodHP = 60,
+            FoodID = 0,
+            LevelRange = 3
         }
     }
 }
