@@ -64,6 +64,7 @@ f:SetScript(
                 end
             end
             DMW.Helpers.Navigation:Pulse()
+            DMW.UI.Debug.Run()
         end
     end
 )

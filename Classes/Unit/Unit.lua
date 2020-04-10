@@ -54,6 +54,11 @@ function Unit:GetDistance(OtherUnit)
     return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2)) - ((self.CombatReach or 0) + (OtherUnit.CombatReach or 0))
 end
 
+function Unit:RawDistance(OtherUnit)
+    OtherUnit = OtherUnit or DMW.Player
+    return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2))
+end
+
 function Unit:LineOfSight(OtherUnit)
     if DMW.Enums.LoS[self.ObjectID] then
         return true
@@ -292,6 +297,29 @@ function Unit:CCed()
         if self:AuraByID(SpellID) then
             return true
         end
+    end
+    return false
+end
+
+function Unit:HasFlag(Flag)
+    return bit.band(ObjectDescriptor(self.Pointer, GetOffset("CGUnitData__Flags"), "int"), Flag) > 0
+end
+
+function Unit:IsFeared()
+    return self:HasFlag(DMW.Enums.UnitFlags.Feared)
+end
+
+function Unit:HasNPCFlag(Flag)
+    if not self.NPCFlags then
+        self.NPCFlags = ObjectDescriptor(self.Pointer, GetOffset("CGUnitData__NPCFlags"), "int")
+    end
+    return bit.band(self.NPCFlags, Flag) > 0
+end
+
+function Unit:HasMovementFlag(Flag)
+    local SelfFlag = UnitMovementFlags(self.Pointer)
+    if SelfFlag then
+        return bit.band(UnitMovementFlags(self.Pointer), Flag) > 0
     end
     return false
 end
