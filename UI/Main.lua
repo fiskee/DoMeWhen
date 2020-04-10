@@ -29,7 +29,7 @@ local Options = {
                     args = {
                         HUDEnabled = {
                             type = "toggle",
-                            order = 2,
+                            order = 1,
                             name = "Show HUD",
                             desc = "Toggle to show/hide the HUD",
                             width = "full",
@@ -47,7 +47,7 @@ local Options = {
                         },
                         MMIconEnabled = {
                             type = "toggle",
-                            order = 3,
+                            order = 2,
                             name = "Show Minimap Icon",
                             desc = "Toggle to show/hide the minimap icon",
                             width = "full",
@@ -61,6 +61,49 @@ local Options = {
                                 else
                                     UI.MinimapIcon:Hide("MinimapIcon")
                                 end
+                            end
+                        }
+                    }
+                },
+                GatherersTab = {
+                    type = "group",
+                    order = 1,
+                    name = "Gatherers",
+                    args = {
+                        AutoLoot = {
+                            type = "toggle",
+                            order = 1,
+                            name = "Auto Loot",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Gatherers.AutoLoot
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Gatherers.AutoLoot = value
+                            end
+                        },
+                        AutoSkinning = {
+                            type = "toggle",
+                            order = 2,
+                            name = "Auto Skinning",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Gatherers.AutoSkinning
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Gatherers.AutoSkinning = value
+                            end
+                        },
+                        AutoGather = {
+                            type = "toggle",
+                            order = 3,
+                            name = "Auto Herb/Mine",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Gatherers.AutoGather
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Gatherers.AutoGather = value
                             end
                         }
                     }
@@ -480,7 +523,7 @@ function UI.InitNavigation()
                         DMW.Settings.profile.Navigation.FoodID = 0
                     end
                 end
-            },
+            }
         }
     }
 end

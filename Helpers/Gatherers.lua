@@ -8,7 +8,7 @@ function DMW.Helpers.Gatherers.Run()
         if Looting and (DMW.Time - Looting) > 0 and not DMW.Player.Looting then
             Looting = false
         end
-        if DMW.Settings.profile.Helpers.AutoLoot then
+        if DMW.Settings.profile.Gatherers.AutoLoot then
             if not Looting and not DMW.Player.Combat then
                 for _, Unit in pairs(DMW.Units) do
                     if Unit.Dead and Unit.Distance < 1.5 and UnitCanBeLooted(Unit.Pointer) then
@@ -18,7 +18,7 @@ function DMW.Helpers.Gatherers.Run()
                 end
             end
         end
-        if DMW.Settings.profile.Helpers.AutoSkinning then
+        if DMW.Settings.profile.Gatherers.AutoSkinning then
             if Skinning and (DMW.Time - Skinning) > 2.3 then
                 Skinning = false
             end
@@ -31,7 +31,7 @@ function DMW.Helpers.Gatherers.Run()
                 end
             end
         end
-        if DMW.Settings.profile.Helpers.AutoGather then
+        if DMW.Settings.profile.Gatherers.AutoGather then
             if not Looting and not DMW.Player.Combat and not DMW.Player.Moving then
                 for _, Object in pairs(DMW.GameObjects) do
                     if Object.Distance < 5 then

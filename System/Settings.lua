@@ -27,10 +27,10 @@ local defaults = {
             Wait = 2,
             Items = true
         },
-        Helpers = {
+        Gatherers = {
             AutoLoot = false,
             AutoSkinning = false,
-            AutoGather = false,
+            AutoGather = false
         },
         Tracker = {
             Quests = true
