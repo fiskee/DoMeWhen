@@ -90,11 +90,12 @@ function LocalPlayer:TTM()
     end
 end
 
-function LocalPlayer:Standing()
-    if ObjectDescriptor("player", GetOffset("CGUnitData__AnimTier"), Types.Byte) == 0 then
-        return true
-    end
-    return false
+function LocalPlayer:Standing() --wait for fix??
+    return true
+    -- if ObjectDescriptor("player", GetOffset("CGUnitData__AnimTier"), Types.Byte) == 0 then
+    --     return true
+    -- end
+    -- return false
 end
 
 function LocalPlayer:HasFlag(Flag)
