@@ -22,6 +22,9 @@ function Unit:Update()
     end
     self.PosX, self.PosY, self.PosZ = ObjectPosition(self.Pointer)
     self.Distance = self:GetDistance()
+    if self.Distance < 0 then
+        self.Distance = 0
+    end
     self.Dead = UnitIsDeadOrGhost(self.Pointer)
     self.Health = UnitHealth(self.Pointer)
     self.HealthMax = UnitHealthMax(self.Pointer)
