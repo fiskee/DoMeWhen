@@ -42,6 +42,7 @@ Classes\Aura\Cache.lua
 Classes\Aura\DotTracker.lua
 Classes\Item\Item.lua
 Classes\GameObject\GameObject.lua
+Classes\AreaTrigger\AreaTrigger.lua
 
 Helpers\Rotation.lua
 Helpers\Queue.lua

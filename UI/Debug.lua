@@ -51,6 +51,20 @@ Label.Update = function(self)
     self:SetText("Friends Table Count: " .. #DMW.Friends.Units)
 end
 Frame:AddChild(Label)
+--GameObjects
+Label = AceGUI:Create("Label")
+Label:SetFullWidth(true)
+Label.Update = function(self)
+    self:SetText("Game Objects Table Count: " .. #DMW.GameObjects)
+end
+Frame:AddChild(Label)
+--AreaTriggers
+Label = AceGUI:Create("Label")
+Label:SetFullWidth(true)
+Label.Update = function(self)
+    self:SetText("Area Triggers Table Count: " .. #DMW.GameObjects)
+end
+Frame:AddChild(Label)
 
 --Timers
 local Label = AceGUI:Create("Heading")

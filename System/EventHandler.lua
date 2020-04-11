@@ -14,7 +14,7 @@ EHFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
 EHFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
 
 local function EventHandler(self, event, ...)
-    if EWT then
+    if EWT and DMW.Player.UpdateEquipment then
         if event == "ENCOUNTER_START" then
             DMW.Player.EID = select(1, ...)
         elseif event == "ENCOUNTER_END" then
