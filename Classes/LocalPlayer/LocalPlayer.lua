@@ -41,7 +41,10 @@ function LocalPlayer:Update()
         self.ComboMax = UnitPowerMax(self.Pointer, 4)
         self.ComboDeficit = self.ComboMax - self.ComboPoints
     end
-    self.Instance = select(2, IsInInstance())
+    if not self.Combat and UnitAffectingCombat("player") then
+        self.Combat = DMW.Time
+    end
+    self.InInstance, self.Instance = IsInInstance()
     self.Casting = UnitCastingInfo(self.Pointer) or UnitChannelInfo(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
     self.PetActive = UnitIsVisible("pet")

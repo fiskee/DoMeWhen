@@ -34,6 +34,9 @@ function Unit:Update()
     if self.Name == "Unknown" then
         self.Name = UnitName(self.Pointer)
     end
+    if self.Distance > 50 then
+        self.NextUpdate = DMW.Time + (math.random(500, 1000) / 1000)
+    end 
     self.Attackable = self.LoS and UnitCanAttack("player", self.Pointer) or false
     self.ValidEnemy = self.Attackable and self:IsEnemy() or false
     self.Target = UnitTarget(self.Pointer)
