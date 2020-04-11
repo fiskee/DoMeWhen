@@ -52,7 +52,7 @@ Label.Update = function(self)
 end
 Frame:AddChild(Label)
 
---[[ --Timers
+--Timers
 local Label = AceGUI:Create("Heading")
 Label:SetFullWidth(true)
 Label:SetText("Timers: (MS)")
@@ -68,7 +68,7 @@ Frame:AddChild(Label)
 Label = AceGUI:Create("Label")
 Label:SetFullWidth(true)
 Label.Update = function(self)
-    self:SetText("Questie Helper - Average: " .. round(DMW.Timers.QuestieHelper.Average, 3) .. " - Last: " .. round(DMW.Timers.QuestieHelper.Last, 3))
+    self:SetText("Navigation - Average: " .. round(DMW.Timers.Navigation.Average, 3) .. " - Last: " .. round(DMW.Timers.Navigation.Last, 3))
 end
 Frame:AddChild(Label)
 --Trackers
@@ -94,7 +94,7 @@ Label.Update = function(self)
     end
 end
 Frame:AddChild(Label)
- ]]
+
 --Player
 Label = AceGUI:Create("Heading")
 Label:SetFullWidth(true)
