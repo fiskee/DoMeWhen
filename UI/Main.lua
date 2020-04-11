@@ -65,9 +65,28 @@ local Options = {
                         }
                     }
                 },
+                TrackersTab = {
+                    type = "group",
+                    order = 2,
+                    name = "Trackers",
+                    args = {
+                        Quests = {
+                            type = "toggle",
+                            order = 1,
+                            name = "Quest Tracker",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Trackers.Quests
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Trackers.Quests = value
+                            end
+                        }
+                    }
+                },
                 GatherersTab = {
                     type = "group",
-                    order = 1,
+                    order = 3,
                     name = "Gatherers",
                     args = {
                         AutoLoot = {
@@ -104,6 +123,49 @@ local Options = {
                             end,
                             set = function(info, value)
                                 DMW.Settings.profile.Gatherers.AutoGather = value
+                            end
+                        }
+                    }
+                },
+                DeveloperTab = {
+                    type = "group",
+                    order = 4,
+                    name = "Developer",
+                    args = {
+                        Units = {
+                            type = "toggle",
+                            order = 1,
+                            name = "Units",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Developer.Units
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Developer.Units = value
+                            end
+                        },
+                        GameObjects = {
+                            type = "toggle",
+                            order = 2,
+                            name = "Game Objects",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Developer.GameObjects
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Developer.GameObjects = value
+                            end
+                        },
+                        AreaTriggers = {
+                            type = "toggle",
+                            order = 3,
+                            name = "Area Triggers",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Developer.AreaTriggers
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Developer.AreaTriggers = value
                             end
                         }
                     }

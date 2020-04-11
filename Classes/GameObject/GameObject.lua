@@ -16,7 +16,7 @@ function GameObject:Update()
     end
     self.Herb = self:IsHerb()
     self.Ore = self:IsOre()
-    self.Trackable = self:IsTrackable()
+    self.Tracking = self:IsTracking()
     self.IsQuest = self:IsQuestObject()
 end
 
@@ -41,6 +41,6 @@ function GameObject:IsOre() --TODO: Actual code
     return false
 end
 
-function GameObject:IsTrackable() --TODO: Actual code
+function GameObject:IsTracking() --TODO: Actual code
     return false
 end

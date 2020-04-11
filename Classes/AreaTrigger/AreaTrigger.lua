@@ -18,7 +18,7 @@ function AreaTrigger:Update()
     if not self.Name or self.Name == "" then
         self.Name = ObjectName(self.Pointer)
     end
-    self.Trackable = self:IsTrackable()
+    self.Tracking = self:IsTracking()
 end
 
 function AreaTrigger:GetDistance(OtherUnit)
@@ -26,6 +26,6 @@ function AreaTrigger:GetDistance(OtherUnit)
     return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2))
 end
 
-function AreaTrigger:IsTrackable() --TODO: Actual code
+function AreaTrigger:IsTracking() --TODO: Actual code
     return false
 end

@@ -147,6 +147,14 @@ local function UpdateGameObjects()
     end
 end
 
+local function UpdateAreaTriggers()
+    for _, AreaTrigger in pairs(AreaTriggers) do
+        if not AreaTrigger.NextUpdate or AreaTrigger.NextUpdate < DMW.Time then
+            AreaTrigger:Update()
+        end
+    end
+end
+
 function DMW.UpdateOM()
     local _, updated, added, removed = GetObjectCount(true, "dmw")
     if updated and #removed > 0 then
@@ -168,4 +176,5 @@ function DMW.UpdateOM()
     DMW.Player:Update()
     UpdateUnits()
     UpdateGameObjects()
+    UpdateAreaTriggers()
 end

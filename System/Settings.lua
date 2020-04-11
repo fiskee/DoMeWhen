@@ -32,8 +32,8 @@ local defaults = {
             AutoSkinning = false,
             AutoGather = false
         },
-        Tracker = {
-            Quests = true
+        Trackers = {
+            Quests = false
         },
         Navigation = {
             WorldMapHook = false,
@@ -42,6 +42,11 @@ local defaults = {
             FoodHP = 60,
             FoodID = 0,
             LevelRange = 3
+        },
+        Developer = {
+            GameObjects = false,
+            AreaTriggers = false,
+            Units = false
         }
     }
 }
