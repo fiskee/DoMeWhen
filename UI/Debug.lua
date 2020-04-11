@@ -55,14 +55,22 @@ Frame:AddChild(Label)
 Label = AceGUI:Create("Label")
 Label:SetFullWidth(true)
 Label.Update = function(self)
-    self:SetText("Game Objects Table Count: " .. #DMW.GameObjects)
+    local Count = 0
+    for k, v in pairs(DMW.GameObjects) do
+        Count = Count + 1
+    end
+    self:SetText("Game Objects Table Count: " .. Count)
 end
 Frame:AddChild(Label)
 --AreaTriggers
 Label = AceGUI:Create("Label")
 Label:SetFullWidth(true)
 Label.Update = function(self)
-    self:SetText("Area Triggers Table Count: " .. #DMW.GameObjects)
+    local Count = 0
+    for k, v in pairs(DMW.AreaTriggers) do
+        Count = Count + 1
+    end
+    self:SetText("Area Triggers Table Count: " .. Count)
 end
 Frame:AddChild(Label)
 
