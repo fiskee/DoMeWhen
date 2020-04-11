@@ -37,7 +37,7 @@ function DMW.Helpers.Trackers.Run()
     end
     for _, AreaTrigger in pairs(DMW.AreaTriggers) do
         if Settings.Developer.AreaTriggers then
-            LibDraw.Text("AT: " .. AreaTrigger.Name .. " (" .. AreaTrigger.ObjectID .. ") - " .. math.floor(AreaTrigger.Distance) .. " Yards", "GameFontNormal", AreaTrigger.PosX, AreaTrigger.PosY, AreaTrigger.PosZ + 2)
+            LibDraw.Text("AT: " .. AreaTrigger.ObjectID .. " - " .. math.floor(AreaTrigger.Distance) .. " Yards", "GameFontNormal", AreaTrigger.PosX, AreaTrigger.PosY, AreaTrigger.PosZ + 2)
         end
     end
 end
