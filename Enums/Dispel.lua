@@ -33,7 +33,7 @@ DMW.Enums.DispelSpells = {
     [132411] = {"Magic"}
 }
 
-DMW.Enums.SpecialDispel = {
+DMW.Enums.DispelLogic = {
     [275014] = {Range = 3},
     [261440] = {Range = 6},
     [252781] = {Range = 8},

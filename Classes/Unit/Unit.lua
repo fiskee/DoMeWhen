@@ -220,15 +220,15 @@ function Unit:Dispel(Spell)
                 if DMW.Enums.NoDispel[AuraReturn[10]] then
                     ReturnValue = false
                     break                
-                elseif DMW.Enums.SpecialDispel[AuraReturn[10]] and DMW.Enums.SpecialDispel[AuraReturn[10]].Stacks then 
-                    if AuraReturn[3] >= DMW.Enums.SpecialDispel[AuraReturn[10]].Stacks then
+                elseif DMW.Enums.DispelLogic[AuraReturn[10]] and DMW.Enums.DispelLogic[AuraReturn[10]].Stacks then 
+                    if AuraReturn[3] >= DMW.Enums.DispelLogic[AuraReturn[10]].Stacks then
                         ReturnValue = true
                     else
                         ReturnValue = false
                         break
                     end
-                elseif DMW.Enums.SpecialDispel[AuraReturn[10]] and DMW.Enums.SpecialDispel[AuraReturn[10]].Range then
-                    if select(2, self:GetFriends(DMW.Enums.SpecialDispel[AuraReturn[10]].Range)) < 2 then
+                elseif DMW.Enums.DispelLogic[AuraReturn[10]] and DMW.Enums.DispelLogic[AuraReturn[10]].Range then
+                    if select(2, self:GetFriends(DMW.Enums.DispelLogic[AuraReturn[10]].Range)) < 2 then
                         ReturnValue = true
                     else
                         ReturnValue = false
