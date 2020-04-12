@@ -110,15 +110,22 @@ function LocalPlayer:GetEssences()
     for EssenceName, _ in pairs(Essences) do
         self.Essences[EssenceName] = {Active = false, Rank = 0, Value = 0}
     end
-    local PlayerEssences = C_AzeriteEssence.GetEssences()
-    if PlayerEssences then
-        for _, Essence in pairs(PlayerEssences) do
-            if Essence.unlocked then
-                for EssenceName, EssenceID in pairs(Essences) do
-                    if EssenceID == Essence.ID then
-                        self.Essences[EssenceName].Active = true
-                        self.Essences[EssenceName].Rank = Essence.rank
-                        self.Essences[EssenceName].Value = 1
+    if self.Level == 120 then
+        local PlayerEssences = C_AzeriteEssence.GetEssences()
+        if PlayerEssences then
+            for _, Essence in pairs(PlayerEssences) do
+                if Essence.unlocked then
+                    for EssenceName, EssenceID in pairs(Essences) do
+                        if EssenceID == Essence.ID then
+                            self.Essences[EssenceName].Active = true
+                            self.Essences[EssenceName].Rank = Essence.rank
+                            self.Essences[EssenceName].Value = 1
+                            if EssenceID == C_AzeriteEssence.GetMilestoneEssence(115) then
+                                self.Essences[EssenceName].Major = true
+                            else
+                                self.Essences[EssenceName].Major = false
+                            end
+                        end
                     end
                 end
             end

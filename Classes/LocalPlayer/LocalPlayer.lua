@@ -8,6 +8,7 @@ function LocalPlayer:New(Pointer)
     self.PosX, self.PosY, self.PosZ = ObjectPosition(Pointer)
     self.GUID = ObjectGUID(Pointer)
     self.Class = select(2, UnitClass(Pointer)):gsub("%s+", "")
+    self.Level = UnitLevel(Pointer)
     self.SpecID = GetSpecializationInfo(GetSpecialization())
     self.Spec = DMW.Enums.Specs[self.SpecID] or ""
     self.Distance = 0

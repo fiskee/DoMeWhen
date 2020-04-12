@@ -8,6 +8,7 @@ function Unit:New(Pointer)
     self.Player = UnitIsPlayer(Pointer)
     self.Friend = UnitIsFriend("player", self.Pointer)
     self.CombatReach = UnitCombatReach(Pointer)
+    self.Level = UnitLevel(Pointer)
     self.PosX, self.PosY, self.PosZ = ObjectPosition(Pointer)
     self.ObjectID = ObjectID(Pointer)
     self.LoSCache = {}

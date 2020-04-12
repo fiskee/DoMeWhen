@@ -50,6 +50,8 @@ local function EventHandler(self, event, ...)
             DMW.Player.NoControl = true
         elseif event == "UNIT_EXITED_VEHICLE" then
             DMW.Player.NoControl = false
+        elseif event == "PLAYER_LEVEL_UP" then
+            DMW.Player.Level = UnitLevel("player")
         end
         
     end
