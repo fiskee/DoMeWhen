@@ -12,6 +12,7 @@ EHFrame:RegisterEvent("AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED")
 EHFrame:RegisterEvent("AZERITE_ESSENCE_CHANGED")
 EHFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
 EHFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+EHFrame:RegisterEvent("PLAYER_LEVEL_UP")
 
 local function EventHandler(self, event, ...)
     if EWT and DMW.Player.UpdateEquipment then
