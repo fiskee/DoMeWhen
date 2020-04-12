@@ -110,6 +110,7 @@ end
 function Navigation:ClearPath()
     Path = nil
     PathIndex = 1
+    Navigation.Mode = Modes.Disabled
 end
 
 function Navigation:MoveToCursor()

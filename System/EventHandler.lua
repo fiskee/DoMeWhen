@@ -14,6 +14,7 @@ EHFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
 EHFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
 EHFrame:RegisterEvent("PLAYER_LEVEL_UP")
 
+
 local function EventHandler(self, event, ...)
     if EWT and DMW.Player.UpdateEquipment then
         if event == "ENCOUNTER_START" then
@@ -58,4 +59,12 @@ local function EventHandler(self, event, ...)
     end
 end
 
+local function KeyPress(self, Key)
+    if (Key == "W" or Key == "A" or Key == "S" or Key == "D") and DMW.Helpers.Navigation ~= 0 then
+        DMW.Helpers.Navigation:ClearPath()
+    end
+end
+
 EHFrame:SetScript("OnEvent", EventHandler)
+EHFrame:SetPropagateKeyboardInput(true)
+EHFrame:SetScript("OnKeyDown", KeyPress)
