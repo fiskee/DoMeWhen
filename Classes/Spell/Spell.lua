@@ -1,8 +1,9 @@
 local DMW = DMW
 local Spell = DMW.Classes.Spell
 
-function Spell:New(SpellID, CastType)
+function Spell:New(SpellID, CastType, SpellType)
     self.SpellID = SpellID
+    self.SpellType = SpellType or "Normal"
     self.SpellName = GetSpellInfo(self.SpellID)
     self.BaseCD = GetSpellBaseCooldown(self.SpellID) / 1000
     self.BaseGCD = select(2, GetSpellBaseCooldown(self.SpellID)) / 1000

@@ -18,7 +18,7 @@ function LocalPlayer:GetSpells()
                         if SpellType == "Abilities" then
                             for SpellName, SpellInfo in pairs(SpellTable) do
                                 CastType = SpellInfo.CastType or "Normal"
-                                self.Spells[SpellName] = Spell(SpellInfo.SpellID, CastType)
+                                self.Spells[SpellName] = Spell(SpellInfo.SpellID, CastType, SpellInfo.SpellType)
                             end
                         elseif SpellType == "Buffs" then
                             for SpellName, SpellID in pairs(SpellTable) do

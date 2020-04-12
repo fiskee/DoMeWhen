@@ -261,34 +261,55 @@ local Options = {
             type = "group",
             order = 5,
             args = {
-                QueueTime = {
-                    type = "range",
+                SettingsTab = {
+                    name = "Settings",
+                    type = "group",
                     order = 1,
-                    name = "Queue Time",
-                    desc = "Set maximum seconds to attempt casting queued spell",
-                    width = "full",
-                    min = 0,
-                    max = 5,
-                    step = 0.5,
-                    get = function()
-                        return DMW.Settings.profile.Queue.Wait
-                    end,
-                    set = function(info, value)
-                        DMW.Settings.profile.Queue.Wait = value
-                    end
+                    args = {
+                        QueueTime = {
+                            type = "range",
+                            order = 1,
+                            name = "Queue Time",
+                            desc = "Set maximum seconds to attempt casting queued spell",
+                            width = "full",
+                            min = 0,
+                            max = 5,
+                            step = 0.5,
+                            get = function()
+                                return DMW.Settings.profile.Queue.Wait
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Queue.Wait = value
+                            end
+                        },
+                        QueueItems = {
+                            type = "toggle",
+                            order = 2,
+                            name = "Items",
+                            desc = "Enable item queue",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Queue.Items
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Queue.Items = value
+                            end
+                        }
+                    }
                 },
-                QueueItems = {
-                    type = "toggle",
+                ClassTab = {
+                    name = "Class",
+                    type = "group",
                     order = 2,
-                    name = "Items",
-                    desc = "Enable item queue",
-                    width = "full",
-                    get = function()
-                        return DMW.Settings.profile.Queue.Items
-                    end,
-                    set = function(info, value)
-                        DMW.Settings.profile.Queue.Items = value
-                    end
+                    args = {
+                    }
+                },
+                EssencesTab = {
+                    name = "Essences",
+                    type = "group",
+                    order = 3,
+                    args = {
+                    }
                 }
             }
         }
@@ -446,8 +467,26 @@ end
 
 function UI.InitQueue()
     for k, v in pairs(DMW.Player.Spells) do
-        if v.CastType ~= "Profession" and v.CastType ~= "Toggle" then
-            Options.args.QueueTab.args[k] = {
+        if v.CastType ~= "Profession" and v.CastType ~= "Toggle" and v.SpellType ~= "GCD" and v.SpellType ~= "Essence" then
+            Options.args.QueueTab.args.ClassTab.args[k] = {
+                type = "select",
+                name = v.SpellName,
+                --desc = Desc,
+                width = "full",
+                values = {"Disabled", "Normal", "Mouseover", "Cursor", "Cursor - No Cast"},
+                style = "dropdown",
+                get = function()
+                    return DMW.Settings.profile.Queue[v.SpellName]
+                end,
+                set = function(info, value)
+                    DMW.Settings.profile.Queue[v.SpellName] = value
+                end
+            }
+            if DMW.Settings.profile.Queue[v.SpellName] == nil then
+                DMW.Settings.profile.Queue[v.SpellName] = 1
+            end
+        elseif v.SpellType == "Essence" then
+            Options.args.QueueTab.args.EssencesTab.args[k] = {
                 type = "select",
                 name = v.SpellName,
                 --desc = Desc,
