@@ -35,6 +35,7 @@ Spells.WARRIOR = {
         },
         Buffs = {
             Avatar = 107574,
+            IgnorePain = 190456,
             LastStand = 12975,
             ShieldBlock = 132404,
             ShieldWall = 871,

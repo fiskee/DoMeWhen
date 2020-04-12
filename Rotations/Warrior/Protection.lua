@@ -163,6 +163,11 @@ local function Defensive()
             return true
         end
     end
+    if not Buff.IgnorePain:Exist() then
+        if Spell.IgnorePain:Cast(Player) then
+            return true
+        end
+    end
 end
 
 local function Interrupt()
