@@ -463,6 +463,9 @@ function Rogue.Assassination()
                 if Target.Distance < 5 and not IsCurrentSpell(6603) and not Stealth then
                     StartAttack(Target.Pointer)
                 end
+                if Defensives() then
+                    return true
+                end
                 --actions.cds=call_action_list,name=essences,if=!stealthed.all&dot.rupture.ticking&master_assassin_remains=0
                 if not Stealth and Debuff.Rupture:Exist() and not Buff.MasterAssassin:Exist() then
                     if Essences() then
