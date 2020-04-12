@@ -20,12 +20,12 @@ Spells.WARRIOR = {
             Avatar = {SpellID = 107574},
             DemoralizingShout = {SpellID = 1160},
             Devastate = {SpellID = 20243},
-            IgnorePain = {SpellID = 258024},
+            IgnorePain = {SpellID = 190456},
             Intercept = {SpellID = 198304},
             LastStand = {SpellID = 12975},
             Revenge = {SpellID = 6572},
             ShieldBlock = {SpellID = 132404},
-            ShieldSlam = {SpellID = 231834},
+            ShieldSlam = {SpellID = 23922},
             ShieldWall = {SpellID = 871},
             Shockwave = {SpellID = 46968},
             SpellReflection = {SpellID = 23920},
@@ -38,7 +38,7 @@ Spells.WARRIOR = {
             SpellReflection = 23920
         },
         Debuffs = {
-            DemoralizingShout = 1160
+            DemoralizingShout = {SpellID = 1160}
         },
         Talents = {},
         Traits = {}
