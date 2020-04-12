@@ -22,7 +22,7 @@ Spells.PALADIN = {
             HandOfTheProtector = {SpellID = 213652},
             Judgment = {SpellID = 275779},
             LightOfTheProtector = {SpellID = 184092},
-            Rebuke = {SpellID = 96231},
+            Rebuke = {SpellID = 96231, SpellType = "Interrupt"},
             RighteousFury = {SpellID = 25780},
             Seraphim = {SpellID = 152262},
             ShieldOfTheRighteous = {SpellID = 53600}

@@ -10,7 +10,7 @@ Spells.HUNTER = {
             BestialWrath = {SpellID = 19574},
             ChimaeraShot = {SpellID = 53209},
             CobraShot = {SpellID = 193455},
-            CounterShot = {SpellID = 147362},
+            CounterShot = {SpellID = 147362, SpellType = "Interrupt"},
             DireBeast = {SpellID = 120679},
             FreezingTrap = {SpellID = 187650, CastType = "Ground"},
             Intimidation = {SpellID = 19577},
