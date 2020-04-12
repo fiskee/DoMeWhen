@@ -136,13 +136,13 @@ local function Cooldowns()
     -- # Exsanguinate when both Rupture and Garrote are up for long enough
     end
     -- actions.cds+=/exsanguinate,if=dot.rupture.remains>4+4*cp_max_spend&!dot.garrote.refreshable
-    if Debuff.Rupture:Remain() > (4 + 4 * Player.ComboMax) and not Debuff.Garrote:Refresh() then
+    if Debuff.Rupture:Remain() > (4 + 4 * Player.ComboMax) and not Debuff.Garrote:Refresh() and Target.TTD > 5 then
         if Spell.Exsanguinate:Cast(Target) then
             return true
         end
     end
     -- actions.cds+=/toxic_blade,if=dot.rupture.ticking
-    if Debuff.Rupture:Exist() then
+    if Debuff.Rupture:Exist() and Target.TTD > 5 then
         if Spell.ToxicBlade:Cast(Target) then
             return true
         end
@@ -181,13 +181,13 @@ local function Direct()
     -- # Envenom at 4+ (5+ with DS) CP. Immediately on 2+ targets, with Vendetta, or with TB; otherwise wait for some energy. Also wait if Exsg combo is coming up.
     -- actions.direct=envenom,if=combo_points>=4+talent.deeper_stratagem.enabled&(debuff.vendetta.up|debuff.toxic_blade.up|energy.deficit<=25+variable.energy_regen_combined|!variable.single_target)&(!talent.exsanguinate.enabled|cooldown.exsanguinate.remains>2)
     local RegenCombined = Player.PowerRegen + ((Debuff.Garrote:Count() + Debuff.Rupture:Count()) * 7 / (2 * (1 / (1 + (GetHaste() / 100)))))
-    if Player.ComboPoints >= (Player.ComboMax - 1) and (Debuff.Vendetta:Exist() or Debuff.ToxicBlade:Exist() or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1) and (not Talent.Exsanguinate.Active or Spell.Exsanguinate:CD() > 2) then
+    if Player.ComboPoints >= (Player.ComboMax - 1) and (Debuff.Vendetta:Exist() or Debuff.ToxicBlade:Exist() or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1 or Target.TTD < 4) and (not Talent.Exsanguinate.Active or Spell.Exsanguinate:CD() > 2) then
         if Spell.Envenom:Cast(Target) then
             return true
         end
     end
     -- actions.direct+=/variable,name=use_filler,value=combo_points.deficit>1|energy.deficit<=25+variable.energy_regen_combined|!variable.single_target
-    local UseFiller = (Player.ComboDeficit > 1 or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1)
+    local UseFiller = (Player.ComboDeficit > 1 or Player.PowerDeficit <= (25 + RegenCombined) or Player10YC > 1 or Target.TTD < 2)
     -- # With Echoing Blades, Fan of Knives at 2+ targets.
     -- actions.direct+=/fan_of_knives,if=variable.use_filler&azerite.echoing_blades.enabled&spell_targets.fan_of_knives>=2
     if UseFiller and not Stealth and Trait.EchoingBlades.Active and Player10YC > 1 then
@@ -250,7 +250,7 @@ local function Dots()
     local SkipRupture = Debuff.Vendetta:Exist() and (Debuff.ToxicBlade:Exist() or Buff.MasterAssassin:Exist()) and Debuff.Rupture:Remain() > 2
     -- # Special Rupture setup for Exsg
     -- actions.dot+=/rupture,if=talent.exsanguinate.enabled&((combo_points>=cp_max_spend&cooldown.exsanguinate.remains<1)|(!ticking&(time>10|combo_points>=2)))
-    if Talent.Exsanguinate.Active and ((Player.ComboPoints >= Player.ComboMax and Spell.Exsanguinate:CD() < 1) or (not Debuff.Rupture:Exist(Target) and (Player.CombatTime > 10 or Player.ComboPoints >= 2))) then
+    if Talent.Exsanguinate.Active and Target.TTD > 4 and ((Player.ComboPoints >= Player.ComboMax and Spell.Exsanguinate:CD() < 1) or (not Debuff.Rupture:Exist(Target) and (Player.CombatTime > 10 or Player.ComboPoints >= 2))) then
         if Spell.Rupture:Cast(Target) then
             return true
         end

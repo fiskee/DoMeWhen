@@ -1,4 +1,5 @@
 DMW.Enums.LoS = {
+    [44566] = true,
     [131863] = true,
 	[134691] = true,
 	[137405] = true,
@@ -19,6 +20,7 @@ DMW.Enums.LoS = {
 
 DMW.Enums.Threat = {
     [98081] = true,
+    [44752] = true,
     [100818] = true,
     [133492] = true,
     [135016] = true,
@@ -48,7 +50,8 @@ DMW.Enums.Threat = {
     [154175] = true,
     [151581] = true,
     [151900] = true,
-    [145267] = true
+    [145267] = true,
+    [158327] = true
 }
 
 DMW.Enums.EnemyBlacklist = {
