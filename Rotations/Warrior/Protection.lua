@@ -91,13 +91,13 @@ local function SingleTarget()
         end
     end
     -- actions.st+=/thunder_clap,if=(talent.unstoppable_force.enabled&buff.avatar.up)
-    if Talent.UnstoppableForce.Active and Buff.Avatar:Exist() then
+    if Player5YC > 0 and Talent.UnstoppableForce.Active and Buff.Avatar:Exist() then
         if Spell.ThunderClap:Cast(Player) then
             return true
         end
     end
     -- actions.st+=/demoralizing_shout,if=talent.booming_voice.enabled
-    if Talent.BoomingVoice.Active then
+    if Player5YC > 0 and Talent.BoomingVoice.Active then
         if Spell.DemoralizingShout:Cast(Player) then
             return true
         end
@@ -110,11 +110,11 @@ local function SingleTarget()
     -- actions.st+=/use_item,name=ashvanes_razor_coral,target_if=debuff.razor_coral_debuff.stack=0
     -- actions.st+=/use_item,name=ashvanes_razor_coral,if=debuff.razor_coral_debuff.stack>7&(cooldown.avatar.remains<5|buff.avatar.up)
     -- actions.st+=/dragon_roar
-    if Spell.DragonRoar:Cast(Player) then
+    if Player5YC > 0 and Spell.DragonRoar:Cast(Player) then
         return true
     end
     -- actions.st+=/thunder_clap
-    if Spell.ThunderClap:Cast(Player) then
+    if Player5YC > 0 and Spell.ThunderClap:Cast(Player) then
         return true
     end
     -- actions.st+=/revenge
@@ -155,12 +155,14 @@ local function DPSRotation()
 end
 
 local function Defensive()
+    if Spell.VictoryRush:IsReady() and Player.HP < 90 then
+        Spell.VictoryRush:Cast(Target)
+    end
     if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") then
         if Item.Healthstone:Use(Player) then
             return true
         end
     end
-
 end
 
 local function Interrupt()
@@ -169,6 +171,15 @@ local function Interrupt()
             for _, Unit in pairs(Player5Y) do
                 if Unit:Interrupt() then
                     if Spell.Pummel:Cast(Unit) then
+                        return true
+                    end
+                end
+            end
+        end
+        if Spell.StormBolt:IsReady() then
+            for _, Unit in ipairs(Player:GetEnemies(20)) do
+                if Unit:HardCC() then
+                    if Spell.StormBolt:Cast(Unit) then
                         return true
                     end
                 end
