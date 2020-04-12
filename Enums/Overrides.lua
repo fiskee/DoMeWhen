@@ -20,6 +20,7 @@ DMW.Enums.LoS = {
 
 DMW.Enums.Threat = {
     [98081] = true,
+    [44566] = true,
     [44752] = true,
     [100818] = true,
     [133492] = true,

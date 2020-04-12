@@ -195,6 +195,9 @@ function Warrior.Protection()
     if Rotation.Active() then
         Player:AutoTarget(5)
         if Target and Target.ValidEnemy then
+            if not Buff.BattleShout:Exist(Player) and Spell.BattleShout:Cast(Player) then
+                return true
+            end
             Player5Y, Player5YC = Player:GetEnemies(5)
             Player10Y, Player10YC = Player:GetEnemies(10)
             if not IsCurrentSpell(6603) then
