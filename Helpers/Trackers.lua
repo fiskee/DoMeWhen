@@ -24,7 +24,7 @@ function DMW.Helpers.Trackers.Run()
         end
     end
     for _, Object in pairs(DMW.GameObjects) do
-        if Object.IsQuest then
+        if Settings.Trackers.Quest and Object.IsQuest then
             tX, tY, tZ = Object.PosX, Object.PosY, Object.PosZ
             LibDraw.SetWidth(4)
             LibDraw.Line(tX, tY, tZ + s * 1.3, tX, tY, tZ)
