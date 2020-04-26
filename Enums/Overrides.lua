@@ -66,5 +66,6 @@ DMW.Enums.EnemyBlacklist = {
 
 DMW.Enums.UnitBlacklist = {
     [101436] = true, -- Invisible Wormhole unit in new Dalaran
-    [121541] = true -- Invisible Ban-Lu unit in new Dalaran
+    [121541] = true, -- Invisible Ban-Lu unit in new Dalaran
+    [155641] = true -- Random unit in Mecha city
 }
