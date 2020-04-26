@@ -12,6 +12,7 @@ function Unit:New(Pointer)
     self.PosX, self.PosY, self.PosZ = ObjectPosition(Pointer)
     self.ObjectID = ObjectID(Pointer)
     self.LoSCache = {}
+    self.CreatureType = DMW.Enums.CreatureType[UnitCreatureTypeID(Pointer)]
     DMW.Functions.AuraCache.Refresh(Pointer)
 end
 
@@ -103,6 +104,8 @@ function Unit:HasThreat()
         return true
     elseif DMW.Enums.EnemyBlacklist[self.ObjectID] then
         return false
+    elseif self.CreatureType == "Totem" then
+        return true
     elseif DMW.Player.Instance ~= "none" and UnitAffectingCombat(self.Pointer) then
         return true
     elseif DMW.Player.Instance == "none" and (DMW.Enums.Dummy[self.ObjectID] or UnitIsUnit(self.Pointer, "target")) then

@@ -20,6 +20,8 @@ function DMW:ChatCommand(Input)
             if Commands[2] then
                 if _G["DMWHUD" .. Commands[2]] then
                     _G["DMWHUD" .. Commands[2]]:Toggle(tonumber(Commands[3]))
+                else
+                    print("Invalid HUD Option")
                 end
             end
         elseif Commands[1] == "HELP" then
@@ -36,6 +38,12 @@ function DMW:ChatCommand(Input)
                 DMW.UI.Debug.Frame:Show()
             else
                 DMW.UI.Debug.Frame:Hide()
+            end
+        elseif Commands[1] == "LOG" then
+            if not DMW.UI.Debug.Frame:IsShown() then
+                DMW.UI.Log.Frame:Show()
+            else
+                DMW.UI.Log.Frame:Hide()
             end
         else
             LibStub("AceConfigCmd-3.0").HandleCommand(DMW, "dmw", "DMW", Input)

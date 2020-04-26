@@ -46,7 +46,8 @@ function Spell:Cast(Unit)
         else
             FacingCast(self.SpellName, Unit.Pointer)
             self.LastBotTarget = Unit.Pointer
-        end
+		end
+		DMW.UI.Log.AddCast(self.SpellName, Unit.Name)
         return true
     end
     return false

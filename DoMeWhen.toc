@@ -79,6 +79,7 @@ Enums\CC.lua
 UI\Main.lua
 UI\HUD.lua
 UI\Debug.lua
+UI\Log.lua
 
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua

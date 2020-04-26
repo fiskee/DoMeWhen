@@ -161,6 +161,7 @@ function DMW.UpdateOM()
         for _, v in pairs(removed) do
             DMW.Remove(v)
         end
+        --DMW.UI.Log.AddEvent("Removed " .. #removed .. " object(s)")
     end
     if updated and #added > 0 then
         for _, v in pairs(added) do
@@ -172,6 +173,7 @@ function DMW.UpdateOM()
                 AreaTriggers[v] = AreaTrigger(v)
             end
         end
+        --DMW.UI.Log.AddEvent("Added " .. #added .. " new object(s)")
     end
     DMW.Player:Update()
     UpdateUnits()
