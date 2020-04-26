@@ -100,11 +100,11 @@ function Unit:IsBoss()
 end
 
 function Unit:HasThreat()
-    if DMW.Enums.Threat[self.ObjectID] then
+    if DMW.Enums.Threat[self.ObjectID] and DMW.Player.Combat and UnitIsUnit(self.Pointer, "target") then
         return true
     elseif DMW.Enums.EnemyBlacklist[self.ObjectID] then
         return false
-    elseif self.CreatureType == "Totem" then
+    elseif self.CreatureType == "Totem" and DMW.Player.Combat and UnitIsUnit(self.Pointer, "target") then
         return true
     elseif DMW.Player.Instance ~= "none" and UnitAffectingCombat(self.Pointer) then
         return true

@@ -52,7 +52,10 @@ DMW.Enums.Threat = {
     [151581] = true,
     [151900] = true,
     [145267] = true,
-    [158327] = true
+    [158327] = true,
+    [125977] = true,
+    [127315] = true,
+    [143774] = true
 }
 
 DMW.Enums.EnemyBlacklist = {
