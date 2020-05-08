@@ -49,9 +49,15 @@ local function EventHandler(self, event, ...)
         elseif event == "AZERITE_ESSENCE_CHANGED" then
             DMW.Player:GetEssences()
         elseif event == "UNIT_ENTERING_VEHICLE" then
-            DMW.Player.NoControl = true
+            local Unit = select(1, ...)
+            if UnitIsUnit(Unit, "player") then
+                DMW.Player.NoControl = true
+            end
         elseif event == "UNIT_EXITED_VEHICLE" then
-            DMW.Player.NoControl = false
+            local Unit = select(1, ...)
+            if UnitIsUnit(Unit, "player") then
+                DMW.Player.NoControl = false
+            end
         elseif event == "PLAYER_LEVEL_UP" then
             DMW.Player.Level = UnitLevel("player")
         end
