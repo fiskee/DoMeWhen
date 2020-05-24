@@ -7,8 +7,7 @@ local Setting = DMW.Helpers.Rotation.Setting
 
 local function CreateSettings()
     if not UI.HUD.Options then
-        UI.HUD.Options = {
-        }
+        UI.HUD.Options = {}
 
         UI.AddTab("Defensive")
         UI.AddToggle("Light of the Protector", "Use Light of the Protector", true)
@@ -29,7 +28,18 @@ local function CreateSettings()
         UI.AddTab("DPS")
         UI.AddToggle("Consecration", "Use Consecration", true)
         UI.AddToggle("Seraphim", "Use Seraphim", true)
-        UI.AddToggle("Avenging Wrath DPS", "Use Avenging Wrath during CDs", true)
+        UI.AddToggle("Avenging Wrath DPS", "Use Avenging Wrath during CDs", true, true)
+        UI.AddTab("Trinkets")
+        UI.AddHeader("Trinket 1")
+        UI.AddToggle("Trinket 1 CD", "Use Trinket 1 on CD", false, true)
+        UI.AddToggle("Trinket 1 DPS", "Use Trinket 1 during DPS CDs", true, true)
+        UI.AddRange("Trinket 1 HP", "HP to use Trinket 1 (0 to Disable)", 0, 100, 1, 0, true)
+        UI.AddRange("Trinket 1 Enemies", "Enemies to use Trinket 1 (0 to Disable)", 0, 20, 1, 0, true)
+        UI.AddHeader("Trinket 2")
+        UI.AddToggle("Trinket 2 CD", "Use Trinket 2 on CD", false, true)
+        UI.AddToggle("Trinket 2 DPS", "Use Trinket 2 during DPS CDs", true, true)
+        UI.AddRange("Trinket 2 HP", "HP to use Trinket 2 (0 to Disable)", 0, 100, 1, 0, true)
+        UI.AddRange("Trinket 2 Enemies", "Enemies to use Trinket 2 (0 to Disable)", 0, 20, 1, 0, true)
     end
 end
 
@@ -52,23 +62,17 @@ local function DPS()
     -- actions+=/shield_of_the_righteous,if=(buff.avengers_valor.up&cooldown.shield_of_the_righteous.charges_fractional>=2.5)&(cooldown.seraphim.remains>gcd|!talent.seraphim.enabled)
     -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&!talent.seraphim.enabled)|buff.seraphim.up&buff.avengers_valor.up
     -- actions+=/shield_of_the_righteous,if=(buff.avenging_wrath.up&buff.avenging_wrath.remains<4&!talent.seraphim.enabled)|(buff.seraphim.remains<4&buff.seraphim.up)
-    if (Buff.AvengersValor:Exist(Player) and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2.5) or (Buff.AvengingWrath:Exist(Player) and not Talent.Seraphim.Active) or (Buff.AvengersValor:Exist(Player) and Buff.Seraphim:Exist(Player)) then
-        if Spell.ShieldOfTheRighteous:Cast(Target) then
-            return true
-        end
+    if ((Buff.AvengersValor:Exist(Player) and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2.5) or (Buff.AvengingWrath:Exist(Player) and not Talent.Seraphim.Active) or (Buff.AvengersValor:Exist(Player) and Buff.Seraphim:Exist(Player))) and Spell.ShieldOfTheRighteous:Cast(Target) then
+        return true
     end
     -- actions+=/lights_judgment,if=buff.seraphim.up&buff.seraphim.remains<3
     -- actions+=/consecration,if=!consecration.up
-    if not Player.Moving and Player5YC > 0 and (Paladin.ConsDistance() > 5 or Paladin.ConsRemain() < 2) then
-        if Spell.Consecration:Cast(Player) then
-            return true
-        end
+    if not Player.Moving and Player5YC > 0 and (Paladin.ConsDistance() > 5 or Paladin.ConsRemain() < 2) and Spell.Consecration:Cast(Player) then
+        return true
     end
     -- actions+=/judgment,if=(cooldown.judgment.remains<gcd&cooldown.judgment.charges_fractional>1&cooldown_react)|!talent.crusaders_judgment.enabled
-    if not Talent.CrusadersJudgment.Active or Spell.Judgment:FullRechargeTime() < GCD then
-        if Spell.Judgment:Cast(Target) then
-            return true
-        end
+    if (not Talent.CrusadersJudgment.Active or Spell.Judgment:FullRechargeTime() < GCD) and Spell.Judgment:Cast(Target) then
+        return true
     end
     -- actions+=/avengers_shield,if=cooldown_react
     if Spell.AvengersShield:Cast(Target) then
@@ -85,10 +89,8 @@ local function DPS()
     -- actions+=/lights_judgment,if=!talent.seraphim.enabled|buff.seraphim.up
     -- actions+=/anima_of_death
     -- actions+=/blessed_hammer,strikes=3
-    if Player5YC > 2 then
-        if Spell.BlessedHammer:Cast(Player) then
-            return true
-        end
+    if Player5YC > 2 and Spell.BlessedHammer:Cast(Player) then
+        return true
     end
     -- actions+=/hammer_of_the_righteous
     if Spell.HammerOfTheRighteous:Cast(Target) then
@@ -98,58 +100,51 @@ local function DPS()
     -- actions+=/heart_essence,if=!essence.the_crucible_of_flame.major|!essence.worldvein_resonance.major|!essence.anima_of_life_and_death.major|!essence.memory_of_lucid_dreams.major
 end
 
+local function CastTrinkets()
+    --Trinkets
+    if Item.Trinket1 and (Setting("Trinket 1 CD") or (Setting("Trinket 1 DPS") and Player:CDs()) or (Setting("Trinket 1 HP") > 0 and Player.HP <= Setting("Trinket 1 HP")) or (Setting("Trinket 1 Enemies") > 0 and Player5YC >= Setting("Trinket 1 Enemies"))) and Item.Trinket1:Use() then
+        return true
+    end
+    if Item.Trinket2 and (Setting("Trinket 2 CD") or (Setting("Trinket 2 DPS") and Player:CDs()) or (Setting("Trinket 2 HP") > 0 and Player.HP <= Setting("Trinket 2 HP")) or (Setting("Trinket 2 Enemies") > 0 and Player5YC >= Setting("Trinket 2 Enemies"))) and Item.Trinket2:Use() then
+        return true
+    end
+end
+
 local function Defensive()
     --HS
-    if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") then
-        if Item.Healthstone:Use(Player) then
-            return true
-        end
+    if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") and Item.Healthstone:Use(Player) then
+        return true
     end
     --Avenging Wrath
-    if Setting("Avenging Wrath") and Player.HP <= Setting("Avenging Wrath HP") then
-        if Spell.AvengingWrath:Cast(Player) then
-            return true
-        end
+    if Setting("Avenging Wrath") and Player.HP <= Setting("Avenging Wrath HP") and Spell.AvengingWrath:Cast(Player) then
+        return true
     end
     --Light of the Protector
-    if Setting("Light of the Protector") and Player.HP <= Setting("Light of the Protector HP") then
-        if Spell.LightOfTheProtector:Cast(Player) then
-            return true
-        end
-        if Spell.HandOfTheProtector:Cast(Player) then
-            return true
-        end
+    if Setting("Light of the Protector") and Player.HP <= Setting("Light of the Protector HP") and (Spell.LightOfTheProtector:Cast(Player) or Spell.HandOfTheProtector:Cast(Player)) then
+        return true
     end
     --Lay On Hands
-    if Setting("Lay on Hands") and Player.HP <= Setting("Lay on Hands HP") then
-        if Spell.LayOnHands:Cast(Player) then
-            return true
-        end
+    if Setting("Lay on Hands") and Player.HP <= Setting("Lay on Hands HP") and Spell.LayOnHands:Cast(Player) then
+        return true
     end
     --Guardian of Ancient Kings
-    if Setting("Guardian of Ancient Kings") and Player.HP <= Setting("Guardian of Ancient Kings HP") then
-        if Spell.GuardianOfAncientKings:Cast(Player) then
-            return true
-        end
+    if Setting("Guardian of Ancient Kings") and Player.HP <= Setting("Guardian of Ancient Kings HP") and Spell.GuardianOfAncientKings:Cast(Player) then
+        return true
     end
     --Ardent Defender
-    if Setting("Ardent Defender") and Player.HP <= Setting("Ardent Defender HP") then
-        if Spell.ArdentDefender:Cast(Player) then
-            return true
-        end
+    if Setting("Ardent Defender") and Player.HP <= Setting("Ardent Defender HP") and Spell.ArdentDefender:Cast(Player) then
+        return true
     end
     --Shield of the Righteous
-    if Setting("Shield of the Righteous") and Player.HP <= Setting("Shield of the Righteous HP") and not Buff.ShieldOfTheRighteous:Exist(Player) then
-        if Spell.ShieldOfTheRighteous:Cast(Player) then
-            return true
-        end
+    if Setting("Shield of the Righteous") and Player.HP <= Setting("Shield of the Righteous HP") and not Buff.ShieldOfTheRighteous:Exist(Player) and Spell.ShieldOfTheRighteous:Cast(Player) then
+        return true
     end
     --Cleanse toxins
     if Setting("Cleanse Toxins") and Spell.CleanseToxins:IsReady() then
         local Player40Y = Player:GetFriends(40)
         for _, Unit in pairs(Player40Y) do
-            if Unit:Dispel(Spell.CleanseToxins) then
-                Spell.CleanseToxins:Cast(Unit)
+            if Unit:Dispel(Spell.CleanseToxins) and Spell.CleanseToxins:Cast(Unit) then
+                return true
             end
         end
     end
@@ -159,22 +154,13 @@ local function Cooldowns()
     --Anima
     if Spell.AnimaOfDeath:IsReady() and Player.HP < 90 then
         local _, Player8YC = Player:GetEnemies(8)
-        if (Player8YC >= 4 and Player.HP < 80) or (Player:CDs() and Player.HP < 90) then
-            if Spell.AnimaOfDeath:Cast(Player) then
-                return true
-            end
+        if ((Player8YC >= 4 and Player.HP < 80) or (Player:CDs() and Player.HP < 90)) and Spell.AnimaOfDeath:Cast(Player) then
+            return true
         end
     end
     --Trinkets
-    if Item.Trinket1 and Player:CDs() then
-        if Item.Trinket1:Use() then
-            return true
-        end
-    end
-    if Item.Trinket2 and Player:CDs() then
-        if Item.Trinket2:Use() then
-            return true
-        end
+    if CastTrinkets() then
+        return true
     end
     --actions.cooldowns+=/seraphim,if=cooldown.shield_of_the_righteous.charges_fractional>=2
     if Setting("Seraphim") and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2 then
@@ -183,10 +169,8 @@ local function Cooldowns()
         end
     end
     --actions.cooldowns+=/avenging_wrath,if=buff.seraphim.up|cooldown.seraphim.remains<2|!talent.seraphim.enabled
-    if Target.Distance < 5 and Player:CDs() and Setting("Avenging Wrath") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) then
-        if Spell.AvengingWrath:Cast(Player) then
-            return true
-        end
+    if Target.Distance < 5 and Player:CDs() and Setting("Avenging Wrath DPS") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) and Spell.AvengingWrath:Cast(Player) then
+        return true
     end
 end
 
@@ -194,19 +178,15 @@ local function Interrupt()
     if HUD.Interrupts == 1 then
         if Player5YC > 0 and Spell.Rebuke:IsReady() then
             for _, Unit in pairs(Player5Y) do
-                if Unit:Interrupt() then
-                    if Spell.Rebuke:Cast(Unit) then
-                        return true
-                    end
+                if Unit:Interrupt() and Spell.Rebuke:Cast(Unit) then
+                    return true
                 end
             end
         end
         if Player10YC > 0 and Spell.HammerOfJustice:IsReady() then
             for _, Unit in pairs(Player10Y) do
-                if Unit:HardCC() then
-                    if Spell.HammerOfJustice:Cast(Unit) then
-                        return true
-                    end
+                if Unit:HardCC() and Spell.HammerOfJustice:Cast(Unit) then
+                    return true
                 end
             end
         end
