@@ -18,7 +18,7 @@ function Unit:IsQuestUnit()
                     p1, p2 = LineText:match("(%d+)/(%d+)")
                     if p1 and p2 and p1 ~= p2 then
                         return true
-                    elseif not p1 then
+                    elseif not p1 and DMW.Settings.profile.Trackers.QuestsPct then
                         p1 = LineText:match("(%d+%%)")
                         if p1 and p1 ~= "100%" then
                             return true

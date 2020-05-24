@@ -1,21 +1,22 @@
 DMW.Enums.LoS = {
     [44566] = true,
     [131863] = true,
-	[134691] = true,
-	[137405] = true,
-	[140447] = true,
-	[137119] = true,
-	[137578] = true,
-	[138959] = true,
-	[138017] = true,
-	[130217] = true,
-	[140286] = true,
-	[138530] = true,
+    [134691] = true,
+    [137405] = true,
+    [140447] = true,
+    [137119] = true,
+    [137578] = true,
+    [138959] = true,
+    [138017] = true,
+    [130217] = true,
+    [140286] = true,
+    [138530] = true,
     [133392] = true,
-	[146256] = true,
-	[150773] = true,
-	[152364] = true,
-	[152671] = true,
+    [146256] = true,
+    [150773] = true,
+    [152364] = true,
+    [152671] = true,
+    [116939] = true
 }
 
 DMW.Enums.Threat = {
@@ -59,9 +60,9 @@ DMW.Enums.Threat = {
 }
 
 DMW.Enums.EnemyBlacklist = {
-    [129359]=true,
-    [129448]=true,
-    [144942]=true,
+    [129359] = true,
+    [129448] = true,
+    [144942] = true
 }
 
 DMW.Enums.UnitBlacklist = {

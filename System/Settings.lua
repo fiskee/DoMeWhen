@@ -33,7 +33,8 @@ local defaults = {
             AutoGather = false
         },
         Trackers = {
-            Quests = false
+            Quests = false,
+            QuestsPct = false
         },
         Navigation = {
             WorldMapHook = false,

@@ -15,6 +15,7 @@ local function CreateSettings()
         UI.AddToggle("Healthstone", "Use Healthstone", true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
         UI.AddTab("DPS")
+        UI.AddToggle("Avatar DPS", "Use Avatar", true)
     end
 end
 

@@ -81,6 +81,19 @@ local Options = {
                             set = function(info, value)
                                 DMW.Settings.profile.Trackers.Quests = value
                             end
+                        },
+                        QuestsPct = {
+                            type = "toggle",
+                            order = 2,
+                            name = "Quest Tracker - Pct Based",
+                            desc = "Track % based quest units",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Trackers.QuestsPct
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Trackers.QuestsPct = value
+                            end
                         }
                     }
                 },
