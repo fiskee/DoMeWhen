@@ -89,7 +89,7 @@ local function DPS()
     -- actions+=/lights_judgment,if=!talent.seraphim.enabled|buff.seraphim.up
     -- actions+=/anima_of_death
     -- actions+=/blessed_hammer,strikes=3
-    if Player5YC > 2 and Spell.BlessedHammer:Cast(Player) then
+    if (Player5YC > 2 or Player:CDs()) and Spell.BlessedHammer:Cast(Player) then
         return true
     end
     -- actions+=/hammer_of_the_righteous
@@ -163,10 +163,8 @@ local function Cooldowns()
         return true
     end
     --actions.cooldowns+=/seraphim,if=cooldown.shield_of_the_righteous.charges_fractional>=2
-    if Setting("Seraphim") and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2 then
-        if Spell.Seraphim:Cast(Player) then
-            return true
-        end
+    if Setting("Seraphim") and Spell.ShieldOfTheRighteous:ChargesFrac() >= 2 and Spell.Seraphim:Cast(Player) then
+        return true
     end
     --actions.cooldowns+=/avenging_wrath,if=buff.seraphim.up|cooldown.seraphim.remains<2|!talent.seraphim.enabled
     if Target.Distance < 5 and Player:CDs() and Setting("Avenging Wrath DPS") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) and Spell.AvengingWrath:Cast(Player) then

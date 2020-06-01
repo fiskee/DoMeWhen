@@ -280,17 +280,16 @@ Label.Update = function(self)
 end
 Frame:AddChild(Label)
 --Threat
--- Label = AceGUI:Create("Label")
--- Label:SetFullWidth(true)
--- Label.Update = function(self)
---     if DMW.Player.Target then
---         local isTanking, threatStatus, threatPercent, rawThreatPercent, threatValue = DMW.Player.Target:UnitDetailedThreatSituation()
---         self:SetText("Player Threat - Is Tanking: " .. tostring(isTanking) .. " - Threat Status: " .. threatStatus .. " - Threat Pct: " .. tostring(threatPercent) .. " - Raw Threat Percent: " .. tostring(rawThreatPercent) .. " - Threat Value: " .. threatValue)
---     else
---         self:SetText("")
---     end
--- end
--- Frame:AddChild(Label)
+Label = AceGUI:Create("Label")
+Label:SetFullWidth(true)
+Label.Update = function(self)
+    if DMW.Player.Target then
+        self:SetText("Threat: " .. tostring(DMW.Player.Target:HasThreat()))
+    else
+        self:SetText("")
+    end
+end
+Frame:AddChild(Label)
 --Movement
 Label = AceGUI:Create("Label")
 Label:SetFullWidth(true)
