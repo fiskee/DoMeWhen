@@ -135,12 +135,14 @@ end
 
 function LocalPlayer:UpdateEquipment()
     table.wipe(self.Equipment)
+    table.wipe(self.EquipmentID)
     self.Items.Trinket1 = nil
     self.Items.Trinket2 = nil
     local ItemID
     for i = 1, 19 do
         ItemID = GetInventoryItemID("player", i)
         if ItemID then
+            self.EquipmentID[ItemID] = true
             self.Equipment[i] = ItemID
             if i == 13 then
                 self.Items.Trinket1 = DMW.Classes.Item(ItemID)

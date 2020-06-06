@@ -21,6 +21,7 @@ function LocalPlayer:New(Pointer)
     self:GetTraits()
     self:GetEssences()
     self.Equipment = {}
+    self.EquipmentID = {}
     self.Items = {}
     self:UpdateEquipment()
     self:GetItems()
@@ -121,4 +122,8 @@ function LocalPlayer:GetFreeBagSlots()
         Slots = Slots + GetContainerNumFreeSlots(i)
     end
     return Slots
+end
+
+function LocalPlayer:HasItemEquipped(ItemID)
+    return DMW.Player.EquipmentID[ItemID] ~= nil
 end

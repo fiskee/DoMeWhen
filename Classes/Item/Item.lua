@@ -9,12 +9,7 @@ function Item:New(ItemID)
 end
 
 function Item:Equipped()
-    for _, ID in pairs(DMW.Player.Equipment) do
-        if ID == self.ItemID then
-            return true
-        end
-    end
-    return false
+    return DMW.Player.EquipmentID[self.ItemID] ~= nil
 end
 
 function Item:CD()
