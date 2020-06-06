@@ -154,7 +154,7 @@ local function Generators()
         return true
     end
     -- actions.generators+=/wake_of_ashes,if=(!raid_event.adds.exists|raid_event.adds.in>15|spell_targets.wake_of_ashes>=2)&(holy_power<=0|holy_power=1&cooldown.blade_of_justice.remains>gcd)&(cooldown.avenging_wrath.remains>10|talent.crusade.enabled&cooldown.crusade.remains>10)
-    WoAHit = Player:GetEnemiesInCone(12, 45, 2)
+    WoAHit = Player:GetEnemiesInCone(12, 90, 2)
     if WoAHit > 0 and ((Player:CDs() or WoAHit > 1) and (Player.HolyPower == 0 or (Player.HolyPower == 1 and Spell.BladeOfJustice:CD() > GCD)) and (not Player:CDs() or (Spell.AvengingWrath:CD() > 10 or (Talent.Crusade.Active and Spell.Crusade:CD() > 10)))) and Spell.WakeOfAshes:Cast(Player) then
         return true
     end
