@@ -71,11 +71,15 @@ Spells.PALADIN = {
             WordOfGlory = {SpellID = 210191},
         },
         Buffs = {
+            DivinePurpose = 223817,
+            EmpyreanPower = 286393,
             Inquisition = 84963,
             Crusade = 231895,
             AvengingWrathAutocrit = 294027
         },
-        Debuffs = {},
+        Debuffs = {
+            Judgment = {SpellID = 20271}
+        },
         Talents = {
             Zeal = 22590,
             RighteousVerdict = 22557,

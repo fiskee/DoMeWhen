@@ -43,6 +43,11 @@ function LocalPlayer:Update()
         self.ComboMax = UnitPowerMax(self.Pointer, 4)
         self.ComboDeficit = self.ComboMax - self.ComboPoints
     end
+    if self.SpecID == 70 then
+        self.HolyPower = UnitPower(self.Pointer, 9)
+        self.HolyPowerMax = UnitPowerMax(self.Pointer, 9)
+        self.HolyPowerDeficit = self.HolyPowerMax - self.HolyPower
+    end
     if not self.Combat and UnitAffectingCombat("player") then
         self.Combat = DMW.Time
     end

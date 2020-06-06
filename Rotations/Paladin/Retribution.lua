@@ -1,6 +1,6 @@
 local DMW = DMW
 local Paladin = DMW.Rotations.PALADIN
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
+local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player8Y, Player8YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -102,7 +102,9 @@ local function Finishers()
     -- actions.finishers=variable,name=wings_pool,value=!equipped.169314&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>gcd*3|cooldown.crusade.remains>gcd*3)|equipped.169314&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>gcd*6|cooldown.crusade.remains>gcd*6)
     WingsPool = Player:CDs() and ((not Player:HasItemEquipped(169314) and ((not Talent.Crusade.Active and Spell.AvengingWrath:CD() < (GCD * 3)) or Spell.Crusade:CD() < (GCD * 3))) or (Player:HasItemEquipped(169314) and ((not Talent.Crusade.Active and Spell.AvengingWrath:CD() < (GCD * 6)) or Spell.Crusade:CD() < (GCD * 6))))
     -- actions.finishers+=/variable,name=ds_castable,value=spell_targets.divine_storm>=2&!talent.righteous_verdict.enabled|spell_targets.divine_storm>=3&talent.righteous_verdict.enabled|buff.empyrean_power.up&debuff.judgment.down&buff.divine_purpose.down&buff.avenging_wrath_autocrit.down
+    DSCastable = (Player8YC > 1 and not Talent.RighteousVerdict.Active) or (Player8YC > 2 and Talent.RighteousVerdict.Active) or (Buff.EmpyreanPower:Exist() and Debuff.Judgment:Exist(Target) and not Buff.DivinePurpose:Exist() and not Buff.AvengingWrathAutocrit:Exist())
     -- actions.finishers+=/inquisition,if=buff.avenging_wrath.down&(buff.inquisition.down|buff.inquisition.remains<8&holy_power>=3|talent.execution_sentence.enabled&cooldown.execution_sentence.remains<10&buff.inquisition.remains<15|cooldown.avenging_wrath.remains<15&buff.inquisition.remains<20&holy_power>=3)
+    --if not Buff.AvengingWrath:Exist() and (not Buff.Inquisition:Exist() or (Buff.Inquisition:Exist() and ))
     -- actions.finishers+=/execution_sentence,if=spell_targets.divine_storm<=2&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>10|talent.crusade.enabled&buff.crusade.down&cooldown.crusade.remains>10|buff.crusade.stack>=7)
     -- actions.finishers+=/divine_storm,if=variable.ds_castable&variable.wings_pool&((!talent.execution_sentence.enabled|(spell_targets.divine_storm>=2|cooldown.execution_sentence.remains>gcd*2))|(cooldown.avenging_wrath.remains>gcd*3&cooldown.avenging_wrath.remains<10|cooldown.crusade.remains>gcd*3&cooldown.crusade.remains<10|buff.crusade.up&buff.crusade.stack<10))
     -- actions.finishers+=/templars_verdict,if=variable.wings_pool&(!talent.execution_sentence.enabled|cooldown.execution_sentence.remains>gcd*2|cooldown.avenging_wrath.remains>gcd*3&cooldown.avenging_wrath.remains<10|cooldown.crusade.remains>gcd*3&cooldown.crusade.remains<10|buff.crusade.up&buff.crusade.stack<10)
@@ -150,7 +152,7 @@ function Paladin.Retribution()
         Player:AutoTarget(5)
         if Target and Target.ValidEnemy then
             Player5Y, Player5YC = Player:GetEnemies(5)
-            Player10Y, Player10YC = Player:GetEnemies(10)
+            Player8Y, Player8YC = Player:GetEnemies(8)
             if not IsCurrentSpell(6603) then
                 StartAttack(Target.Pointer)
             end
