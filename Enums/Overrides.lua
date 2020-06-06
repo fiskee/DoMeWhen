@@ -16,7 +16,8 @@ DMW.Enums.LoS = {
     [150773] = true,
     [152364] = true,
     [152671] = true,
-    [116939] = true
+    [116939] = true,
+    [157602] = true
 }
 
 DMW.Enums.Threat = {
