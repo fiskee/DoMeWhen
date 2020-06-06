@@ -64,7 +64,7 @@ function LocalPlayer:GetAttackable(Yards)
     return Table, Count
 end
 
-function LocalPlayer:GetEnemiesRect(Length, Width, TTD)
+function LocalPlayer:GetEnemiesInRect(Length, Width, TTD)
     local Count = 0
     local Table, TableCount = self:GetEnemies(Length)
     if TableCount > 0 then
@@ -82,7 +82,7 @@ function LocalPlayer:GetEnemiesRect(Length, Width, TTD)
     return Count
 end
 
-function LocalPlayer:GetEnemiesCone(Length, Angle, TTD)
+function LocalPlayer:GetEnemiesInCone(Length, Angle, TTD)
     local Count = 0
     local Table, TableCount = self:GetEnemies(Length)
     if TableCount > 0 then

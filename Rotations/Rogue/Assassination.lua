@@ -314,7 +314,7 @@ local function Essences()
             if Spell.FocusedAzeriteBeam:Cast(Player) then
                 return true
             end
-        elseif not Player.Moving and Player:GetEnemiesRect(30, 6, 4) > Setting("Focused Azerite Beam Units") then
+        elseif not Player.Moving and Player:GetEnemiesInRect(30, 6, 4) > Setting("Focused Azerite Beam Units") then
             if Spell.FocusedAzeriteBeam:Cast(Player) then
                 return true
             end
