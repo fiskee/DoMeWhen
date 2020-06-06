@@ -98,7 +98,7 @@ local function Finishers()
     -- actions.finishers=variable,name=wings_pool,value=!equipped.169314&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>gcd*3|cooldown.crusade.remains>gcd*3)|equipped.169314&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>gcd*6|cooldown.crusade.remains>gcd*6)
     WingsPool = not Player:CDs() or ((not Player:HasItemEquipped(169314) and ((not Talent.Crusade.Active and Spell.AvengingWrath:CD() > (GCD * 3)) or Spell.Crusade:CD() > (GCD * 3))) or (Player:HasItemEquipped(169314) and ((not Talent.Crusade.Active and Spell.AvengingWrath:CD() > (GCD * 6)) or Spell.Crusade:CD() > (GCD * 6))))
     -- actions.finishers+=/variable,name=ds_castable,value=spell_targets.divine_storm>=2&!talent.righteous_verdict.enabled|spell_targets.divine_storm>=3&talent.righteous_verdict.enabled|buff.empyrean_power.up&debuff.judgment.down&buff.divine_purpose.down&buff.avenging_wrath_autocrit.down
-    DSCastable = (Player8YC > 1 and not Talent.RighteousVerdict.Active) or (Player8YC > 2 and Talent.RighteousVerdict.Active) or (Buff.EmpyreanPower:Exist() and Debuff.Judgment:Exist(Target) and not Buff.DivinePurpose:Exist() and not Buff.AvengingWrathAutocrit:Exist())
+    DSCastable = (Player8YC > 1 and not Talent.RighteousVerdict.Active) or (Player8YC > 2 and Talent.RighteousVerdict.Active) or (Player8YC > 0 and Buff.EmpyreanPower:Exist() and Debuff.Judgment:Exist(Target) and not Buff.DivinePurpose:Exist() and not Buff.AvengingWrathAutocrit:Exist())
     -- actions.finishers+=/inquisition,if=buff.avenging_wrath.down&(buff.inquisition.down|buff.inquisition.remains<8&holy_power>=3|talent.execution_sentence.enabled&cooldown.execution_sentence.remains<10&buff.inquisition.remains<15|cooldown.avenging_wrath.remains<15&buff.inquisition.remains<20&holy_power>=3)
     if Talent.Inquisition.Active and not Buff.AvengingWrath:Exist() and (not Buff.Inquisition:Exist() or (Buff.Inquisition:Remain() < 8 and Player.HolyPower >= 3) or (Talent.ExecutionSentence.Active and Spell.ExecutionSentence:CD() < 10 and Buff.Inquisition:Remain() < 15) or (Spell.AvengingWrath:CD() < 15 and Buff.Inquisition:Remain() < 20 and Player.HolyPower >= 3)) and Spell.Inquisition:Cast(Player) then
         return true
@@ -122,7 +122,7 @@ local function Cooldowns()
     -- actions.cooldowns+=/lights_judgment,if=spell_targets.lights_judgment>=2|(!raid_event.adds.exists|raid_event.adds.in>75)
     -- actions.cooldowns+=/fireblood,if=buff.avenging_wrath.up|buff.crusade.up&buff.crusade.stack=10
     -- actions.cooldowns+=/shield_of_vengeance,if=buff.seething_rage.down&buff.memory_of_lucid_dreams.down
-    if not Buff.SeethingRage:Exist() and not Buff.MemoryOfLucidDreams:Exist() and Spell.ShieldOfVengeance:Cast(Player) then
+    if Target.Distance < 10 and not Buff.SeethingRage:Exist() and not Buff.MemoryOfLucidDreams:Exist() and Spell.ShieldOfVengeance:Cast(Player) then
         return true
     end
     -- actions.cooldowns+=/use_item,name=ashvanes_razor_coral,if=debuff.razor_coral_debuff.down|(buff.avenging_wrath.remains>=20|buff.crusade.stack=10&buff.crusade.remains>15)&(cooldown.guardian_of_azeroth.remains>90|target.time_to_die<30|!essence.condensed_lifeforce.major)
@@ -145,6 +145,7 @@ local function Cooldowns()
 end
 
 local HoW = false
+local WoAHit = 0
 local function Generators()
     -- actions.generators=variable,name=HoW,value=(!talent.hammer_of_wrath.enabled|target.health.pct>=20&!(buff.avenging_wrath.up|buff.crusade.up))
     HoW = (not Talent.HammerOfWrath.Active or (Target.HP >= 20 and not (Buff.AvengingWrath:Exist() or Buff.Crusade:Exist())))
@@ -153,7 +154,8 @@ local function Generators()
         return true
     end
     -- actions.generators+=/wake_of_ashes,if=(!raid_event.adds.exists|raid_event.adds.in>15|spell_targets.wake_of_ashes>=2)&(holy_power<=0|holy_power=1&cooldown.blade_of_justice.remains>gcd)&(cooldown.avenging_wrath.remains>10|talent.crusade.enabled&cooldown.crusade.remains>10)
-    if ((Player:CDs() or Player:GetEnemiesInCone(12, 45, 2) > 1) and (Player.HolyPower == 0 or (Player.HolyPower == 1 and Spell.BladeOfJustice:CD() > GCD)) and (not Player:CDs() or (Spell.AvengingWrath:CD() > 10 or (Talent.Crusade.Active and Spell.Crusade:CD() > 10)))) and Spell.WakeOfAshes:Cast(Player) then
+    WoAHit = Player:GetEnemiesInCone(12, 45, 2)
+    if WoAHit > 0 and ((Player:CDs() or WoAHit > 1) and (Player.HolyPower == 0 or (Player.HolyPower == 1 and Spell.BladeOfJustice:CD() > GCD)) and (not Player:CDs() or (Spell.AvengingWrath:CD() > 10 or (Talent.Crusade.Active and Spell.Crusade:CD() > 10)))) and Spell.WakeOfAshes:Cast(Player) then
         return true
     end
     -- actions.generators+=/blade_of_justice,if=holy_power<=2|(holy_power=3&(cooldown.hammer_of_wrath.remains>gcd*2|variable.HoW))
