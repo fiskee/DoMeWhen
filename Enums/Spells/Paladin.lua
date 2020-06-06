@@ -73,6 +73,7 @@ Spells.PALADIN = {
         Buffs = {
             Inquisition = 84963,
             Crusade = 231895,
+            AvengingWrathAutocrit = 294027
         },
         Debuffs = {},
         Talents = {

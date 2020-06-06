@@ -97,10 +97,10 @@ local function Interrupt()
     end
     return false
 end
-
+local WingsPool, DSCastable = false, false
 local function Finishers()
     -- actions.finishers=variable,name=wings_pool,value=!equipped.169314&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>gcd*3|cooldown.crusade.remains>gcd*3)|equipped.169314&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>gcd*6|cooldown.crusade.remains>gcd*6)
-    
+    WingsPool = Player:CDs() and ((not Player:HasItemEquipped(169314) and ((not Talent.Crusade.Active and Spell.AvengingWrath:CD() < (GCD * 3)) or Spell.Crusade:CD() < (GCD * 3))) or (Player:HasItemEquipped(169314) and ((not Talent.Crusade.Active and Spell.AvengingWrath:CD() < (GCD * 6)) or Spell.Crusade:CD() < (GCD * 6))))
     -- actions.finishers+=/variable,name=ds_castable,value=spell_targets.divine_storm>=2&!talent.righteous_verdict.enabled|spell_targets.divine_storm>=3&talent.righteous_verdict.enabled|buff.empyrean_power.up&debuff.judgment.down&buff.divine_purpose.down&buff.avenging_wrath_autocrit.down
     -- actions.finishers+=/inquisition,if=buff.avenging_wrath.down&(buff.inquisition.down|buff.inquisition.remains<8&holy_power>=3|talent.execution_sentence.enabled&cooldown.execution_sentence.remains<10&buff.inquisition.remains<15|cooldown.avenging_wrath.remains<15&buff.inquisition.remains<20&holy_power>=3)
     -- actions.finishers+=/execution_sentence,if=spell_targets.divine_storm<=2&(!talent.crusade.enabled&cooldown.avenging_wrath.remains>10|talent.crusade.enabled&buff.crusade.down&cooldown.crusade.remains>10|buff.crusade.stack>=7)

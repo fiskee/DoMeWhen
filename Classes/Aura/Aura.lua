@@ -5,6 +5,9 @@ local Debuff = DMW.Classes.Debuff
 function Buff:New(SpellID, BaseDuration)
     self.SpellID = SpellID
     self.SpellName = GetSpellInfo(self.SpellID)
+    if SpellID == 294027 then
+        self.SpellName = "AvengingWrathAutocrit"
+    end
     self.BaseDuration = BaseDuration
 end
 

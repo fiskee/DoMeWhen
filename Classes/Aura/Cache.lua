@@ -14,6 +14,9 @@ function AuraCache.Refresh(Unit)
     for i = 1, 40 do
         AuraReturn = {UnitBuff(Unit, i)}
         Name, Source = GetSpellInfo(AuraReturn[10]), AuraReturn[7]
+        if AuraReturn[10] == 294027 then
+            Name = "AvengingWrathAutocrit"
+        end
         if Name == nil then
             break
         end
