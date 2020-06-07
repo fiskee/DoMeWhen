@@ -34,10 +34,16 @@ function GameObject:IsQuestObject() --TODO: Actual code
 end
 
 function GameObject:IsHerb() --TODO: Actual code
+    if DMW.Enums.Tracker.Herbs[self.ObjectID] then
+        return true
+    end
     return false
 end
 
 function GameObject:IsOre() --TODO: Actual code
+    if DMW.Enums.Tracker.Ore[self.ObjectID] then
+        return true
+    end
     return false
 end
 

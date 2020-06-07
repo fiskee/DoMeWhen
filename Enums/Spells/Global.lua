@@ -29,7 +29,11 @@ DMW.Enums.Spells = {
                 TheUnboundForce = {SpellID = 299376, SpellType = "Essence"},
                 VigilantProtector = {SpellID = 310601, SpellType = "Essence"},
                 VitalityConduit = {SpellID = 299958, SpellType = "Essence"},
-                WorldveinResonance = {SpellID = 295186, SpellType = "Essence"}
+                WorldveinResonance = {SpellID = 295186, SpellType = "Essence"},
+                --Professions, multiple ID's shouldn't matter, just for tracking casts
+                Mining = {SpellID = 50310, SpellType = "Profession"},
+                HerbGathering = {SpellID = 110413, SpellType = "Profession"},
+                Skinning = {SpellID = 32678, SpellType = "Profession"}
             },
             Buffs = {
                 MemoryOfLucidDreams = 298357,

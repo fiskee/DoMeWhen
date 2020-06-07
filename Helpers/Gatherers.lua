@@ -4,11 +4,11 @@ local Looting = false
 local Skinning = false
 
 function DMW.Helpers.Gatherers.Run()
-    if DMW.Player:Standing() and not DMW.Player.Casting and not IsMounted() and not UnitIsDeadOrGhost("player") then
+    if DMW.Player:Standing() and not DMW.Player.Casting and not UnitIsDeadOrGhost("player") then
         if Looting and (DMW.Time - Looting) > 0 and not DMW.Player.Looting then
             Looting = false
         end
-        if DMW.Settings.profile.Gatherers.AutoLoot then
+        if DMW.Settings.profile.Gatherers.AutoLoot and not IsMounted() then
             if not Looting and not DMW.Player.Combat then
                 for _, Unit in pairs(DMW.Units) do
                     if Unit.Dead and Unit.Distance < 1.5 and UnitCanBeLooted(Unit.Pointer) then
@@ -18,7 +18,7 @@ function DMW.Helpers.Gatherers.Run()
                 end
             end
         end
-        if DMW.Settings.profile.Gatherers.AutoSkinning then
+        if DMW.Settings.profile.Gatherers.AutoSkinning and not IsMounted() then
             if Skinning and (DMW.Time - Skinning) > 2.3 then
                 Skinning = false
             end
