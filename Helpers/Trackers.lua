@@ -33,7 +33,7 @@ function DMW.Helpers.Trackers.Run()
         end
         if Settings.Developer.GameObjects then
             LibDraw.Text("GO: " .. Object.Name .. " (" .. Object.ObjectID .. ") - " .. math.floor(Object.Distance) .. " Yards", "GameFontNormal", Object.PosX, Object.PosY, Object.PosZ + 2)
-        elseif Settings.Trackers.HorrificVisions and DMW.Enums.Tracker.Visions[Object.ObjectID] then
+        elseif Settings.Trackers.HorrificVisions and (DMW.Enums.Tracker.Visions[Object.ObjectID] or Object.Name == "Black Empire Cache" or Object.Name == "Odd Crystal")  then
             LibDraw.Text(Object.Name .. " - " .. math.floor(Object.Distance) .. " Yards", "GameFontNormal", Object.PosX, Object.PosY, Object.PosZ + 2)
         end
     end
