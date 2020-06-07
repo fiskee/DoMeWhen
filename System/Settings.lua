@@ -34,7 +34,8 @@ local defaults = {
         },
         Trackers = {
             Quests = false,
-            QuestsPct = false
+            QuestsPct = false,
+            HorrificVisions = false
         },
         Navigation = {
             WorldMapHook = false,

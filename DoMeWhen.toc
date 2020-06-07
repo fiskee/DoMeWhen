@@ -75,6 +75,7 @@ Enums\Overrides.lua
 Enums\HardCC.lua
 Enums\Interrupts.lua
 Enums\CC.lua
+Enums\Tracker.lua
 
 UI\Main.lua
 UI\HUD.lua

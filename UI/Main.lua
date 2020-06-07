@@ -94,6 +94,19 @@ local Options = {
                             set = function(info, value)
                                 DMW.Settings.profile.Trackers.QuestsPct = value
                             end
+                        },
+                        HorrificVisions = {
+                            type = "toggle",
+                            order = 3,
+                            name = "Horrific Visions",
+                            desc = "Show Horrific Visions Objects",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Trackers.HorrificVisions
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Trackers.HorrificVisions = value
+                            end
                         }
                     }
                 },
