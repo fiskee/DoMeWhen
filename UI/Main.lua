@@ -107,6 +107,32 @@ local Options = {
                             set = function(info, value)
                                 DMW.Settings.profile.Trackers.HorrificVisions = value
                             end
+                        },
+                        Herbs = {
+                            type = "toggle",
+                            order = 4,
+                            name = "Herbalism",
+                            desc = "Show BfA Herbalism Objects",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Trackers.Herbs
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Trackers.Herbs = value
+                            end
+                        },
+                        Ore = {
+                            type = "toggle",
+                            order = 5,
+                            name = "Mining",
+                            desc = "Show BfA Mining Nodes",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Trackers.Ore
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Trackers.Ore = value
+                            end
                         }
                     }
                 },

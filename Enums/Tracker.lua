@@ -23,3 +23,53 @@ Tracker.Visions = {
     [342206] = "Black Empire Cache",
     [341340] = "Vial of Mysterious Purple Liquid"
 }
+
+Tracker.Herbs = {
+    [294125] = "Anchor Weed",
+    [276242] = "Anchor Weed",
+    [276234] = "Riverbud",
+    [281870] = "Riverbud",
+    [276237] = "Akunda's Bite",
+    [276238] = "Winter's Kiss",
+    [276239] = "Siren's Sting",
+    [281869] = "Siren's Sting",
+    [276240] = "Sea Stalks",
+    [281872] = "Sea Stalks",
+    [281079] = "Star Moss",
+    [281868] = "Star Moss",
+    [281867] = "Star Moss",
+    [276236] = "Star Moss",
+    [326598] = "Zin'anthid"
+}
+
+Tracker.Ore = {
+    [276617] = "Storm Silver Deposit",
+    [276618] = "Platinum Deposit",
+    [276616] = "Monelite Deposit",
+    [325875] = "Osmenite Deposit",
+    [276620] = "Storm Silver Seam",
+    [276621] = "Rich Monelite Deposit",
+    [276619] = "Monelite Seam",
+    [276623] = "Rich Platinum Deposit",
+    [325874] = "Osmenite Seam",
+    [276622] = "Rich Storm Silver Deposit",
+    [297626] = "Ductile Platinum Deposit",
+    [297468] = "Hardened Monelite Deposit",
+    [325873] = "Rich Osmenite Deposit",
+    [297469] = "Gleaming Storm Silver Deposit",
+    [297624] = "Hardened Monelite Deposit",
+    [297474] = "Ductile Platinum Deposit",
+    [297621] = "Rough Monelite Deposit",
+    [297466] = "Luminous Monelite Deposit",
+    [297467] = "Rough Monelite Deposit",
+    [297623] = "Smooth Platinum Deposit",
+    [297618] = "Luminous Monelite Deposit",
+    [297622] = "Coarse Storm Silver Deposit",
+    [297472] = "Burnished Platinum Deposit",
+    [297470] = "Coarse Storm Silver Deposit",
+    [297625] = "Dense Storm Silver Deposit",
+    [297619] = "Gleaming Storm Silver Deposit",
+    [297620] = "Burnished Platinum Deposit",
+    [297471] = "Dense Storm Silver Deposit",
+    [297473] = "Smooth Platinum Deposit"
+}
