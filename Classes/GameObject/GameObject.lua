@@ -25,7 +25,7 @@ function GameObject:GetDistance(OtherUnit)
     return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2))
 end
 
-function GameObject:IsQuestObject() --TODO: Actual code
+function GameObject:IsQuestObject() --TODO: Better code
     local glow = ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "uint")
     if glow and (bit.band(glow, 0x4) ~= 0 or bit.band(glow, 0x20) ~= 0) then
         return true
@@ -33,20 +33,20 @@ function GameObject:IsQuestObject() --TODO: Actual code
     return false
 end
 
-function GameObject:IsHerb() --TODO: Actual code
-    if DMW.Enums.Tracker.Herbs[self.ObjectID] then
+function GameObject:IsHerb()
+    if DMW.Enums.Tracker.Herbs[self.ObjectID] then --and ObjectDescriptor(self.Pointer, 0xDC, Types.Byte) == 0 then
         return true
     end
     return false
 end
 
-function GameObject:IsOre() --TODO: Actual code
-    if DMW.Enums.Tracker.Ore[self.ObjectID] then
+function GameObject:IsOre()
+    if DMW.Enums.Tracker.Ore[self.ObjectID] then --and ObjectDescriptor(self.Pointer, 0xDC, Types.Byte) == 0 then
         return true
     end
     return false
 end
 
-function GameObject:IsTracking() --TODO: Actual code
+function GameObject:IsTracking()
     return false
 end
