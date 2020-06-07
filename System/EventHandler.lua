@@ -13,6 +13,7 @@ EHFrame:RegisterEvent("AZERITE_ESSENCE_CHANGED")
 EHFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
 EHFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
 EHFrame:RegisterEvent("PLAYER_LEVEL_UP")
+EHFrame:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
 
 
 local function EventHandler(self, event, ...)
@@ -57,6 +58,23 @@ local function EventHandler(self, event, ...)
             local Unit = select(1, ...)
             if UnitIsUnit(Unit, "player") then
                 DMW.Player.NoControl = false
+            end
+        elseif event == "PLAYER_MOUNT_DISPLAY_CHANGED" then
+            if not IsMounted() then
+                C_Timer.After(0.2, function()
+                    DMW.Player.NoControl = false
+                end)
+                if DMW.Player.Class == "HUNTER" then
+                    DMW.Player.WaitForPet = true
+                    C_Timer.After(1.5, function()
+                        DMW.Player.WaitForPet = false
+                    end)
+                end
+            else
+                DMW.Player.NoControl = true
+                if DMW.Player.Class == "HUNTER" then
+                    DMW.Player.WaitForPet = true
+                end
             end
         elseif event == "PLAYER_LEVEL_UP" then
             DMW.Player.Level = UnitLevel("player")

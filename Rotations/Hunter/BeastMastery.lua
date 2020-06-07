@@ -185,7 +185,7 @@ local function SingleTarget()
 end
 
 local function PetStuff()
-    if not Pet then
+    if not Pet and not Player.WaitForPet then
         if Spell.CallPet1:Cast(Player) then
             return true
         end
