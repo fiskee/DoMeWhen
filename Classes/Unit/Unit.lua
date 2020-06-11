@@ -107,7 +107,7 @@ function Unit:HasThreat()
         return false
     elseif self.CreatureType == "Totem" and DMW.Player.Combat and isTarget then
         return true
-    elseif DMW.Player.Instance ~= "none" and (UnitAffectingCombat(self.Pointer) or (isTarget and GetNumGroupMembers() == 0 )) then
+    elseif DMW.Player.Instance ~= "none" and (UnitAffectingCombat(self.Pointer) or (isTarget and GetNumGroupMembers() <= 1 )) then
         return true
     elseif DMW.Player.Instance == "none" and (DMW.Enums.Dummy[self.ObjectID] or isTarget) then
         return true
