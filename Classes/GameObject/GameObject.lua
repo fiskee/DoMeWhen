@@ -34,14 +34,14 @@ function GameObject:IsQuestObject() --TODO: Better code
 end
 
 function GameObject:IsHerb()
-    if DMW.Enums.Tracker.Herbs[self.ObjectID] and ObjectDescriptor(self.Pointer, GetOffset("CGGameObjectData__Flags"), "uint") == 0x44000 then
+    if DMW.Enums.Tracker.Herbs[self.ObjectID] and ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "byte") == 0x00 then
         return true
     end
     return false
 end
 
 function GameObject:IsOre()
-    if DMW.Enums.Tracker.Ore[self.ObjectID] and ObjectDescriptor(self.Pointer, GetOffset("CGGameObjectData__Flags"), "uint") == 0x44000 then
+    if DMW.Enums.Tracker.Ore[self.ObjectID] and ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "byte") == 0x00 then
         return true
     end
     return false
