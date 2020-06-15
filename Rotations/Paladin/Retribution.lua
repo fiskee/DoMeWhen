@@ -15,6 +15,7 @@ local function CreateSettings()
         UI.AddToggle("Healthstone", "Use Healthstone", true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
         UI.AddToggle("Cleanse Toxins", "Use Cleanse Toxins", true)
+        UI.AddDropdown("Cleanse Toxins - Target", nil, {"Any", "Only Player"},1)
         UI.AddTab("DPS")
         UI.AddToggle("Avenging Wrath", "Use Avenging Wrath during CDs", true, true)
         UI.AddTab("Trinkets")
@@ -65,9 +66,15 @@ local function Defensive()
     end
     --Cleanse toxins
     if Setting("Cleanse Toxins") and Spell.CleanseToxins:IsReady() then
-        local Player40Y = Player:GetFriends(40)
-        for _, Unit in pairs(Player40Y) do
-            if Unit:Dispel(Spell.CleanseToxins) and Spell.CleanseToxins:Cast(Unit) then
+        if Setting("Cleanse Toxins - Target") == 1 then
+            local Player40Y = Player:GetFriends(40)
+            for _, Unit in pairs(Player40Y) do
+                if Unit:Dispel(Spell.CleanseToxins) and Spell.CleanseToxins:Cast(Unit) then
+                    return true
+                end
+            end
+        elseif Setting("Cleanse Toxins - Target") == 2 then
+            if Player:Dispel(Spell.CleanseToxins) and Spell.CleanseToxins:Cast(Player) then
                 return true
             end
         end

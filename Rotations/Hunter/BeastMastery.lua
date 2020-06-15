@@ -144,7 +144,7 @@ local function SingleTarget()
         end
     end
     -- actions.st+=/kill_command
-    if Pet and not Pet.Dead then
+    if Pet and not Pet.Dead and Pet:GetDistance(Target) < 50 then
         if Spell.KillCommand:Cast(Target) then
             return true
         end
