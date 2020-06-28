@@ -35,8 +35,8 @@ function Spell:Cast(Unit)
             return false
         end
     end
-	if self:IsReady() and (DMW.Time - CastTimer) > 0.1 and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) then
-		CastTimer = DMW.Time
+	if DMW.Time > CastTimer and self:IsReady() and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) then
+		CastTimer = DMW.Time + (math.random(90, 150) / 1000)
         if self.CastType == "Ground" then
             if self:CastGround(Unit.PosX, Unit.PosY, Unit.PosZ) then
                 self.LastBotTarget = Unit.Pointer
