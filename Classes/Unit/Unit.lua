@@ -183,6 +183,11 @@ function Unit:Interrupt()
     else
         return false
     end
+    for _, Unit in ipairs(DMW.Enemies) do
+        if DMW.Enums.InterruptDangerous[Unit.ObjectID] and SpellID ~= DMW.Enums.InterruptDangerous[Unit.ObjectID] then
+            return false
+        end
+    end
     if not DMW.Enums.InterruptBlacklist[SpellID] then
         if Type == "Cast" then
             local Pct = (DMW.Time - StartTime) / (EndTime - StartTime) * 100

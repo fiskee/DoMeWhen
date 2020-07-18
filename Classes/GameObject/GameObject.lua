@@ -25,9 +25,10 @@ function GameObject:GetDistance(OtherUnit)
     return sqrt(((self.PosX - OtherUnit.PosX) ^ 2) + ((self.PosY - OtherUnit.PosY) ^ 2) + ((self.PosZ - OtherUnit.PosZ) ^ 2))
 end
 
+local glow = 0
 function GameObject:IsQuestObject() --TODO: Better code
-    local glow = ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "uint")
-    if glow and (bit.band(glow, 0x4) ~= 0 or bit.band(glow, 0x20) ~= 0) then
+    glow = ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "uint") or 0
+    if bit.band(glow, 0x4) ~= 0 or bit.band(glow, 0x20) ~= 0 then
         return true
     end
     return false

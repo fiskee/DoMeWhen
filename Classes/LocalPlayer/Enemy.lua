@@ -43,9 +43,9 @@ function LocalPlayer:GetEnemies(Yards)
         end
         return Table, Count
     end
-    for _, v in ipairs(DMW.Enemies) do
-        if v.Distance <= Yards then
-            table.insert(Table, v)
+    for _, Unit in ipairs(DMW.Enemies) do
+        if Unit.Distance <= Yards then
+            table.insert(Table, Unit)
             Count = Count + 1
         end
     end
@@ -55,9 +55,9 @@ end
 function LocalPlayer:GetAttackable(Yards)
     local Table = {}
     local Count = 0
-    for _, v in ipairs(DMW.Attackable) do
-        if v.Distance <= Yards then
-            table.insert(Table, v)
+    for _, Unit in ipairs(DMW.Attackable) do
+        if Unit.Distance <= Yards then
+            table.insert(Table, Unit)
             Count = Count + 1
         end
     end
