@@ -9,6 +9,17 @@ local function CreateSettings()
     if not UI.HUD.Options then
         UI.HUD.Options = {}
         UI.AddTab("Defensive")
+        UI.AddRange("Death Strike HP", "HP to use Death Strike", 0, 100, 1, 70, true)
+        UI.AddToggle("Blooddrinker", "Use Blooddrinker", true)
+        UI.AddRange("Blooddrinker HP", "HP to use Blooddrinker", 0, 100, 1, 50)
+        UI.AddToggle("Vampiric Blood", "Use Vampiric Blood", true)
+        UI.AddRange("Vampiric Blood HP", "HP to use Vampiric Blood", 0, 100, 1, 60)
+        UI.AddToggle("Icebound Fortitude", "Use Icebound Fortitude", true)
+        UI.AddRange("Icebound Fortitude HP", "HP to use Icebound Fortitude", 0, 100, 1, 35)
+        UI.AddToggle("Rune Tap", "Use Rune Tap", true)
+        UI.AddRange("Rune Tap HP", "HP to use Rune Tap", 0, 100, 1, 80)
+        UI.AddToggle("Tombstone", "Use Tombstone", true)
+        UI.AddRange("Tombstone HP", "HP to use Tombstone", 0, 100, 1, 65)
         UI.AddToggle("Healthstone", "Use Healthstone", true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
         UI.AddTab("Trinkets")
@@ -45,7 +56,7 @@ local function DPS()
         return true
     end
     --Death Strike
-    if (Player.HP < 50 or Player.PowerDeficit < 21) and Spell.DeathStrike:Cast(Target) then
+    if (Player.HP < Setting("Death Strike HP") or Player.PowerDeficit < 21) and Spell.DeathStrike:Cast(Target) then
         return true
     end
     --Consumption
@@ -57,7 +68,7 @@ local function DPS()
         return true
     end
     --Blooddrinker
-    if Player.HP < 50 and Spell.DeathStrike:Cast(Target) then
+    if Setting("Blooddrinker") and Player.HP < Setting("Blooddrinker HP") and Spell.Blooddrinker:Cast(Target) then
         return true
     end
     --Blood Boil
@@ -103,6 +114,22 @@ end
 
 local function Cooldowns()
     if CastTrinkets() then
+        return true
+    end
+    --Vampiric Blood
+    if Setting("Vampiric Blood") and Player.HP <= Setting("Vampiric Blood HP") and Spell.VampiricBlood:Cast(Player) then
+        return true
+    end
+    --Icebound Fortitude
+    if Setting("Icebound Fortitude") and Player.HP <= Setting("Icebound Fortitude HP") and Spell.IceboundFortitude:Cast(Player) then
+        return true
+    end
+    --Rune Tap
+    if Setting("Rune Tap") and Player.HP <= Setting("Rune Tap HP") and Spell.RuneTap:Cast(Player) then
+        return true
+    end
+    --Tombstone
+    if Talent.Tombstone.Active and Setting("Tombstone") and Player.HP <= Setting("Tombstone HP") and Buff.BoneShield:Stacks() >= 5 and Spell.Tombstone:Cast(Player) then
         return true
     end
 end
