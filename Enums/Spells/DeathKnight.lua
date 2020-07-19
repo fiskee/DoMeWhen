@@ -5,14 +5,15 @@ Spells.DEATHKNIGHT = {
         Abilities = {
             AntiMagicBarrier = {SpellID = 205727},
             AntiMagicShell = {SpellID = 48707},
+            Asphyxiate = {SpellID = 221562},
             BloodBoil = {SpellID = 50842},
             Blooddrinker = {SpellID = 206931},
             Bonestorm = {SpellID = 194844},
             Consumption = {SpellID = 274156},
-            ControlUndead  = {SpellID = 111673},
+            ControlUndead = {SpellID = 111673},
             DancingRuneWeapon = {SpellID = 49028},
             DarkCommand = {SpellID = 56222},
-            DeathAndDecay = {SpellID = 43265, SpellType = "Ground"},
+            DeathAndDecay = {SpellID = 43265, CastType = "Ground"},
             DeathGrip = {SpellID = 49576},
             DeathStrike = {SpellID = 49998},
             DeathsAdvance = {SpellID = 48265},
@@ -34,11 +35,13 @@ Spells.DEATHKNIGHT = {
             AntiMagicBarrier = 205727,
             AntiMagicShell = 48707,
             BoneShield = 195181,
+            CrimsonScourge = 81136,
             DancingRuneWeapon = 81256,
             PathOfFrost = 3714
         },
         Debuffs = {
-            BloodPlague = {SpellID = 55078}
+            BloodPlague = {SpellID = 55078},
+            MarkOfBlood = {SpellID = 206940}
         },
         Talents = {
             Heartbreaker = 19165,
@@ -72,7 +75,7 @@ Spells.DEATHKNIGHT = {
             EternalRuneWeapon = 278479,
             MarchOfTheDamned = 280011,
             Marrowblood = 274057,
-            RunicBarrier = 280010,
+            RunicBarrier = 280010
         }
     },
     Frost = {

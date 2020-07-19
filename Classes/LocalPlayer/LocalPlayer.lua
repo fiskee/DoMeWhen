@@ -46,6 +46,8 @@ function LocalPlayer:Update()
         self.HolyPower = UnitPower(self.Pointer, 9)
         self.HolyPowerMax = UnitPowerMax(self.Pointer, 9)
         self.HolyPowerDeficit = self.HolyPowerMax - self.HolyPower
+    elseif self.Class == "DEATHKNIGHT" then
+        self.Runes = self:GetRunes()
     end
     if not self.Combat and UnitAffectingCombat("player") then
         self.Combat = DMW.Time
@@ -134,4 +136,12 @@ end
 
 function LocalPlayer:Dispel(Spell)
     return DMW.Units[self.Pointer]:Dispel(Spell)
+end
+
+function LocalPlayer:GetRunes()
+    local Count = 0
+    for i=1,6 do
+        Count = Count + GetRuneCount(i)
+    end
+    return Count
 end
