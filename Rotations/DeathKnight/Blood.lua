@@ -110,12 +110,6 @@ local function Defensive()
     if Setting("Healthstone") and Player.HP <= Setting("Healthstone HP") and Item.Healthstone:Use(Player) then
         return true
     end
-end
-
-local function Cooldowns()
-    if CastTrinkets() then
-        return true
-    end
     --Vampiric Blood
     if Setting("Vampiric Blood") and Player.HP <= Setting("Vampiric Blood HP") and Spell.VampiricBlood:Cast(Player) then
         return true
@@ -131,6 +125,18 @@ local function Cooldowns()
     --Tombstone
     if Talent.Tombstone.Active and Setting("Tombstone") and Player.HP <= Setting("Tombstone HP") and Buff.BoneShield:Stacks() >= 5 and Spell.Tombstone:Cast(Player) then
         return true
+    end
+end
+
+local function Cooldowns()
+    if CastTrinkets() then
+        return true
+    end
+    --Anima
+    if Spell.AnimaOfDeath:IsReady() and Player.HP < 90 then
+        if ((Player8YC >= 4 and Player.HP < 80) or Player:CDs()) and Spell.AnimaOfDeath:Cast(Player) then
+            return true
+        end
     end
 end
 

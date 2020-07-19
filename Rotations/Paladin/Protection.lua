@@ -154,7 +154,7 @@ local function Cooldowns()
     --Anima
     if Spell.AnimaOfDeath:IsReady() and Player.HP < 90 then
         local _, Player8YC = Player:GetEnemies(8)
-        if ((Player8YC >= 4 and Player.HP < 80) or (Player:CDs() and Player.HP < 90)) and Spell.AnimaOfDeath:Cast(Player) then
+        if ((Player8YC >= 4 and Player.HP < 80) or Player:CDs()) and Spell.AnimaOfDeath:Cast(Player) then
             return true
         end
     end
