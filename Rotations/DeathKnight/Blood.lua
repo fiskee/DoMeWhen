@@ -77,12 +77,14 @@ local function DPS()
         return true
     end
     --Death and Decay
-    if Talent.RapidDecomposition.Active then
-        if Spell.DeathAndDecay:Cast(Target) then
+    if not Player.Moving and not Target.Moving and Player.Combat then
+        if Talent.RapidDecomposition.Active then
+            if Spell.DeathAndDecay:Cast(Target) then
+                return true
+            end
+        elseif (Buff.CrimsonScourge:Exist() or select(2, Target:GetEnemies(8)) > 2) and Spell.DeathAndDecay:Cast(Target) then
             return true
         end
-    elseif (Buff.CrimsonScourge:Exist() or select(2, Target:GetEnemies(8)) > 2) and Spell.DeathAndDecay:Cast(Target) then
-        return true
     end
     --Heart Strike
     if Player.Runes >= 2 and Spell.HeartStrike:Cast(Target) then
