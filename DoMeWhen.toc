@@ -82,6 +82,15 @@ UI\HUD.lua
 UI\Debug.lua
 UI\Log.lua
 
+Rotations\DeathKnight\Shared.lua
+Rotations\DeathKnight\Blood.lua
+Rotations\DeathKnight\Frost.lua
+Rotations\DeathKnight\Unholy.lua
+
+Rotations\DemonHunter\Shared.lua
+Rotations\DemonHunter\Havoc.lua
+Rotations\DemonHunter\Vengeance.lua
+
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
 
