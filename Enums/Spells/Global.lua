@@ -40,7 +40,9 @@ DMW.Enums.Spells = {
                 RecklessForce = 302932,
                 SeethingRage = 297126
             },
-            Debuffs = {},
+            Debuffs = {
+                ConcentratedFlame = {SpellID = 299349}
+            },
             Essences = {
                 AzerothsUndyingGift = 2,
                 SphereOfSuppression = 3,
