@@ -22,6 +22,9 @@ local function CreateSettings()
         UI.AddRange("Tombstone HP", "HP to use Tombstone", 0, 100, 1, 65)
         UI.AddToggle("Healthstone", "Use Healthstone", true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
+        UI.AddTab("DPS")
+        UI.AddToggle("Dancing Rune Weapon", "Use Dancing Rune Weapon during DPS CDs", true)
+        UI.AddRange("Dancing Rune Weapon Enemies", "Enemies to use Dancing Rune Weapon (0 to disable option)", 0, 10, 1, 0)
         UI.AddTab("Trinkets")
         UI.AddHeader("Trinket 1")
         UI.AddToggle("Trinket 1 CD", "Use Trinket 1 on CD", false, true)
@@ -143,6 +146,10 @@ local function Cooldowns()
         if ((Player8YC >= 4 and Player.HP < 80) or Player:CDs()) and Spell.AnimaOfDeath:Cast(Player) then
             return true
         end
+    end
+    --Dancing Rune Weapon
+    if ((Player:CDs() and Setting("Dancing Rune Weapon")) or (Setting("Dancing Rune Weapon Enemies") > 0 and Player5YC >= Setting("Dancing Rune Weapon Enemies"))) and Spell.DancingRuneWeapon:Cast(Player) then
+        return true
     end
 end
 
