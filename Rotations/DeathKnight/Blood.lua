@@ -148,7 +148,7 @@ local function Cooldowns()
         end
     end
     --Dancing Rune Weapon
-    if ((Player:CDs() and Setting("Dancing Rune Weapon") and Target.TTD > 5) or (Setting("Dancing Rune Weapon Enemies") > 0 and Player5YC >= Setting("Dancing Rune Weapon Enemies") and Target.TTD > 4)) and Spell.DancingRuneWeapon:Cast(Player) then
+    if ((Player:CDs() and Setting("Dancing Rune Weapon") and Target.TTD > 5) or (Setting("Dancing Rune Weapon Enemies") > 0 and Player5YC >= Setting("Dancing Rune Weapon Enemies") and Target.TTD > 4)) and Spell.DancingRuneWeapon:Cast() then
         return true
     end
 end
