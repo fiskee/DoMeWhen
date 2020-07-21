@@ -77,7 +77,7 @@ local function DPS()
         return true
     end
     --Death and Decay
-    if not Player.Moving and not Target.Moving and Player.Combat and Player8YC > 0 then
+    if not Player.Moving and Player8YC > 0 then
         if Talent.RapidDecomposition.Active then
             if Spell.DeathAndDecay:Cast(Player) then
                 return true
