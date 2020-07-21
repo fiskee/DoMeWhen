@@ -79,7 +79,7 @@ local function DPS()
         return true
     end
     --Death and Decay
-    if not Player.Moving and Player8YC > 0 then
+    if not Player.Moving and Player8YC > 0 and Target.TTD > 4 then
         if Talent.RapidDecomposition.Active then
             if Spell.DeathAndDecay:Cast(Player) then
                 return true
@@ -148,7 +148,7 @@ local function Cooldowns()
         end
     end
     --Dancing Rune Weapon
-    if ((Player:CDs() and Setting("Dancing Rune Weapon")) or (Setting("Dancing Rune Weapon Enemies") > 0 and Player5YC >= Setting("Dancing Rune Weapon Enemies"))) and Spell.DancingRuneWeapon:Cast(Player) then
+    if ((Player:CDs() and Setting("Dancing Rune Weapon") and Target.TTD > 5) or (Setting("Dancing Rune Weapon Enemies") > 0 and Player5YC >= Setting("Dancing Rune Weapon Enemies") and Target.TTD > 4)) and Spell.DancingRuneWeapon:Cast(Player) then
         return true
     end
 end
