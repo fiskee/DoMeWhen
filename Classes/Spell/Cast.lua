@@ -44,7 +44,9 @@ function Spell:Cast(Unit)
 			SendMovementUpdate()
 		end
 		if self.CastType == "Ground" then
-			if self:CastGround(Unit.PosX, Unit.PosY, Unit.PosZ) then
+			if Unit == DMW.Player then
+				RunMacroText("/cast [@player] " .. self.SpellName)
+			elseif self:CastGround(Unit.PosX, Unit.PosY, Unit.PosZ) then
 				self.LastBotTarget = Unit.Pointer
 			else
 				return false

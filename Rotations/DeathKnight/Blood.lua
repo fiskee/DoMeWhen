@@ -77,12 +77,12 @@ local function DPS()
         return true
     end
     --Death and Decay
-    if not Player.Moving and not Target.Moving and Player.Combat then
+    if not Player.Moving and not Target.Moving and Player.Combat and Player8YC > 0 then
         if Talent.RapidDecomposition.Active then
-            if Spell.DeathAndDecay:Cast(Target) then
+            if Spell.DeathAndDecay:Cast(Player) then
                 return true
             end
-        elseif (Buff.CrimsonScourge:Exist() or select(2, Target:GetEnemies(8)) > 2) and Spell.DeathAndDecay:Cast(Target) then
+        elseif (Buff.CrimsonScourge:Exist() or Player8YC > 2) and Spell.DeathAndDecay:Cast(Player) then
             return true
         end
     end
