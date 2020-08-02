@@ -1,6 +1,6 @@
 local DMW = DMW
 local Paladin = DMW.Rotations.PALADIN
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
+local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC, Essence
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -29,6 +29,11 @@ local function CreateSettings()
         UI.AddToggle("Consecration", "Use Consecration", true)
         UI.AddToggle("Seraphim", "Use Seraphim", true)
         UI.AddToggle("Avenging Wrath DPS", "Use Avenging Wrath during CDs", true, true)
+        UI.AddTab("Essences")
+        UI.AddToggle("Lucid CD", "Use Memory of Lucid Dreams on CD", false, true)
+        UI.AddToggle("Lucid DPS", "Use Use Memory of Lucid Dreams during DPS CDs", true, true)
+        UI.AddRange("Lucid HP", "HP to use Use Memory of Lucid Dreams (0 to Disable)", 0, 100, 1, 0, true)
+        UI.AddRange("Lucid Enemies", "Enemies to use Use Memory of Lucid Dreams (0 to Disable)", 0, 20, 1, 0, true)
         UI.AddTab("Trinkets")
         UI.AddHeader("Trinket 1")
         UI.AddToggle("Trinket 1 CD", "Use Trinket 1 on CD", false, true)
@@ -47,6 +52,7 @@ local function Locals()
     Player = DMW.Player
     Buff = Player.Buffs
     Debuff = Player.Debuffs
+    Essence = Player.Essences
     Spell = Player.Spells
     Talent = Player.Talents
     Trait = Player.Traits
@@ -168,6 +174,10 @@ local function Cooldowns()
     end
     --actions.cooldowns+=/avenging_wrath,if=buff.seraphim.up|cooldown.seraphim.remains<2|!talent.seraphim.enabled
     if Target.Distance < 5 and Player:CDs() and Setting("Avenging Wrath DPS") and (not Talent.Seraphim.Active or Spell.Seraphim:CD() < 2 or Buff.Seraphim:Exist()) and Spell.AvengingWrath:Cast(Player) then
+        return true
+    end
+    -- Memory of Lucid Dreams
+    if Essence.MemoryOfLucidDreams.Major and Spell.ShieldOfTheRighteous:Charges() < 2 and (Setting("Lucid CD") or (Setting("Lucid DPS") and Player:CDs()) or (Setting("Lucid HP") > 0 and Player.HP <= Setting("Lucid HP")) or (Setting("Lucid Enemies") > 0 and Player5YC >= Setting("Lucid Enemies"))) and Spell.MemoryOfLucidDreams:Cast(Player) then
         return true
     end
 end
