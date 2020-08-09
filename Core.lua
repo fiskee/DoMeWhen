@@ -54,10 +54,10 @@ f:SetScript(
             if not DMW.Player.Name then
                 DMW.Player = DMW.Classes.LocalPlayer(ObjectPointer("player"))
             end
-            if GetSpecializationInfo(GetSpecialization()) ~= DMW.Player.SpecID then
-                ReloadUI()
-                return
-            end
+            -- if GetSpecializationInfo(GetSpecialization()) ~= DMW.Player.SpecID then
+            --     ReloadUI()
+            --     return
+            -- end
             DebugStart = debugprofilestop()
             DMW.UpdateOM()
             DMW.Timers.OM.Last = debugprofilestop() - DebugStart

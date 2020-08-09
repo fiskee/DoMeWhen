@@ -37,7 +37,14 @@ local function EventHandler(self, event, ...)
         elseif event == "ACTIONBAR_SLOT_CHANGED" then
             DMW.Helpers.Queue.GetBindings()
         elseif event == "PLAYER_SPECIALIZATION_CHANGED" then
-            DMW.Player:GetTalents()
+            local Unit = select(1, ...)
+            if UnitIsUnit(Unit, "player") then
+                if GetSpecializationInfo(GetSpecialization()) ~= DMW.Player.SpecID then
+                    ReloadUI()
+                else
+                    DMW.Player:GetTalents()
+                end
+            end
         elseif event == "PLAYER_REGEN_ENABLED" then
             DMW.Player.Combat = false
         elseif event == "PLAYER_REGEN_DISABLED" then
