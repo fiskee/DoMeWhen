@@ -51,7 +51,9 @@ Spells.PRIEST = {
             Smite = {SpellID = 585},
             WeakenedSoul = {SpellID = 6788}
         },
-        Talents = {},
+        Talents = {
+            DivineStar = 19760,
+        },
         Traits = {}
     },
     Holy = {
@@ -69,7 +71,15 @@ Spells.PRIEST = {
         Traits = {}
     },
     All = {
-        Abilities = {},
+        Abilities = {
+            DispelMagic = {SpellID = 198076},
+            Fade = {SpellID = 198076},
+            Levitate = {SpellID = 198076},
+            MassDispel = {SpellID = 198076},
+            MindControl = {SpellID = 198076},
+            Resurrection = {SpellID = 198076},
+            ShackleUndead = {SpellID = 198076}
+        },
         Buffs = {},
         Debuffs = {}
     }

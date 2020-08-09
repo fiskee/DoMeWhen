@@ -25,13 +25,19 @@ local function CreateSettings()
         UI.AddRange("Power Word: Shield HP", "HP to use Power Word: Shield", 0, 100, 1, 80)
         UI.AddToggle("Power Word: Radiance", nil, true)
         UI.AddRange("Power Word: Radiance Units", nil, 0, 10, 1, 3)
-        UI.AddToggle("Rapture", nil, true,true)
+        UI.AddToggle("Divine Star", nil, true, true)
+        UI.AddRange("Divine Star Units", nil, 0, 10, 1, 3)
+        UI.AddRange("Divine Star HP", nil, 0, 100, 1, 80)
+        UI.AddToggle("Rapture", nil, true, true)
         UI.AddRange("Rapture Units", nil, 0, 10, 1, 3)
         UI.AddRange("Rapture HP", nil, 0, 100, 1, 60)
         UI.AddToggle("Pain Suppression", nil, true)
         UI.AddRange("Pain Suppression HP", nil, 0, 100, 1, 20)
         UI.AddTab("DPS")
+        UI.AddToggle("Shadow Word: Pain", nil, true)
         UI.AddRange("Shadow Word: Pain Units", "Max active Shadow Word: Pain dots active", 0, 10, 1, 3)
+        UI.AddToggle("Divine Star DPS", nil, true)
+        UI.AddRange("Divine Star DPS Units", nil, 0, 10, 1, 5)
         UI.AddTab("Defensive")
         UI.AddToggle("Healthstone", nil, true)
         UI.AddRange("Healthstone HP", nil, 0, 100, 1, 40)
@@ -71,10 +77,8 @@ local function Heals()
     if Setting("Rapture") then
         if Spell.Rapture:IsReady() then
             local RaptureUnits, RaptureCount = Player:GetFriends(40, Setting("Rapture HP"))
-            if RaptureCount >= Setting("Rapture Units") then
-                if Spell.Rapture:Cast(Player) then
-                    return true
-                end
+            if RaptureCount >= Setting("Rapture Units") and Spell.Rapture:Cast(Player) then
+                return true
             end
         elseif Buff.Rapture:Exist() then
             for _, Friend in ipairs(Friends40Y) do
@@ -110,13 +114,17 @@ local function Heals()
             end
         end
     end
+    --Divine Star
+    if Talent.DivineStar and Setting("Divine Star") and Player:GetFriendsInRect(30, 12, Setting("Divine Star HP")) >= Setting("Divine Star Units") and Spell.DivineStar:Cast(Player) then
+        return true
+    end
     --PWR
     if not Player.Moving and not Spell.PowerWordRadiance:LastCast() and Setting("Power Word: Radiance") and Spell.PowerWordRadiance:IsReady() and not Buff.Rapture:Exist() then
         local RadianceTable, RadianceC
         for _, Friend in ipairs(Friends40Y) do
             if Friend.HP < Setting("Atonement HP") then
                 RadianceTable, RadianceC = Friend:GetFriends(30, Setting("Atonement HP"))
-                if RadianceC >= Setting("Power Word: Radiance Units") and Buff.Atonement:Count(RadianceTable) <= (math.max(RadianceC - 1, 0)) then
+                if RadianceC >= Setting("Power Word: Radiance Units") and Buff.Atonement:Count(RadianceTable) <= (math.max(RadianceC - Setting("Power Word: Radiance Units"), 0)) then
                     if Spell.PowerWordRadiance:Cast(Friend) then
                         return true
                     end
@@ -149,18 +157,24 @@ local function Heals()
 end
 
 local function DPS()
-    local SWPCount = Debuff.ShadowWordPain:Count(Player40Y)
-    if Friends40Y[1].HP > 50 and SWPCount <= Setting("Shadow Word: Pain Units") then
-        for _, Unit in ipairs(Player40Y) do
-            if Debuff.ShadowWordPain:Refresh(Unit) and (Unit.TTD - Debuff.ShadowWordPain:Remain(Unit)) > 4 and (SWPCount < Setting("Shadow Word: Pain Units") or Debuff.ShadowWordPain:Exist(Unit)) then
-                if Spell.ShadowWordPain:Cast(Unit) then
-                    return true
+    if Setting("Shadow Word: Pain") then
+        local SWPCount = Debuff.ShadowWordPain:Count(Player40Y)
+        if Friends40Y[1].HP > 50 and SWPCount <= Setting("Shadow Word: Pain Units") then
+            for _, Unit in ipairs(Player40Y) do
+                if Debuff.ShadowWordPain:Refresh(Unit) and (Unit.TTD - Debuff.ShadowWordPain:Remain(Unit)) > 4 and (SWPCount < Setting("Shadow Word: Pain Units") or Debuff.ShadowWordPain:Exist(Unit)) then
+                    if Spell.ShadowWordPain:Cast(Unit) then
+                        return true
+                    end
                 end
             end
         end
     end
     if Target and Target.ValidEnemy then
         if Player:CDs() and Spell.Shadowfiend:Cast(Target) then
+            return true
+        end
+            --Divine Star
+        if Talent.DivineStar and Setting("Divine Star DPS") and Player:GetEnemiesInRect(30, 12, 2) >= Setting("Divine Star DPS Units") and Spell.DivineStar:Cast(Player) then
             return true
         end
         if Target.TTD > 8 and not Player.Moving and Spell.Schism:Cast(Target) then
@@ -175,9 +189,11 @@ local function DPS()
         if not Player.Moving and Spell.Smite:Cast(Target) then
             return true
         end
-        local LowestSWP = Debuff.ShadowWordPain:Lowest(Player40Y)
-        if LowestSWP and Spell.ShadowWordPain:Cast(LowestSWP) then
-            return true
+        if Setting("Shadow Word: Pain") then
+            local LowestSWP = Debuff.ShadowWordPain:Lowest(Player40Y)
+            if LowestSWP and Spell.ShadowWordPain:Cast(LowestSWP) then
+                return true
+            end
         end
     end
 end
