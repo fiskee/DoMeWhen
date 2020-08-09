@@ -52,7 +52,7 @@ Spells.PRIEST = {
             WeakenedSoul = {SpellID = 6788}
         },
         Talents = {
-            DivineStar = 19760,
+            DivineStar = 19760
         },
         Traits = {}
     },
@@ -72,13 +72,13 @@ Spells.PRIEST = {
     },
     All = {
         Abilities = {
-            DispelMagic = {SpellID = 198076},
-            Fade = {SpellID = 198076},
-            Levitate = {SpellID = 198076},
-            MassDispel = {SpellID = 198076},
-            MindControl = {SpellID = 198076},
-            Resurrection = {SpellID = 198076},
-            ShackleUndead = {SpellID = 198076}
+            DispelMagic = {SpellID = 528},
+            Fade = {SpellID = 586},
+            Levitate = {SpellID = 1706},
+            MassDispel = {SpellID = 32375},
+            MindControl = {SpellID = 605},
+            Resurrection = {SpellID = 2006},
+            ShackleUndead = {SpellID = 9484}
         },
         Buffs = {},
         Debuffs = {}
