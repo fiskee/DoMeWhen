@@ -145,7 +145,7 @@ local function Heals()
     --PWS
     if Setting("Power Word: Shield") then
         for _, Friend in ipairs(Friends40Y) do
-            if Friend.HP < Setting("Power Word: Shield HP") or (Player.Instance ~= "none" and Friend.Role == "TANK") or (Friend.HP < Setting("Atonement HP") and not Buff.Atonement:Exist(Friend)) then
+            if Friend.HP <= Setting("Power Word: Shield HP") or (Player.Instance ~= "none" and Friend.Role == "TANK") or (Friend.HP <= Setting("Atonement HP") and not Buff.Atonement:Exist(Friend)) then
                 if not Buff.PowerWordShield:Exist(Friend) and (not Debuff.WeakenedSoul:Exist(Friend) or Buff.Rapture:Exist()) then
                     if Spell.PowerWordShield:Cast(Friend) then
                         return true

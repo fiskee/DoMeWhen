@@ -17,14 +17,30 @@ scroll.width = "fill"
 scroll.height = "fill"
 Frame:AddChild(scroll)
 
+local function GetSpellDebugInfo()
+    local debugstring = debugstack(4,1,0)
+    if debugstring:len() < 60 then
+        debugstring = debugstack(5,1,0)
+    end
+    local file, line, func = debugstring:match("Interface\\AddOns\\DoMeWhen\\(.-).lua\"]:(%d-): in function `(.-)'")
+    if not func then
+        local funcline
+        file, line, _, funcline = debugstring:match("Interface\\AddOns\\DoMeWhen\\(.-).lua\"]:(%d-): in function <(.-):(%d-)>")
+
+        func = "LocalFuncLine" .. funcline
+    end
+    return file, line, func
+end
+
 function Log.AddCast(SpellName, Target)
     ID = ID + 1
     if #Logger == 100 then
         tremove(Logger, 1)
     end
     local LogEntry = {}
+    local File, Line = GetSpellDebugInfo()
     LogEntry.ID = ID
-    LogEntry.Text = DMW.Time .. " - Casted: " .. SpellName .. " - On: " .. Target
+    LogEntry.Text = DMW.Time .. " - Casted: " .. SpellName .. " - On: " .. Target .. " - " .. File .. " (" .. Line .. ")"
     tinsert(Logger, LogEntry)
     if Frame:IsShown() then
         if #Frame.children[1].children == 100 then

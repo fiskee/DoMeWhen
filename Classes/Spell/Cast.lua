@@ -39,7 +39,7 @@ function Spell:Cast(Unit)
 		end
 	end
 	if DMW.Time > CastTimer and self:IsReady() and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) then
-		CastTimer = DMW.Time + (math.random(90, 150) / 1000)
+		CastTimer = DMW.Time + (math.random(110, 170) / 1000)
 		if DMW.Player.Moving then
 			SendMovementUpdate()
 		end
