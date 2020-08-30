@@ -140,8 +140,10 @@ end
 
 function LocalPlayer:GetRunes()
     local Count = 0
-    for i=1,6 do
-        Count = Count + GetRuneCount(i)
+    if GetRuneCount(1) then
+        for i=1,6 do
+            Count = Count + GetRuneCount(i)
+        end
     end
     return Count
 end
