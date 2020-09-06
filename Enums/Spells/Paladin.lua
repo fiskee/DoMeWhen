@@ -68,40 +68,40 @@ Spells.PALADIN = {
             ShieldOfVengeance = {SpellID = 184662},
             TemplarsVerdict = {SpellID = 85256},
             WakeOfAshes = {SpellID = 255937},
-            WordOfGlory = {SpellID = 210191},
+            WordOfGlory = {SpellID = 210191}
         },
         Buffs = {
+            AvengingWrathAutocrit = 294027,
+            Crusade = 231895,
             DivinePurpose = 223817,
             EmpyreanPower = 286393,
-            Inquisition = 84963,
-            Crusade = 231895,
-            AvengingWrathAutocrit = 294027
+            Inquisition = 84963
         },
         Debuffs = {
             Judgment = {SpellID = 20271}
         },
         Talents = {
-            Zeal = 22590,
-            RighteousVerdict = 22557,
-            ExecutionSentence = 22175,
-            FiresOfJustice = 22319,
             BladeOfWrath = 22592,
-            HammerOfWrath = 22593,
-            FistOfJustice = 22896,
-            Repentance = 22180,
             BlindingLight = 21811,
-            DivineJudgment = 22375,
-            Consecration = 22182,
-            WakeOfAshes = 22183,
-            UnbreakableSpirit = 22595,
             Cavalier = 22185,
-            EyeForAnEye = 22186,
-            SelflessHealer = 23167,
-            JusticarsVengeance = 22483,
-            WordOfGlory = 23086,
-            DivinePurpose = 22591,
+            Consecration = 22182,
             Crusade = 22215,
-            Inquisition = 22634
+            DivineJudgment = 22375,
+            DivinePurpose = 22591,
+            ExecutionSentence = 22175,
+            EyeForAnEye = 22186,
+            FiresOfJustice = 22319,
+            FistOfJustice = 22896,
+            HammerOfWrath = 22593,
+            Inquisition = 22634,
+            JusticarsVengeance = 22483,
+            Repentance = 22180,
+            RighteousVerdict = 22557,
+            SelflessHealer = 23167,
+            UnbreakableSpirit = 22595,
+            WakeOfAshes = 22183,
+            WordOfGlory = 23086,
+            Zeal = 22590
         },
         Traits = {}
     },
@@ -123,9 +123,9 @@ Spells.PALADIN = {
         },
         Buffs = {
             AvengingWrath = 31884,
+            BlessingOfProtection = 1022,
             DivineShield = 642,
-            DivineSteed = 190784,
-            BlessingOfProtection = 1022
+            DivineSteed = 190784
         },
         Debuffs = {
             Forbearance = {SpellID = 25771}

@@ -49,6 +49,9 @@ local function EventHandler(self, event, ...)
             DMW.Player.Combat = false
         elseif event == "PLAYER_REGEN_DISABLED" then
             DMW.Player.Combat = DMW.Time
+            if DMW.Player.NoControl and not IsMounted() then
+                DMW.Player.NoControl = false
+            end
         elseif event == "PLAYER_EQUIPMENT_CHANGED" then
             DMW.Player:UpdateEquipment()
             DMW.Player:GetTraits()

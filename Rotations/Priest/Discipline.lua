@@ -1,6 +1,6 @@
 local DMW = DMW
 local Priest = DMW.Rotations.PRIEST
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, CDs, HUD, Player40Y, Player40YC, Friends40Y, Friends40YC
+local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, CDs, HUD, Player40Y, Player40YC, Friends40Y, Friends40YC, Essence
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -51,6 +51,7 @@ local function Locals()
     Buff = Player.Buffs
     Debuff = Player.Debuffs
     Spell = Player.Spells
+    Essence = Player.Essences
     Talent = Player.Talents
     Trait = Player.Traits
     Item = Player.Items
@@ -173,7 +174,9 @@ local function DPS()
         if Player:CDs() and Spell.Shadowfiend:Cast(Target) then
             return true
         end
-            --Divine Star
+        if (Essence.TheCrucibleOfFlame.Rank < 3 or not Debuff.ConcentratedFlame:Exist(Target)) and Spell.ConcentratedFlame:Cast(Target) then
+            return true
+        end
         if Talent.DivineStar and Setting("Divine Star DPS") and Player:GetEnemiesInRect(30, 12, 2) >= Setting("Divine Star DPS Units") and Spell.DivineStar:Cast(Player) then
             return true
         end
@@ -190,8 +193,8 @@ local function DPS()
             return true
         end
         if Setting("Shadow Word: Pain") then
-            local LowestSWP = Debuff.ShadowWordPain:Lowest(Player40Y)
-            if LowestSWP and Spell.ShadowWordPain:Cast(LowestSWP) then
+            local LowestSWP, LowestSec = Debuff.ShadowWordPain:Lowest(Player40Y)
+            if LowestSWP and LowestSec < 8 and Spell.ShadowWordPain:Cast(LowestSWP) then
                 return true
             end
         end

@@ -64,11 +64,38 @@ Spells.PRIEST = {
         Traits = {}
     },
     Shadow = {
-        Abilities = {},
-        Buffs = {},
-        Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Abilities = {
+            DarkAscension = {SpellID = 280711},
+            DarkVoid = {SpellID = 263346},
+            MindBlast = {SpellID = 8092},
+            MindFlay = {SpellID = 15407},
+            MindSear = {SpellID = 48045},
+            Mindbender = {SpellID = 200174},
+            ShadowCrash = {SpellID = 205385},
+            ShadowWordDeath = {SpellID = 32379},
+            ShadowWordPain = {SpellID = 589},
+            SurrenderToMadness = {SpellID = 193223},
+            VampiricTouch = {SpellID = 34914},
+            VoidBolt = {SpellID = 228266},
+            VoidEruption = {SpellID = 228260}
+        },
+        Buffs = {
+            HarvestedThoughts = 273321,
+            Voidform = 228264
+        },
+        Debuffs = {
+            ShadowWordPain = {SpellID = 589, BaseDuration = 16}
+        },
+        Talents = {
+            DarkVoid = 121557,
+            Mindbender = 121557,
+            Misery = 121557,
+            ShadowWordVoid = 121557
+        },
+        Traits = {
+            SearingDialogue = 121557,
+            ThoughtHarvester = 121557
+        }
     },
     All = {
         Abilities = {

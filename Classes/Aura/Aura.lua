@@ -176,7 +176,7 @@ function Buff:Lowest(Table)
             LowestUnit = Unit
         end
     end
-    return LowestUnit
+    return LowestUnit, LowestSec
 end
 
 function Debuff:Lowest(Table)
@@ -188,5 +188,5 @@ function Debuff:Lowest(Table)
             LowestUnit = Unit
         end
     end
-    return LowestUnit
+    return LowestUnit, LowestSec
 end
