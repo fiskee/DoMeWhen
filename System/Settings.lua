@@ -30,7 +30,8 @@ local defaults = {
         Gatherers = {
             AutoLoot = false,
             AutoSkinning = false,
-            AutoGather = false
+            AutoGather = false,
+            FishingHelper = false
         },
         Trackers = {
             Quests = false,

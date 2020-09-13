@@ -5,6 +5,7 @@ function GameObject:New(Pointer)
     self.Pointer = Pointer
     self.Name = ObjectName(Pointer)
     self.ObjectID = ObjectID(Pointer)
+    self.TypeID, self.Type = GetGameObjectType(Pointer)
 end
 
 function GameObject:Update()
@@ -18,6 +19,9 @@ function GameObject:Update()
     self.Ore = self:IsOre()
     self.Tracking = self:IsTracking()
     self.IsQuest = self:IsQuestObject()
+    if self.TypeID == 17 and DMW.Settings.profile.Gatherers.FishingHelper and DMW.Player.Casting and DMW.Player.Casting == DMW.Player.Spells.Fishing.SpellName then
+        self:Fishing()
+    end
 end
 
 function GameObject:GetDistance(OtherUnit)
@@ -50,4 +54,20 @@ end
 
 function GameObject:IsTracking()
     return false
+end
+
+function GameObject:Fishing()
+    if ObjectAnimation(self.Pointer) == 1 and UnitIsUnit("player", ObjectCreator(self.Pointer)) then
+        self.NextUpdate = DMW.Time + 0.1
+        if not self.BobbingTime then
+            self.BobbingTime = DMW.Time + (math.random(650, 1000) / 1000)
+        elseif self.BobbingTime < DMW.Time then
+            ObjectInteract(self.Pointer)
+            self.BobbingTime = false
+        end
+        return
+    end
+    if self.BobbingTime then
+        self.BobbingTime = false
+    end
 end

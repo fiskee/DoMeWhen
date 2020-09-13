@@ -3930,6 +3930,8 @@ globals = {
 	"GetMapId",
 	"GetCorpsePosition",
 	"WorldPreload",
+	"ObjectAnimation",
+	"GetGameObjectType",
 	--Extras
 	"DMW",
 	"RealMobHealth_CreatureHealthCache",

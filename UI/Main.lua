@@ -176,6 +176,19 @@ local Options = {
                             set = function(info, value)
                                 DMW.Settings.profile.Gatherers.AutoGather = value
                             end
+                        },
+                        AutoFish = {
+                            type = "toggle",
+                            order = 4,
+                            name = "Fishing Helper",
+                            desc = "Auto catch fish, random delay",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Gatherers.FishingHelper
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Gatherers.FishingHelper = value
+                            end
                         }
                     }
                 },
@@ -353,15 +366,13 @@ local Options = {
                     name = "Class",
                     type = "group",
                     order = 2,
-                    args = {
-                    }
+                    args = {}
                 },
                 EssencesTab = {
                     name = "Essences",
                     type = "group",
                     order = 3,
-                    args = {
-                    }
+                    args = {}
                 }
             }
         }
