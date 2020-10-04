@@ -177,17 +177,30 @@ local Options = {
                                 DMW.Settings.profile.Gatherers.AutoGather = value
                             end
                         },
-                        AutoFish = {
+                        FishingHelper = {
                             type = "toggle",
                             order = 4,
                             name = "Fishing Helper",
-                            desc = "Auto catch fish, random delay",
+                            desc = "Auto click bobber, random delay",
                             width = "full",
                             get = function()
                                 return DMW.Settings.profile.Gatherers.FishingHelper
                             end,
                             set = function(info, value)
                                 DMW.Settings.profile.Gatherers.FishingHelper = value
+                            end
+                        },
+                        AutoFishing = {
+                            type = "toggle",
+                            order = 5,
+                            name = "Auto Fishing",
+                            desc = "Full auto fishing helper to cast and catch, stand near water before activating",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Gatherers.AutoFishing
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Gatherers.AutoFishing = value
                             end
                         }
                     }

@@ -31,7 +31,8 @@ local defaults = {
             AutoLoot = false,
             AutoSkinning = false,
             AutoGather = false,
-            FishingHelper = false
+            FishingHelper = false,
+            AutoFishing = false
         },
         Trackers = {
             Quests = false,

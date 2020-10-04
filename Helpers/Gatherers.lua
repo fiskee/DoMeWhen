@@ -2,6 +2,7 @@ local DMW = DMW
 DMW.Helpers.Gatherers = {}
 local Looting = false
 local Skinning = false
+local NextFishCast = false
 
 function DMW.Helpers.Gatherers.Run()
     if DMW.Player:Standing() and not DMW.Player.Casting and not UnitIsDeadOrGhost("player") then
@@ -46,6 +47,16 @@ function DMW.Helpers.Gatherers.Run()
                             Looting = DMW.Time + 0.6
                         end
                     end
+                end
+            end
+        end
+        if DMW.Settings.profile.Gatherers.AutoFishing and not Looting then
+            if not DMW.Player.Casting and not DMW.Player.Looting then
+                if not NextFishCast then
+                    NextFishCast = DMW.Time + (math.random(1300, 2900) / 1000)
+                elseif DMW.Time > NextFishCast and DMW.Player.Spells.Fishing:Cast(DMW.Player) then
+                    Looting = DMW.Time + 0.3
+                    NextFishCast = false
                 end
             end
         end

@@ -12,6 +12,8 @@ EHFrame:RegisterEvent("AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED")
 EHFrame:RegisterEvent("AZERITE_ESSENCE_CHANGED")
 EHFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
 EHFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+EHFrame:RegisterEvent("LOOT_OPENED")
+EHFrame:RegisterEvent("LOOT_CLOSED")
 EHFrame:RegisterEvent("PLAYER_LEVEL_UP")
 EHFrame:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
 
@@ -88,8 +90,11 @@ local function EventHandler(self, event, ...)
             end
         elseif event == "PLAYER_LEVEL_UP" then
             DMW.Player.Level = UnitLevel("player")
+        elseif event == "LOOT_OPENED" then
+            DMW.Player.Looting = true
+        elseif event == "LOOT_CLOSED" then
+            DMW.Player.Looting = false
         end
-        
     end
 end
 

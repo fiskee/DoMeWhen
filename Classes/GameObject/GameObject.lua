@@ -19,7 +19,7 @@ function GameObject:Update()
     self.Ore = self:IsOre()
     self.Tracking = self:IsTracking()
     self.IsQuest = self:IsQuestObject()
-    if self.TypeID == 17 and DMW.Settings.profile.Gatherers.FishingHelper and DMW.Player.Casting and DMW.Player.Casting == DMW.Player.Spells.Fishing.SpellName then
+    if self.TypeID == 17 and (DMW.Settings.profile.Gatherers.FishingHelper or DMW.Settings.profile.Gatherers.AutoFishing) and DMW.Player.Casting and DMW.Player.Casting == DMW.Player.Spells.Fishing.SpellName then
         self:Fishing()
     end
 end
@@ -60,7 +60,7 @@ function GameObject:Fishing()
     if ObjectAnimation(self.Pointer) == 1 and UnitIsUnit("player", ObjectCreator(self.Pointer)) then
         self.NextUpdate = DMW.Time + 0.1
         if not self.BobbingTime then
-            self.BobbingTime = DMW.Time + (math.random(650, 1000) / 1000)
+            self.BobbingTime = DMW.Time + (math.random(350, 850) / 1000)
         elseif self.BobbingTime < DMW.Time then
             ObjectInteract(self.Pointer)
             self.BobbingTime = false
