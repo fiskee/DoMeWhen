@@ -60,7 +60,7 @@ function GameObject:Fishing()
     if ObjectAnimation(self.Pointer) == 1 and UnitIsUnit("player", ObjectCreator(self.Pointer)) then
         self.NextUpdate = DMW.Time + 0.1
         if not self.BobbingTime then
-            self.BobbingTime = DMW.Time + (math.random(350, 850) / 1000)
+            self.BobbingTime = DMW.Time + (math.random(450, 850) / 1000)
         elseif self.BobbingTime < DMW.Time then
             ObjectInteract(self.Pointer)
             self.BobbingTime = false
