@@ -22,14 +22,8 @@ local function GetSpellDebugInfo()
     if debugstring:len() < 60 then
         debugstring = debugstack(5,1,0)
     end
-    local file, line, func = debugstring:match("Interface\\AddOns\\DoMeWhen\\(.-).lua\"]:(%d-): in function `(.-)'")
-    if not func then
-        local funcline
-        file, line, _, funcline = debugstring:match("Interface\\AddOns\\DoMeWhen\\(.-).lua\"]:(%d-): in function <(.-):(%d-)>")
-
-        func = "LocalFuncLine" .. funcline
-    end
-    return file, line, func
+    local file, line = debugstring:match("Interface\\AddOns\\(.-).lua\"]:(%d-):")
+    return file, line
 end
 
 function Log.AddCast(SpellName, Target)
