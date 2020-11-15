@@ -53,6 +53,16 @@ function LocalPlayer:GetTalents()
             self.Talents[TalentName] = {Active = false, Value = 0}
         end
     end
+    if DMW.Enums.Spells[self.Class].All.Talents then
+        for TalentName, TalentID in pairs(DMW.Enums.Spells[self.Class].All.Talents) do
+            Selected = select(4, GetTalentInfoByID(TalentID, ActiveSpec))
+            if Selected then
+                self.Talents[TalentName] = {Active = true, Value = 1}
+            else
+                self.Talents[TalentName] = {Active = false, Value = 0}
+            end
+        end
+    end
 end
 
 function LocalPlayer:GetTraits()
