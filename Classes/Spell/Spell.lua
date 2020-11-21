@@ -29,6 +29,10 @@ function Spell:New(SpellID, CastType, SpellType)
     end
 end
 
+function Spell:Count()
+    return GetSpellCount(self.SpellName)
+end
+
 function Spell:CD()
     if DMW.Pulses == self.CDUpdate then
         return self.CDCache

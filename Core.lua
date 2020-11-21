@@ -46,6 +46,9 @@ f:SetScript(
     function(self, elapsed)
         DMW.Time = GetTime()
         DMW.Pulses = DMW.Pulses + 1
+        if not DMW.Enums.Specs[GetSpecializationInfo(GetSpecialization())] then
+            return
+        end
         if EWT ~= nil then
             LibStub("LibDraw-1.0").clearCanvas()
             if not Init then

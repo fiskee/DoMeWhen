@@ -128,9 +128,9 @@ local function SingleTarget()
         return true
     end
     -- actions.st+=/devastate
-    if Spell.Devastate:Cast(Target) then
-        return true
-    end
+    -- if Spell.Devastate:Cast(Target) then
+    --     return true
+    -- end
 end
 
 local function DPSRotation()

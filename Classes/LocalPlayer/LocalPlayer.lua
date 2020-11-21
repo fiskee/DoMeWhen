@@ -55,6 +55,7 @@ function LocalPlayer:Update()
     self.InInstance, self.Instance = IsInInstance()
     self.Casting = UnitCastingInfo(self.Pointer) or UnitChannelInfo(self.Pointer)
     self.Moving = GetUnitSpeed(self.Pointer) > 0
+    self.MovingTime = self:TimeMoving()
     self.PetActive = UnitIsVisible("pet")
     self.InGroup = IsInGroup()
     self.CombatTime = self.Combat and (DMW.Time - self.Combat) or 0
@@ -75,6 +76,14 @@ function LocalPlayer:GCDMax()
     else
         return 1.5
     end
+end
+
+local movingTimer = GetTime()
+function LocalPlayer:TimeMoving()
+    if not self.Moving then
+        movingTimer = DMW.Time
+    end
+    return DMW.Time - movingTimer
 end
 
 function LocalPlayer:CDs()
