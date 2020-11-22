@@ -22,7 +22,7 @@ function LocalPlayer:GetSpells()
                             end
                         elseif SpellType == "Buffs" then
                             for SpellName, SpellInfo in pairs(SpellTable) do
-                                if SpellInfo.SpellID then
+                                if type(SpellInfo) ~= "number" then
                                     self.Buffs[SpellName] = Buff(SpellInfo.SpellID)
                                 else
                                     self.Buffs[SpellName] = Buff(SpellInfo)
