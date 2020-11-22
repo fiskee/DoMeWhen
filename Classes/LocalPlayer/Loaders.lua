@@ -21,8 +21,12 @@ function LocalPlayer:GetSpells()
                                 self.Spells[SpellName] = Spell(SpellInfo.SpellID, CastType, SpellInfo.SpellType)
                             end
                         elseif SpellType == "Buffs" then
-                            for SpellName, SpellID in pairs(SpellTable) do
-                                self.Buffs[SpellName] = Buff(SpellID)
+                            for SpellName, SpellInfo in pairs(SpellTable) do
+                                if SpellInfo.SpellID then
+                                    self.Buffs[SpellName] = Buff(SpellInfo.SpellID)
+                                else
+                                    self.Buffs[SpellName] = Buff(SpellInfo)
+                                end
                             end
                         elseif SpellType == "Debuffs" then
                             for SpellName, SpellInfo in pairs(SpellTable) do
