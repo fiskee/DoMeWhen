@@ -79,7 +79,6 @@ Spells.DEATHKNIGHT = {
             Asphyxiate = {SpellID = 108194},
             BlindingSleet = {SpellID = 207167},
             BreathOfSindragosa = {SpellID = 152279},
-            DarkSuccor = {SpellID = 178819},
             DeathStrike = {SpellID = 278223},
             DualWield = {SpellID = 674},
             EmpowerRuneWeapon = {SpellID = 47568},
@@ -101,7 +100,9 @@ Spells.DEATHKNIGHT = {
             RunicEmpowerment = {SpellID = 81229},
             WraithWalk = {SpellID = 212552}
         },
-        Buffs = {},
+        Buffs = {
+            DarkSuccor = {SpellID = 178819}
+        },
         Debuffs = {},
         Talents = {
             Asphyxiate = 22517,
@@ -133,18 +134,17 @@ Spells.DEATHKNIGHT = {
             ArmyOfTheDead = {SpellID = 42650},
             Asphyxiate = {SpellID = 108194},
             ClawingShadows = {SpellID = 207311},
-            DarkSuccor = {SpellID = 178819},
+
             DarkTransformation = {SpellID = 325554},
-            DeathAndDecay = {SpellID = 316916},
+            DeathAndDecay = {SpellID = 316916, CastType = "Ground"},
             DeathCoil = {SpellID = 316941},
             DeathStrike = {SpellID = 278223},
-            Defile = {SpellID = 152280},
+            Defile = {SpellID = 152280, CastType = "Ground"},
             Epidemic = {SpellID = 207317},
             FesteringStrike = {SpellID = 85948},
             FesteringWound = {SpellID = 197147},
             FrostFever = {SpellID = 195621},
             Outbreak = {SpellID = 77575},
-            PlateSpecialization = {SpellID = 86536},
             RaiseDead = {SpellID = 46584},
             RunicCorruption = {SpellID = 51462},
             ScourgeStrike = {SpellID = 317234},
@@ -155,8 +155,13 @@ Spells.DEATHKNIGHT = {
             UnholyBlight = {SpellID = 115989},
             WraithWalk = {SpellID = 212552},
         },
-        Buffs = {},
-        Debuffs = {},
+        Buffs = {
+            DarkSuccor = {SpellID = 178819},
+            SuddenDoom = {SpellID = 49530}
+        },
+        Debuffs = {
+            FesteringWound = {SpellID = 197147}
+        },
         Talents = {
             AllWillServe = 22025,
             ArmyOfTheDamned = 22030,
@@ -206,7 +211,7 @@ Spells.DEATHKNIGHT = {
             CorpseShield = {SpellID = 207319},
             DarkArbiter = {SpellID = 212412},
             DarkSimulacrum = {SpellID = 77606},
-            DeathAndDecay = {SpellID = 43265},
+            DeathAndDecay = {SpellID = 43265, CastType = "Ground"},
             DeathChain = {SpellID = 203173},
             DeathCoil = {SpellID = 333470},
             DeathGate = {SpellID = 331524},
@@ -215,8 +220,8 @@ Spells.DEATHKNIGHT = {
             DeathSiphon = {SpellID = 108196},
             DeathStrike = {SpellID = 71489},
             DeathsAdvance = {SpellID = 311984},
-            DeathsDue = {SpellID = 324128},
-            Defile = {SpellID = 218100},
+            DeathsDue = {SpellID = 324128, CastType = "Ground"},
+            Defile = {SpellID = 218100, CastType = "Ground"},
             Degeneration = {SpellID = 53605},
             DesecratedGround = {SpellID = 108201},
             EssenceOfArdenweald = {SpellID = 331117},

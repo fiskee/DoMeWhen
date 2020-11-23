@@ -29,14 +29,16 @@ end
 local function Initialize()
     DMW.Init()
     DMW.UI.HUD.Init()
-    InitializeNavigation(function(Result)
-        if Result then
-            if DMW.Settings.profile.Navigation.WorldMapHook then
-                DMW.Helpers.Navigation:InitWorldMap()
+    InitializeNavigation(
+        function(Result)
+            if Result then
+                if DMW.Settings.profile.Navigation.WorldMapHook then
+                    DMW.Helpers.Navigation:InitWorldMap()
+                end
+                DMW.UI.InitNavigation()
             end
-            DMW.UI.InitNavigation()
         end
-    end)
+    )
     Init = true
 end
 
@@ -103,7 +105,6 @@ f:SetScript(
             DMW.Timers.Navigation.Average = DMW.Timers.Navigation.Total / DMW.Pulses
             DMW.Timers.Trackers.Average = DMW.Timers.Trackers.Total / DMW.Pulses
             DMW.Timers.Gatherers.Average = DMW.Timers.Gatherers.Total / DMW.Pulses
-            
         end
     end
 )

@@ -190,3 +190,51 @@ function Debuff:Lowest(Table)
     end
     return LowestUnit, LowestSec
 end
+
+function Buff:LowestStacks(Table)
+    Table = Table or DMW.Player:GetFriends(40)
+    local LowestStack, LowestUnit
+    for _, Unit in ipairs(Table) do
+        if not LowestStack or self:Stacks(Unit) < LowestStack then
+            LowestStack = self:Stacks(Unit)
+            LowestUnit = Unit
+        end
+    end
+    return LowestUnit, LowestStack
+end
+
+function Debuff:LowestStacks(Table)
+    Table = Table or DMW.Player:GetEnemies(40)
+    local LowestStack, LowestUnit
+    for _, Unit in ipairs(Table) do
+        if not LowestStack or self:Stacks(Unit) < LowestStack then
+            LowestStack = self:Stacks(Unit)
+            LowestUnit = Unit
+        end
+    end
+    return LowestUnit, LowestStack
+end
+
+function Buff:HighestStacks(Table)
+    Table = Table or DMW.Player:GetFriends(40)
+    local RetStack, RetUnit
+    for _, Unit in ipairs(Table) do
+        if not RetStack or self:Stacks(Unit) > RetStack then
+            RetStack = self:Stacks(Unit)
+            RetUnit = Unit
+        end
+    end
+    return RetUnit, RetStack
+end
+
+function Debuff:HighestStacks(Table)
+    Table = Table or DMW.Player:GetEnemies(40)
+    local RetStack, RetUnit
+    for _, Unit in ipairs(Table) do
+        if not RetStack or self:Stacks(Unit) > RetStack then
+            RetStack = self:Stacks(Unit)
+            RetUnit = Unit
+        end
+    end
+    return RetUnit, RetStack
+end

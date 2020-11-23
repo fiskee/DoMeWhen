@@ -156,3 +156,19 @@ function LocalPlayer:GetRunes()
     end
     return Count
 end
+
+function LocalPlayer:AuraByID(SpellID, OnlyPlayer)
+    OnlyPlayer = OnlyPlayer or false
+    local SpellName = GetSpellInfo(SpellID)
+    local Unit = self.Pointer
+    if DMW.Tables.AuraCache[Unit] ~= nil and DMW.Tables.AuraCache[Unit][SpellName] ~= nil and (not OnlyPlayer or DMW.Tables.AuraCache[Unit][SpellName]["player"] ~= nil) then
+        local AuraReturn
+        if OnlyPlayer then
+            AuraReturn = DMW.Tables.AuraCache[Unit][SpellName]["player"].AuraReturn
+        else
+            AuraReturn = DMW.Tables.AuraCache[Unit][SpellName].AuraReturn
+        end
+        return unpack(AuraReturn)
+    end
+    return nil
+end
