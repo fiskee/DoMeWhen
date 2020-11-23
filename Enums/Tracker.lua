@@ -39,7 +39,11 @@ Tracker.Herbs = {
     [281868] = "Star Moss",
     [281867] = "Star Moss",
     [276236] = "Star Moss",
-    [326598] = "Zin'anthid"
+    [326598] = "Zin'anthid",
+    [336433] = "Widowbloom",
+    [336688] = "Vigil's Torch",
+    [336689] = "Marrowroot",
+    [336690] = "Rising Glory"
 }
 
 Tracker.Ore = {
@@ -71,7 +75,15 @@ Tracker.Ore = {
     [297619] = "Gleaming Storm Silver Deposit",
     [297620] = "Burnished Platinum Deposit",
     [297471] = "Dense Storm Silver Deposit",
-    [297473] = "Smooth Platinum Deposit"
+    [349898] = "Laestrite Deposit",
+    [349899] = "Rich Laestrite Deposit",
+    [349900] = "Elethium Deposit",
+    [349980] = "Solenium Deposit",
+    [349981] = "Oxxein Deposit",
+    [349982] = "Phaedrum Deposit",
+    [349983] = "Sinvyr Deposit",
+    [350082] = "Rich Elethium Deposit",
+    [350086] = "Rich Solenium Deposit"
 }
 
 Tracker.MountsRare = {
