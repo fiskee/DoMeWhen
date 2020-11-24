@@ -74,8 +74,10 @@ function DMW.Helpers.Trackers.Run()
             LibDraw.Text(Object.Name .. " - " .. math.floor(Object.Distance) .. " Yards", "GameFontNormal", Object.PosX, Object.PosY, Object.PosZ + 2)
         elseif Settings.Trackers.Herbs and Object:IsHerb() then
             LibDraw.Text(Object.Name .. " - " .. math.floor(Object.Distance) .. " Yards", "GameFontNormal", Object.PosX, Object.PosY, Object.PosZ + 2)
+            DMW.Helpers.DrawLineDMW(Object.PosX, Object.PosY, Object.PosZ, DMW.Player.PosX, DMW.Player.PosY, DMW.Player.PosZ + 2)
         elseif Settings.Trackers.Ore and Object:IsOre() then
             LibDraw.Text(Object.Name .. " - " .. math.floor(Object.Distance) .. " Yards", "GameFontNormal", Object.PosX, Object.PosY, Object.PosZ + 2)
+            DMW.Helpers.DrawLineDMW(Object.PosX, Object.PosY, Object.PosZ, DMW.Player.PosX, DMW.Player.PosY, DMW.Player.PosZ + 2)
         end
     end
     for _, AreaTrigger in pairs(DMW.AreaTriggers) do
