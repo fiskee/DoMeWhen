@@ -101,6 +101,9 @@ local function AoESetup()
     -- actions.aoe_setup+=/festering_strike,target_if=debuff.festering_wound.stack<1
     -- actions.aoe_setup+=/festering_strike,target_if=min:debuff.festering_wound.stack,if=rune.time_to_4<(cooldown.death_and_decay.remains&!talent.defile.enabled|cooldown.defile.remains&talent.defile.enabled)
     -- actions.aoe_setup+=/epidemic,if=!variable.pooling_for_gargoyle
+    if Target.TTD > 5 and Player8YC > 2 and Spell.AbominationLimb:Cast(Player) then
+        return true
+    end
 end
 
 local function AoE()
