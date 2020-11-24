@@ -43,7 +43,8 @@ Tracker.Herbs = {
     [336433] = "Widowbloom",
     [336688] = "Vigil's Torch",
     [336689] = "Marrowroot",
-    [336690] = "Rising Glory"
+    [351469] = "Death Blossom",
+    [336691] = "Nightshade"
 }
 
 Tracker.Ore = {

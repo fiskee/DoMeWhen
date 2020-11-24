@@ -93,7 +93,7 @@ local function DPS()
         return true
     end
     --Rune Strike
-    if Talent.RuneStrike.Active and Spell.RuneStrike:Cast(Target) then
+    if Spell.RuneStrike:Cast(Target) then
         return true
     end
     --Mark Of Blood

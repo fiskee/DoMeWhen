@@ -89,9 +89,9 @@ end
 function LocalPlayer:CDs()
     if DMW.Settings.profile.HUD.CDs and DMW.Settings.profile.HUD.CDs == 3 then
         return false
-    elseif DMW.Settings.profile.HUD.CDs and DMW.Settings.profile.HUD.CDs == 2 then
+    elseif DMW.Settings.profile.HUD.CDs and DMW.Settings.profile.HUD.CDs == 2 and self.Target and self.Target.TTD > 4 then
         return true
-    elseif self.Target and self.Target:IsBoss() then
+    elseif self.Target and self.Target:IsBoss() and self.Target.TTD > 4 then
         return true
     end
     return false

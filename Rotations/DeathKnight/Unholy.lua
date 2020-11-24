@@ -1,6 +1,6 @@
 local DMW = DMW
 local DeathKnight = DMW.Rotations.DEATHKNIGHT
-local Player, Buff, Debuff, Spell, Target, Pet, Trait, Talent, GCD, Pet5Y, Pet5YC, HUD, Player8Y, Player8YC, Player5Y, Player5YC
+local Player, Buff, Debuff, Spell, Target, Pet, Trait, Talent, GCD, Pet5Y, Pet5YC, HUD, Player8Y, Player8YC, Player5Y, Player5YC, Player15Y, Player15YC
 local WoundSpender, AnyDnD, Pooling = false, false, false
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
@@ -56,6 +56,9 @@ local function Cooldowns()
     -- actions.cooldowns+=/dark_transformation,if=!raid_event.adds.exists&cooldown.unholy_blight.remains&(!runeforge.deadliest_coil.equipped|runeforge.deadliest_coil.equipped&(!buff.dark_transformation.up&!talent.unholy_pact.enabled|talent.unholy_pact.enabled))
     -- actions.cooldowns+=/dark_transformation,if=!raid_event.adds.exists&!talent.unholy_blight.enabled
     -- actions.cooldowns+=/dark_transformation,if=raid_event.adds.exists&(active_enemies>=2|raid_event.adds.in>15)
+    if Pet and not Pet.Dead and DMW.Time > PetTimer and UnitIsUnit("pettarget", Target.Pointer) and Spell.DarkTransformation:Cast(Player) then
+        return true
+    end
     -- actions.cooldowns+=/apocalypse,if=active_enemies=1&debuff.festering_wound.stack>=4&((!talent.unholy_blight.enabled|talent.army_of_the_damned.enabled|conduit.convocation_of_the_dead.enabled)|talent.unholy_blight.enabled&!talent.army_of_the_damned.enabled&dot.unholy_blight.remains)
     if Player5YC == 1 and Debuff.FesteringWound:Stacks(Target) >= 4 and ((not Talent.UnholyBlight.Active or Talent.ArmyOfTheDamned.Active) or (Talent.UnholyBlight.Active and not Talent.ArmyOfTheDamned.Active and Buff.UnholyBlight:Exist())) and Spell.Apocalypse:Cast(Target) then
         return true
@@ -85,6 +88,9 @@ local function AoEBurst()
 end
 
 local function AoESetup()
+    if Target.TTD > 5 and Spell.ShackleTheUnworthy:Cast(Target) then
+        return true
+    end
     -- actions.aoe_setup=any_dnd,if=death_knight.fwounded_targets=active_enemies|raid_event.adds.exists&raid_event.adds.remains<=11
     if not Player.Moving and Target.TTD > 4 and Spell.DeathAndDecay:Cast(Player) then
         return true
@@ -115,7 +121,7 @@ local function SingleTarget()
         return true
     end
     -- actions.generic+=/defile,if=cooldown.apocalypse.remains
-    if not Player.Moving and Target.TTD > 4 and Talent.Defile.Active and Spell.Apocalypse:CD() > 0 and Spell.Defile:Cast(Player) then
+    if not Player.Moving and Target.TTD > 4 and Target.Distance <= 5 and Talent.Defile.Active and Spell.Apocalypse:CD() > 0 and Spell.Defile:Cast(Player) then
         return true
     end
     -- actions.generic+=/wound_spender,if=debuff.festering_wound.stack>4
@@ -152,6 +158,19 @@ local function SingleTarget()
     end
 end
 
+local function Interrupt()
+    if HUD.Interrupts == 1 then
+        if Player15YC > 0 and Spell.MindFreeze:IsReady() then
+            for _, Unit in pairs(Player15Y) do
+                if Unit:Interrupt() and Spell.MindFreeze:Cast(Unit) then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
 local function Defensive()
     if Buff.DarkSuccor:Exist() and (Buff.DarkSuccor:Remain() < 2 or Target.TTD < 2) and Spell.DeathStrike:Cast(Target) then
         return true
@@ -166,6 +185,9 @@ end
 
 local function RunRotation()
     if Defensive() then
+        return true
+    end
+    if Interrupt() then
         return true
     end
     -- actions.cooldowns+=/raise_dead,if=!pet.ghoul.active
@@ -208,6 +230,7 @@ function DeathKnight.Unholy()
         if Target and Target.ValidEnemy then
             Player5Y, Player5YC = Player:GetEnemies(5)
             Player8Y, Player8YC = Player:GetEnemies(8)
+            Player15Y, Player15YC = Player:GetEnemies(15)
             if not IsCurrentSpell(6603) then
                 StartAttack(Target.Pointer)
             end
