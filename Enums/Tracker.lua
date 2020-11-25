@@ -24,6 +24,19 @@ Tracker.Visions = {
     [341340] = "Vial of Mysterious Purple Liquid"
 }
 
+Tracker.TorghastUnits = {
+    [167986] = "Ashen Phylactery",
+    [169902] = "Soul",
+}
+
+Tracker.TorghastObjects = {
+    [336801] = "Anima Chest",
+    [336799] = "Anima Chest",
+    [324030] = "Anima Cell",
+    [330193] = "Anima Cell",
+    [338483] = "Stolen Anima",
+}
+
 Tracker.Herbs = {
     [294125] = "Anchor Weed",
     [276242] = "Anchor Weed",
@@ -43,8 +56,10 @@ Tracker.Herbs = {
     [336433] = "Widowbloom",
     [336688] = "Vigil's Torch",
     [336689] = "Marrowroot",
+    [336686] = "Death Blossom",
     [351469] = "Death Blossom",
     [351470] = "Death Blossom",
+    [351471] = "Death Blossom",
     [336691] = "Nightshade",
     [336690] = "Rising Glory",
 }
@@ -84,9 +99,11 @@ Tracker.Ore = {
     [349980] = "Solenium Deposit",
     [349981] = "Oxxein Deposit",
     [349982] = "Phaedrum Deposit",
+    [355508] = "Phaedrum Deposit",
     [349983] = "Sinvyr Deposit",
     [350082] = "Rich Elethium Deposit",
-    [350086] = "Rich Solenium Deposit"
+    [350086] = "Rich Solenium Deposit",
+    [350085] = "Rich Oxxein Deposit"
 }
 
 Tracker.MountsRare = {

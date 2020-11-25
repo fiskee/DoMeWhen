@@ -104,6 +104,9 @@ local function AoESetup()
     if Target.TTD > 5 and Player8YC > 2 and Spell.AbominationLimb:Cast(Player) then
         return true
     end
+    if Target.TTD > 5 and Player5YC > 2 and Spell.SwarmingMist:Cast(Player) then
+        return true
+    end
 end
 
 local function AoE()
