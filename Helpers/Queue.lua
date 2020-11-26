@@ -27,22 +27,22 @@ function Queue.GetBindings()
                 local Type, ID = GetActionInfo(_G["ElvUI_Bar" .. i .. "Button" .. k]._state_action)
                 local Hotkey = _G["ElvUI_Bar" .. i .. "Button" .. k .. "HotKey"]:GetText()
                 if ID then
-                    if strsub(Hotkey, 1, 1) == 'S' and strsub(Hotkey, 2, 2) then
+                    if strsub(Hotkey, 1, 1) == 'S' and strlen(Hotkey) == 2 then
                         local Key = strsub(Hotkey, 2, 2)
                         DMW.Tables.Bindings["SHIFT-" .. Key] = {["Type"] = Type, ["ID"] = ID}
-                    elseif strsub(Hotkey, 1, 1) == 'C' and strsub(Hotkey, 2, 2) then
+                    elseif strsub(Hotkey, 1, 1) == 'C' and strlen(Hotkey) == 2 then
                         local Key = strsub(Hotkey, 2, 2)
                         DMW.Tables.Bindings["CTRL-" .. Key] = {["Type"] = Type, ["ID"] = ID}
-                    elseif strsub(Hotkey, 1, 1) == 'A' and strsub(Hotkey, 2, 2) then
+                    elseif strsub(Hotkey, 1, 1) == 'A' and strlen(Hotkey) == 2  then
                         local Key = strsub(Hotkey, 2, 2)
                         DMW.Tables.Bindings["ALT-" .. Key] = {["Type"] = Type, ["ID"] = ID}
-                    elseif strsub(Hotkey, 1, 1) == 'M' and strsub(Hotkey, 2, 2) then
+                    elseif strsub(Hotkey, 1, 1) == 'M' and strlen(Hotkey) == 2 then
                         local Key = strsub(Hotkey, 2, 2)
                         DMW.Tables.Bindings["BUTTON" .. Key] = {["Type"] = Type, ["ID"] = ID}
-                    elseif strsub(Hotkey, 1, 1) == 'F' and strsub(Hotkey, 2, 2) then
+                    elseif strsub(Hotkey, 1, 1) == 'F' and strlen(Hotkey) == 2 then
                         local Key = strsub(Hotkey, 2, 2)
                         DMW.Tables.Bindings[Hotkey] = {["Type"] = Type, ["ID"] = ID}
-                    elseif strsub(Hotkey, 1, 1) and not strsub(Hotkey, 2, 2) then
+                    elseif strlen(Hotkey) == 1 then
                         local Key = strsub(Hotkey, 1, 1)
                         DMW.Tables.Bindings[Key] = {["Type"] = Type, ["ID"] = ID}
                     end
