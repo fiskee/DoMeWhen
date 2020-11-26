@@ -39,6 +39,9 @@ function Queue.GetBindings()
                     elseif strsub(Hotkey, 1, 1) == 'M' and strsub(Hotkey, 2, 2) then
                         local Key = strsub(Hotkey, 2, 2)
                         DMW.Tables.Bindings["BUTTON" .. Key] = {["Type"] = Type, ["ID"] = ID}
+                    elseif strsub(Hotkey, 1, 1) == 'F' and strsub(Hotkey, 2, 2) then
+                        local Key = strsub(Hotkey, 2, 2)
+                        DMW.Tables.Bindings[Hotkey] = {["Type"] = Type, ["ID"] = ID}
                     elseif strsub(Hotkey, 1, 1) and not strsub(Hotkey, 2, 2) then
                         local Key = strsub(Hotkey, 1, 1)
                         DMW.Tables.Bindings[Key] = {["Type"] = Type, ["ID"] = ID}
