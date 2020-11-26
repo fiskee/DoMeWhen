@@ -31,7 +31,8 @@ DMW.Enums.HardCCCasts = {
     [274383] = true,
     [274400] = true,
     [276292] = true,
-    [277567] = true
+    [277567] = true,
+    [326450] = true
 }
 
 DMW.Enums.HardCCUnits = {}
