@@ -27,3 +27,21 @@ end
 function Rotation.Setting(Setting)
     return DMW.Settings.profile.Rotation[Setting]
 end
+
+function Rotation.Defensive()
+    local CastSpellID, ChannelSpellID
+    for Pointer, _ in ipairs(DMW.Enemies) do
+        CastSpellID = select(9, UnitCastingInfo(Pointer))
+        ChannelSpellID = select(8, UnitChannelInfo(Pointer))
+        if CastSpellID and DMW.Enums.DefensiveCast[CastSpellID] then
+            return true
+        elseif ChannelSpellID and DMW.Enums.DefensiveCast[ChannelSpellID] then
+            return true
+        end
+    end
+    for SpellID, _ in pairs(DMW.Enums.DefensiveDebuff) do
+        if DMW.Player:AuraByID(SpellID) then
+            return true
+        end
+    end
+end

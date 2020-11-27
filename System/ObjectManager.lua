@@ -127,6 +127,9 @@ local function UpdateUnits()
         if Unit.ValidEnemy then
             table.insert(Enemies, Unit)
         end
+        if Unit.ObjectID == 26125 and UnitCreator(Pointer) and DMW.Player.Pointer == UnitCreator(Pointer) then -- DK Ghoul
+            DMW.Player.Ghoul = Unit
+        end 
         if Unit.Player and UnitIsUnit(Pointer, "player") then
             Unit:CalculateHP()
             table.insert(Friends, Unit)

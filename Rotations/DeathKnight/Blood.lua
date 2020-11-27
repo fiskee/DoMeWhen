@@ -22,9 +22,13 @@ local function CreateSettings()
         UI.AddRange("Tombstone HP", "HP to use Tombstone", 0, 100, 1, 65)
         UI.AddToggle("Healthstone", "Use Healthstone", true)
         UI.AddRange("Healthstone HP", "HP to use Healthstone", 0, 100, 1, 60)
+        UI.AddToggle("Sacrificial Pact", "Use Sacrificial Pact", true)
+        UI.AddRange("Sacrificial Pact HP", "HP to use Sacrificial Pact", 0, 100, 1, 25)
         UI.AddTab("DPS")
         UI.AddToggle("Dancing Rune Weapon", "Use Dancing Rune Weapon during DPS CDs", true)
         UI.AddRange("Dancing Rune Weapon Enemies", "Enemies to use Dancing Rune Weapon (0 to disable option)", 0, 10, 1, 0)
+        UI.AddToggle("Raise Dead", "Use Raise Dead during DPS CDs", true)
+        UI.AddRange("Raise Dead Enemies", "Enemies to use Raise Dead (0 to disable option)", 0, 10, 1, 3)
         UI.AddTab("Trinkets")
         UI.AddHeader("Trinket 1")
         UI.AddToggle("Trinket 1 CD", "Use Trinket 1 on CD", false, true)
@@ -64,6 +68,10 @@ local function DPS()
     end
     --Consumption
     if Player5YC > 0 and Spell.Consumption:Cast(Player) then
+        return true
+    end
+    --Blow Ghoul
+    if Player.Ghoul and (((Player.GhoulExpire - DMW.Time) < 3 and select(2,Player.Ghoul:GetEnemies(5)) > 0) or ((Player.GhoulExpire - DMW.Time) < 20 and select(2,Player.Ghoul:GetEnemies(5)) > 3) or (Setting("Sacrificial Pact") and Player.HP < Setting("Sacrificial Pact HP"))) and Spell.SacrificialPact:Cast(Player) then
         return true
     end
     --Marrowrend
@@ -131,6 +139,10 @@ local function Defensive()
     if Setting("Rune Tap") and Player.HP <= Setting("Rune Tap HP") and Spell.RuneTap:Cast(Player) then
         return true
     end
+    --
+    if not Buff.RuneTap:Exist(Player) and Rotation.Defensive() and Spell.RuneTap:Cast(Player) then
+        return true
+    end
     --Tombstone
     if Talent.Tombstone.Active and Setting("Tombstone") and Player.HP <= Setting("Tombstone HP") and Buff.BoneShield:Stacks() >= 5 and Spell.Tombstone:Cast(Player) then
         return true
@@ -149,6 +161,10 @@ local function Cooldowns()
     end
     --Dancing Rune Weapon
     if ((Player:CDs() and Setting("Dancing Rune Weapon") and Target.TTD > 5) or (Setting("Dancing Rune Weapon Enemies") > 0 and Player5YC >= Setting("Dancing Rune Weapon Enemies") and Target.TTD > 4)) and Spell.DancingRuneWeapon:Cast() then
+        return true
+    end
+    --Raise dead
+    if ((Player:CDs() and Setting("Raise Dead") and Target.TTD > 15) or (Setting("Raise Dead Enemies") > 0 and Player5YC >= Setting("Raise Dead Enemies") and Target.TTD > 7)) and Spell.RaiseDead:Cast(Player) then
         return true
     end
 end

@@ -35,6 +35,14 @@ local function EventHandler(self, event, ...)
                 else
                     DMW.Player.Consecration = false
                 end
+            elseif DMW.Player.Class == "DEATHKNIGHT" then
+                local haveTotem, totemName, startTime, duration, icon = GetTotemInfo(1)
+                if haveTotem then
+                    DMW.Player.GhoulExpire = startTime + duration
+                elseif DMW.Player.Ghoul then
+                    DMW.Player.GhoulExpire = false
+                    DMW.Player.Ghoul = false
+                end
             end
         elseif event == "ACTIONBAR_SLOT_CHANGED" then
             DMW.Helpers.Queue.GetBindings()

@@ -5,10 +5,12 @@ local WoundSpender, AnyDnD, Pooling = false, false, false
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local PetTimer = GetTime()
+local Setting = DMW.Helpers.Rotation.Setting
 
 local function CreateSettings()
     if not UI.HUD.Options then
-
+        UI.AddTab("Defensive")
+        UI.AddRange("Death Strike HP", "HP to use Death Strike", 0, 100, 1, 70, true)
     end
 end
 
@@ -84,7 +86,13 @@ local function AoEBurst()
     -- actions.aoe_burst+=/epidemic,if=runic_power.deficit<25&death_knight.fwounded_targets>5&!variable.pooling_for_gargoyle
     -- actions.aoe_burst+=/epidemic,if=!death_knight.fwounded_targets&!variable.pooling_for_gargoyle
     -- actions.aoe_burst+=/wound_spender
+    if WoundSpender:Cast(Target) then
+        return true
+    end
     -- actions.aoe_burst+=/epidemic,if=!variable.pooling_for_gargoyle
+    if not Pooling and Spell.Epidemic:Cast() then
+        return true
+    end
 end
 
 local function AoESetup()
@@ -95,11 +103,24 @@ local function AoESetup()
     if not Player.Moving and Target.TTD > 4 and Spell.DeathAndDecay:Cast(Player) then
         return true
     end
-    -- actions.aoe_setup+=/any_dnd,if=death_knight.fwounded_targets>=5
     -- actions.aoe_setup+=/epidemic,if=!variable.pooling_for_gargoyle&runic_power.deficit<20|buff.sudden_doom.react
+    if ((not Pooling and Player.PowerDeficit < 20) or Buff.SuddenDoom:Exist()) and Spell.Epidemic:Cast() then
+        return true
+    end
     -- actions.aoe_setup+=/festering_strike,target_if=max:debuff.festering_wound.stack,if=debuff.festering_wound.stack<=3&cooldown.apocalypse.remains<3
+    local Unit, StackCount = Debuff.FesteringWound:HighestStacks(Player5Y)
+    if StackCount <= 3 and Player:CDs() and Spell.Apocalypse:CD() < 3 and Spell.FesteringStrike:Cast(Unit) then
+        return true
+    end
     -- actions.aoe_setup+=/festering_strike,target_if=debuff.festering_wound.stack<1
-    -- actions.aoe_setup+=/festering_strike,target_if=min:debuff.festering_wound.stack,if=rune.time_to_4<(cooldown.death_and_decay.remains&!talent.defile.enabled|cooldown.defile.remains&talent.defile.enabled)
+    if Spell.FesteringStrike:IsReady() then
+        for _,Unit in ipairs(Player5Y) do
+            if Debuff.FesteringWound:Stacks() == 0 and Spell.FesteringStrike:Cast(Unit) then
+                return true
+            end
+        end
+    end
+    -- actions.aoe_setup+=/festering_strike,target_if=min:debuff.festering_wound.stack,if=rune.time_to_4<(cooldown.death_and_decay.remains&!talent.defile|cooldown.defile.remains&talent.defile)
     -- actions.aoe_setup+=/epidemic,if=!variable.pooling_for_gargoyle
     if Target.TTD > 5 and Player8YC > 2 and Spell.AbominationLimb:Cast(Player) then
         return true
@@ -112,6 +133,9 @@ end
 local function AoE()
     -- actions.generic_aoe=epidemic,if=buff.sudden_doom.react
     -- actions.generic_aoe+=/epidemic,if=!variable.pooling_for_gargoyle
+    if (not Pooling or Buff.SuddenDoom:Exist()) and Spell.Epidemic:Cast() then
+        return true
+    end
     -- actions.generic_aoe+=/wound_spender,target_if=max:debuff.festering_wound.stack,if=(cooldown.apocalypse.remains>5&debuff.festering_wound.up|debuff.festering_wound.stack>4)&(fight_remains<cooldown.death_and_decay.remains+10|fight_remains>cooldown.apocalypse.remains)
     -- actions.generic_aoe+=/festering_strike,target_if=max:debuff.festering_wound.stack,if=debuff.festering_wound.stack<=3&cooldown.apocalypse.remains<3|debuff.festering_wound.stack<1
     -- actions.generic_aoe+=/festering_strike,target_if=min:debuff.festering_wound.stack,if=cooldown.apocalypse.remains>5&debuff.festering_wound.stack<1
@@ -184,7 +208,7 @@ local function Defensive()
     if Player.HP < 70 and Spell.Transfusion:Cast(Player) then
         return true
     end
-    if Player.HP < 78 and Spell.DeathStrike:Cast(Target) then
+    if Player.HP < Setting("Death Strike HP") and Spell.DeathStrike:Cast(Target) then
         return true
     end
 end
@@ -204,6 +228,16 @@ local function RunRotation()
         PetTimer = DMW.Time + 1.2
         PetAttack()
     end
+    -- actions+=/outbreak,if=dot.virulent_plague.refreshable&!talent.unholy_blight&!raid_event.adds.exists
+    if Target.Distance <= 5 and Player8YC == 1 and not Talent.UnholyBlight.Active and Debuff.VirulentPlague:Refresh(Target) and Spell.Outbreak:Cast() then
+        return true
+    end
+    -- actions+=/outbreak,if=dot.virulent_plague.refreshable&(!talent.unholy_blight|talent.unholy_blight&cooldown.unholy_blight.remains)&active_enemies>=2
+    if Target.Distance <= 5 and Player8YC >= 2 and (not Talent.UnholyBlight.Active or Spell.UnholyBlight:CD() > 0) and Debuff.VirulentPlague:Refresh(Target) and Spell.Outbreak:Cast() then
+        return true
+    end
+    -- actions+=/outbreak,if=runeforge.superstrain&(dot.frost_fever.refreshable|dot.blood_plague.refreshable)
+
     -- actions+=/call_action_list,name=cooldowns
     if Player:CDs() and Cooldowns() then
         return true

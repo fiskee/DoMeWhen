@@ -33,7 +33,8 @@ Spells.DEATHKNIGHT = {
             BoneShield = 195181,
             CrimsonScourge = 81136,
             DancingRuneWeapon = 81256,
-            PathOfFrost = 3714
+            PathOfFrost = 3714,
+            RuneTap = 316616
         },
         Debuffs = {
             BloodPlague = {SpellID = 55078},
@@ -134,7 +135,6 @@ Spells.DEATHKNIGHT = {
             ArmyOfTheDead = {SpellID = 42650},
             Asphyxiate = {SpellID = 108194},
             ClawingShadows = {SpellID = 207311},
-
             DarkTransformation = {SpellID = 325554},
             DeathAndDecay = {SpellID = 316916, CastType = "Ground"},
             DeathCoil = {SpellID = 316941},
@@ -153,14 +153,15 @@ Spells.DEATHKNIGHT = {
             SummonGargoyle = {SpellID = 49206},
             UnholyAssault = {SpellID = 207289},
             UnholyBlight = {SpellID = 115989},
-            WraithWalk = {SpellID = 212552},
+            WraithWalk = {SpellID = 212552}
         },
         Buffs = {
             DarkSuccor = {SpellID = 178819},
             SuddenDoom = {SpellID = 49530}
         },
         Debuffs = {
-            FesteringWound = {SpellID = 197147}
+            FesteringWound = {SpellID = 197147},
+            VirulentPlague = {SpellID = 191587}
         },
         Talents = {
             AllWillServe = 22025,
@@ -182,7 +183,7 @@ Spells.DEATHKNIGHT = {
             UnholyAssault = 22538,
             UnholyBlight = 22029,
             UnholyPact = 22534,
-            WraithWalk = 22529,
+            WraithWalk = 22529
         },
         Traits = {}
     },
@@ -249,6 +250,7 @@ Spells.DEATHKNIGHT = {
             PowerfulSmash = {SpellID = 212337},
             RaiseAbomination = {SpellID = 288853},
             RaiseAlly = {SpellID = 61999},
+            RaiseDead = {SpellID = 46585},
             Reanimation = {SpellID = 210128},
             Rise = {SpellID = 113143},
             RuneStrike = {SpellID = 316239},
