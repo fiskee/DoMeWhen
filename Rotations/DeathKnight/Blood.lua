@@ -136,7 +136,7 @@ local function Defensive()
         return true
     end
     --Rune Tap
-    if Setting("Rune Tap") and Player.HP <= Setting("Rune Tap HP") and Spell.RuneTap:Cast(Player) then
+    if Setting("Rune Tap") and Player.HP <= Setting("Rune Tap HP") and not Buff.RuneTap:Exist(Player) and Spell.RuneTap:Cast(Player) then
         return true
     end
     --
