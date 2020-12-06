@@ -190,7 +190,7 @@ function Druid.Guardian()
             Player5Y, Player5YC = Player:GetEnemies(5)
             Player8Y, Player8YC = Player:GetEnemies(8)
             Player15Y, Player15YC = Player:GetEnemies(15)
-            Player40Y, Player40YC = Player:GetEnemies(15)
+            Player40Y, Player40YC = Player:GetEnemies(40)
             if not Buff.BearForm:Exist() then
                 if Spell.BearForm:Cast(Player) then
                     return true
