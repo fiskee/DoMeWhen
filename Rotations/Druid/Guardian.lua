@@ -167,10 +167,10 @@ end
 
 local function Interrupt()
     if HUD.Interrupts == 1 then
+        if Target.Distance < 13 and Target:Interrupt() and Spell.SkullBash:Cast(Target) then
+            return true
+        end
         if Player5YC > 0 and Spell.SkullBash:IsReady() then
-            if Target:Interrupt() and Spell.SkullBash:Cast(Target) then
-                return true
-            end
             for _, Unit in pairs(Player5Y) do
                 if Unit:Interrupt() and Spell.SkullBash:Cast(Unit) then
                     return true
