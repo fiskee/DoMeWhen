@@ -26,7 +26,7 @@ Tracker.Visions = {
 
 Tracker.TorghastUnits = {
     [167986] = "Ashen Phylactery",
-    [169902] = "Soul",
+    [169902] = "Soul"
 }
 
 Tracker.TorghastObjects = {
@@ -34,7 +34,7 @@ Tracker.TorghastObjects = {
     [336799] = "Anima Chest",
     [324030] = "Anima Cell",
     [330193] = "Anima Cell",
-    [338483] = "Stolen Anima",
+    [338483] = "Stolen Anima"
 }
 
 Tracker.Herbs = {
@@ -61,7 +61,7 @@ Tracker.Herbs = {
     [351470] = "Death Blossom",
     [351471] = "Death Blossom",
     [336691] = "Nightshade",
-    [336690] = "Rising Glory",
+    [336690] = "Rising Glory"
 }
 
 Tracker.Ore = {
@@ -161,5 +161,6 @@ Tracker.MountsRare = {
     [157466] = "Anh-De the Loyal",
     [157153] = "Ha-Li",
     [157146] = "Rotfeaster",
-    [162765] = "Friendly Alpaca"
+    [162765] = "Friendly Alpaca",
+    [173468] = "Dead Blanchy"
 }

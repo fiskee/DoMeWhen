@@ -23,7 +23,7 @@ local function FacingCast(SpellName, Target)
 				FaceDirection(ObjectFacing("player"), true)
 			end
 		)
-	else
+	elseif CastTime == 0 or ObjectIsFacing("Player", Target or "Target") then
 		CastSpellByName(SpellName, Target)
 	end
 end

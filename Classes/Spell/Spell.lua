@@ -80,11 +80,11 @@ function Spell:IsKnown()
 end
 
 function Spell:Charges()
-    return GetSpellCharges(self.SpellID)
+    return GetSpellCharges(self.SpellName)
 end
 
 function Spell:ChargesFrac()
-    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellID)
+    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellName)
     if Charges ~= MaxCharges then
         return Charges + (1 - (Start + Duration - DMW.Time) / Duration)
     else
@@ -93,7 +93,7 @@ function Spell:ChargesFrac()
 end
 
 function Spell:RechargeTime()
-    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellID)
+    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellName)
     if Charges ~= MaxCharges then
         return Start + Duration - DMW.Time
     else
@@ -102,7 +102,7 @@ function Spell:RechargeTime()
 end
 
 function Spell:FullRechargeTime()
-    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellID)
+    local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellName)
     if Charges ~= MaxCharges then
         local ChargesFracRemain = MaxCharges - (Charges + (1 - (Start + Duration - DMW.Time) / Duration))
         return ChargesFracRemain * Duration

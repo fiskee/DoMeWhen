@@ -27,7 +27,7 @@ Spells.DRUID = {
             Wrath = {SpellID = 190984}
         },
         Buffs = {
-            MoonkinForm = 231042,
+            MoonkinForm = 231042
         },
         Debuffs = {
             Moonfire = {SpellID = 328023, BaseDuration = 18},
@@ -102,10 +102,8 @@ Spells.DRUID = {
             BearForm = {SpellID = 270100},
             Berserk = {SpellID = 343240},
             BristlingFur = {SpellID = 155835},
-            CriticalStrikes = {SpellID = 157447},
             FrenziedRegeneration = {SpellID = 301768},
             Gore = {SpellID = 210706},
-            GuardianDruid = {SpellID = 137010},
             IncapacitatingRoar = {SpellID = 99},
             IncarnationGuardianOfUrsoc = {SpellID = 102558},
             InfectedWounds = {SpellID = 345208},
@@ -113,9 +111,9 @@ Spells.DRUID = {
             LightningReflexes = {SpellID = 231065},
             Mangle = {SpellID = 231064},
             Maul = {SpellID = 6807},
+            Moonfire = {SpellID = 8921},
             Pulverize = {SpellID = 80313},
             RemoveCorruption = {SpellID = 2782},
-            ShapeshiftForm = {SpellID = 228545},
             SkullBash = {SpellID = 106839},
             StampedingRoar = {SpellID = 288826},
             SurvivalInstincts = {SpellID = 328767},
@@ -124,8 +122,21 @@ Spells.DRUID = {
             Thrash = {SpellID = 106832},
             UrsineAdept = {SpellID = 300346}
         },
-        Buffs = {},
-        Debuffs = {},
+        Buffs = {
+            BearForm = {SpellID = 270100},
+            Berserk = {SpellID = 343240},
+            FrenziedRegeneration = {SpellID = 301768},
+            GalacticGuardian = {SpellID = 213708},
+            IncarnationGuardianOfUrsoc = {SpellID = 102558},
+            Ironfur = {SpellID = 231070},
+            SurvivalInstincts = {SpellID = 328767},
+            ToothAndClaw = {SpellID = 135286}
+        },
+        Debuffs = {
+            Moonfire = {SpellID = 8921, BaseDuration = 16},
+            Thrash = {SpellID = 106832},
+            ToothAndClaw = {SpellID = 135601}
+        },
         Talents = {
             BloodFrenzy = 22418,
             Brambles = 22419,
@@ -267,6 +278,7 @@ Spells.DRUID = {
             WildCharge = {SpellID = 102401}
         },
         Buffs = {
+            Barkskin = {SpellID = 22812},
             CatForm = 57655,
             TravelForm = 783,
             EclipseLunar = 48518,

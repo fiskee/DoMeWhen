@@ -94,6 +94,7 @@ Rotations\DemonHunter\Vengeance.lua
 
 Rotations\Druid\Shared.lua
 Rotations\Druid\Balance.lua
+Rotations\Druid\Guardian.lua
 
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
