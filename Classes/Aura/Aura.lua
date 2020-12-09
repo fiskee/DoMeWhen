@@ -120,7 +120,7 @@ function Debuff:Refresh(Unit, OnlyPlayer)
     local Remain = self:Remain(Unit, OnlyPlayer)
     if Remain > 0 then
         local Duration = self.BaseDuration or self:Duration()
-        return Remain < (Duration * 0.3)
+        return Remain < (Duration * 0.3) and Unit.TTD > Remain
     end
     return true
 end

@@ -280,9 +280,10 @@ Spells.DRUID = {
         Buffs = {
             Barkskin = {SpellID = 22812},
             CatForm = 57655,
-            TravelForm = 783,
             EclipseLunar = 48518,
-            EclipseSolar = 48517
+            EclipseSolar = 48517,
+            Prowl = {SpellID = 102547},
+            TravelForm = 783
         },
         Debuffs = {},
         Talents = {
