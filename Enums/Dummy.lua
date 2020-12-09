@@ -99,4 +99,6 @@ DMW.Enums.Dummy = {
 	[144082] = "Training Dummy <PVP Damage>",
 	[144085] = "Training Dummy <Damage>",
 	[144086] = "Raider's Training Dummy <Damage>",
+	[175456] = "Swarm Training Dummy",
+	[175455] = "Cleave Training Dummy"
 }

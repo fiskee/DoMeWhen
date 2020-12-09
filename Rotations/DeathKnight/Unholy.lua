@@ -100,7 +100,7 @@ local function AoESetup()
         return true
     end
     -- actions.aoe_setup=any_dnd,if=death_knight.fwounded_targets=active_enemies|raid_event.adds.exists&raid_event.adds.remains<=11
-    if not Player.Moving and Target.TTD > 4 and Spell.DeathAndDecay:Cast(Player) then
+    if not Player.Moving and Target.TTD > 4 and Debuff.FesteringWound:Count(Player5Y) == Player5YC and AnyDnD:Cast(Player) then
         return true
     end
     -- actions.aoe_setup+=/epidemic,if=!variable.pooling_for_gargoyle&runic_power.deficit<20|buff.sudden_doom.react
@@ -115,7 +115,7 @@ local function AoESetup()
     -- actions.aoe_setup+=/festering_strike,target_if=debuff.festering_wound.stack<1
     if Spell.FesteringStrike:IsReady() then
         for _,Unit in ipairs(Player5Y) do
-            if Debuff.FesteringWound:Stacks() == 0 and Spell.FesteringStrike:Cast(Unit) then
+            if Debuff.FesteringWound:Stacks(Unit) == 0 and Spell.FesteringStrike:Cast(Unit) then
                 return true
             end
         end
@@ -137,8 +137,19 @@ local function AoE()
         return true
     end
     -- actions.generic_aoe+=/wound_spender,target_if=max:debuff.festering_wound.stack,if=(cooldown.apocalypse.remains>5&debuff.festering_wound.up|debuff.festering_wound.stack>4)&(fight_remains<cooldown.death_and_decay.remains+10|fight_remains>cooldown.apocalypse.remains)
+    local Unit, StackCount = Debuff.FesteringWound:HighestStacks(Player5Y)
+    if StackCount >= 1 and (not Player:CDs() or Spell.Apocalypse:CD() > 5 or StackCount > 4 or Target.TTD < Spell.Apocalypse:CD()) and WoundSpender:Cast(Unit) then
+        return true
+    end
     -- actions.generic_aoe+=/festering_strike,target_if=max:debuff.festering_wound.stack,if=debuff.festering_wound.stack<=3&cooldown.apocalypse.remains<3|debuff.festering_wound.stack<1
+    if StackCount <= 3 and ((Player:CDs() and Spell.Apocalypse:CD() < 3) or StackCount == 0) and Spell.FesteringStrike:Cast(Unit) then
+        return true
+    end
     -- actions.generic_aoe+=/festering_strike,target_if=min:debuff.festering_wound.stack,if=cooldown.apocalypse.remains>5&debuff.festering_wound.stack<1
+    Unit, StackCount = Debuff.FesteringWound:LowestStacks(Player5Y)
+    if StackCount == 0 and (not Player:CDs() or Spell.Apocalypse:CD() > 5) and Spell.FesteringStrike:Cast(Unit) then
+        return true
+    end
 end
 
 local function SingleTarget()
@@ -256,7 +267,7 @@ local function RunRotation()
         return true
     end
     -- actions+=/call_action_list,name=generic,if=active_enemies=1
-    if SingleTarget() then
+    if Player5YC == 1 and SingleTarget() then
         return true
     end
 end
