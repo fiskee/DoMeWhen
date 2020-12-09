@@ -82,3 +82,9 @@ DMW.Enums.UnitBlacklist = {
     [155641] = true, -- Random unit in Mecha city
     [150710] = true -- Hidden Treasure Nazjatar
 }
+
+--Spells that don't trigger aura event for some reason??????????????????????
+DMW.Enums.AuraRefresh = {
+    [85948] = "FesteringStrike",
+    [77575] = "Outbreak"
+}

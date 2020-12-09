@@ -161,7 +161,7 @@ Spells.DEATHKNIGHT = {
         },
         Debuffs = {
             FesteringWound = {SpellID = 197147},
-            VirulentPlague = {SpellID = 191587}
+            VirulentPlague = {SpellID = 191587, BaseDuration = 26}
         },
         Talents = {
             AllWillServe = 22025,
