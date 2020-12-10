@@ -19,7 +19,8 @@ local defaults = {
         Enemy = {
             InterruptPct = 70,
             ChannelInterrupt = 1,
-            InterruptTarget = 1
+            InterruptTarget = 1,
+            DrawDangerous = false
         },
         DispelDelay = 1,
         Rotation = {},

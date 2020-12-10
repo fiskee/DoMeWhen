@@ -255,9 +255,29 @@ local Options = {
             type = "group",
             order = 3,
             args = {
-                InterruptHeader = {
+                GeneralHeader = {
                     type = "group",
                     order = 1,
+                    name = "General",
+                    args = {
+                        DrawDangerous = {
+                            type = "toggle",
+                            order = 1,
+                            name = "Draw Dangerous Spells",
+                            desc = "Draw cone and rect spells that should be dodged",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Enemy.DrawDangerous
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Enemy.DrawDangerous = value
+                            end
+                        }
+                    }
+                },
+                InterruptHeader = {
+                    type = "group",
+                    order = 2,
                     name = "Interrupts",
                     args = {
                         InterruptPct = {

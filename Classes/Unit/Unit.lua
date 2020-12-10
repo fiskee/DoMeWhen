@@ -48,6 +48,9 @@ function Unit:Update()
     self.Moving = GetUnitSpeed(self.Pointer) > 0
     self.Facing = ObjectIsFacing("Player", self.Pointer)
     self.IsQuest = self:IsQuestUnit()
+    if DMW.Settings.profile.Enemy.DrawDangerous then
+        self:Drawings()
+    end
 end
 
 function Unit:UpdatePosition()

@@ -32,6 +32,7 @@ Classes\Unit\Unit.lua
 Classes\Unit\TimeToDie.lua
 Classes\Unit\Friend.lua
 Classes\Unit\Quest.lua
+Classes\Unit\Drawings.lua
 Classes\Spell\Spell.lua
 Classes\Spell\Cast.lua
 Classes\Spell\LastCast.lua
