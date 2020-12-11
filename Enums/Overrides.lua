@@ -67,7 +67,12 @@ DMW.Enums.Threat = {
     [158478] = true,
     [164558] = true,
     [164532] = true,
-    [166473] = true
+    [166473] = true,
+    [166608] = true, -- Mueh'zala - De Other Side
+    [166618] = true,
+    [169769] = true,
+    [171665] = true,
+    [168326] = true
 }
 
 DMW.Enums.EnemyBlacklist = {
