@@ -105,21 +105,26 @@ local function UpdateUnits()
     DMW.Player.Focus = nil
     DMW.Player.Mouseover = nil
     DMW.Player.Pet = nil
-
+    if UnitIsVisible("target") and Units[ObjectPointer("target")] then
+        DMW.Player.Target = Units[ObjectPointer("target")]
+    end
+    if UnitIsVisible("mouseover") and Units[ObjectPointer("mouseover")] then
+        DMW.Player.Mouseover = Units[ObjectPointer("mouseover")]
+    end
+    if UnitIsVisible("focus") and Units[ObjectPointer("focus")] then
+        DMW.Player.Focus = Units[ObjectPointer("focus")]
+    end
+    if UnitIsVisible("pet") and Units[ObjectPointer("pet")] then
+        DMW.Player.Focus = Units[ObjectPointer("pet")]
+    end
+    if DMW.Player.Pointer and Units[DMW.Player.Pointer] then
+        Units[DMW.Player.Pointer]:Update()
+        Units[DMW.Player.Pointer]:CalculateHP()
+        table.insert(Friends, Units[DMW.Player.Pointer])
+    end
     for Pointer, Unit in pairs(Units) do
         if not Unit.NextUpdate or Unit.NextUpdate < DMW.Time then
             Unit:Update()
-        end
-        if not DMW.Player.Target and UnitIsUnit(Pointer, "target") then
-            DMW.Player.Target = Unit
-        end
-        if not DMW.Player.Mouseover and UnitIsUnit(Pointer, "mouseover") then
-            DMW.Player.Mouseover = Unit
-        elseif not DMW.Player.Focus and UnitIsUnit(Pointer, "focus") then
-            DMW.Player.Focus = Unit
-        end
-        if DMW.Player.PetActive and not DMW.Player.Pet and UnitIsUnit(Pointer, "pet") then
-            DMW.Player.Pet = Unit
         end
         if Unit.Attackable then
             table.insert(Attackable, Unit)
@@ -130,10 +135,7 @@ local function UpdateUnits()
         if Unit.ObjectID == 26125 and UnitCreator(Pointer) and DMW.Player.Pointer == UnitCreator(Pointer) then -- DK Ghoul
             DMW.Player.Ghoul = Unit
         end 
-        if Unit.Player and UnitIsUnit(Pointer, "player") then
-            Unit:CalculateHP()
-            table.insert(Friends, Unit)
-        elseif DMW.Player.InGroup and Unit.Player and not Unit.Attackable and Unit.LoS and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
+        if DMW.Player.InGroup and Unit.Player and not Unit.Attackable and Unit.LoS and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
             Unit:CalculateHP()
             table.insert(Friends, Unit)
         end
