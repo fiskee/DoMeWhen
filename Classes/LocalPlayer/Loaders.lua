@@ -117,7 +117,6 @@ function LocalPlayer:GetCovenantData()
             self.Covenant = CovenantData.textureKit
         end
         local Data = C_Soulbinds.GetSoulbindData(C_Soulbinds.GetActiveSoulbindID())
-        local ID
         for _, node in pairs(Data.tree.nodes) do
             if node.state == 3 and node.conduitID and DMW.Enums.Conduits[node.conduitID] then
                 self.Conduits[DMW.Enums.Conduits[node.conduitID]] = true
