@@ -48,12 +48,10 @@ Spells.MAGE = {
         Abilities = {
             AlterTime = {SpellID = 108978},
             Blizzard = {SpellID = 321696},
-            BrainFreeze = {SpellID = 231584},
             ColdSnap = {SpellID = 321699},
             CometStorm = {SpellID = 153595},
             ConeOfCold = {SpellID = 343180},
             Ebonbolt = {SpellID = 257537},
-            FingersOfFrost = {SpellID = 112965},
             Flurry = {SpellID = 44614},
             Freeze = {SpellID = 231596},
             FrostNova = {SpellID = 343183},
@@ -69,8 +67,17 @@ Spells.MAGE = {
             Shatter = {SpellID = 231582},
             SummonWaterElemental = {SpellID = 31687}
         },
-        Buffs = {},
-        Debuffs = {},
+        Buffs = {
+            BrainFreeze = {SpellID = 231584},
+            ExpandedPotential = {SpellID = 327495},
+            FingersOfFrost = {SpellID = 112965},
+            FreezingWinds = {SpellID = 327364},
+            IceFloes = {SpellID = 108839}
+        },
+        Debuffs = {
+            WintersChill = {SpellID = 228358},
+            IceFloes = {SpellID = 108839}
+        },
         Talents = {
             BoneChilling = 22457,
             ChainReaction = 22466,
@@ -224,11 +231,9 @@ Spells.MAGE = {
             Reveal = {SpellID = 320641},
             RewindTime = {SpellID = 213220},
             RingOfFrost = {SpellID = 113724},
-            RingOfFrost = {SpellID = 136511},
             RocketLaunch = {SpellID = 71591},
             RottingTouch = {SpellID = 50197},
             RuneOfPower = {SpellID = 116011},
-            RuneOfPower = {SpellID = 162113},
             Scorch = {SpellID = 196150},
             SearingBlast = {SpellID = 16454},
             Selfsheep = {SpellID = 53325},
@@ -275,8 +280,12 @@ Spells.MAGE = {
             VoidZone = {SpellID = 37063},
             Waterbolt = {SpellID = 31707}
         },
-        Buffs = {},
-        Debuffs = {},
+        Buffs = {
+            RuneOfPower = {SpellID = 116011}
+        },
+        Debuffs = {
+            MirrorsOfTorment = {SpellID = 314793}
+        },
         Talents = {
             FocusMagic = 22445,
             IceWard = 22448,
