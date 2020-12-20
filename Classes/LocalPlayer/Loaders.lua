@@ -70,10 +70,12 @@ function LocalPlayer:GetTalents()
 end
 
 function LocalPlayer:UpdateEquipment()
-    table.wipe(self.Equipment)
+    table.wipe(self.Equipment)  
     table.wipe(self.EquipmentID)
+    table.wipe(self.Runeforge)
     self.Items.Trinket1 = nil
     self.Items.Trinket2 = nil
+    local FoundRuneforge = false
     local ItemID
     for i = 1, 19 do
         ItemID = GetInventoryItemID("player", i)
@@ -84,6 +86,16 @@ function LocalPlayer:UpdateEquipment()
                 self.Items.Trinket1 = DMW.Classes.Item(ItemID)
             elseif i == 14 then
                 self.Items.Trinket2 = DMW.Classes.Item(ItemID)
+            end
+            if not FoundRuneforge then
+                local string = GetInventoryItemLink("player",i)
+                if string then
+                    local legID = select(15,strsplit(":", string))
+                    if DMW.Enums.Runeforge[tonumber(legID)] then
+                        self.Runeforge[DMW.Enums.Runeforge[tonumber(legID)]] = true
+                        FoundRuneforge = true
+                    end
+                end
             end
         end
     end

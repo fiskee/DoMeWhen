@@ -78,6 +78,8 @@ Enums\Interrupts.lua
 Enums\CC.lua
 Enums\Tracker.lua
 Enums\Defensive.lua
+Enums\Runeforge.lua
+Enums\Soulbinds.lua
 
 UI\Main.lua
 UI\HUD.lua

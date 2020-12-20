@@ -19,6 +19,7 @@ function LocalPlayer:New(Pointer)
     self:GetSpells()
     self:GetTalents()
     self.Equipment = {}
+    self.Runeforge = {}
     self.EquipmentID = {}
     self.Items = {}
     self:UpdateEquipment()
