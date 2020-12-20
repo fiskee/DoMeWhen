@@ -47,7 +47,7 @@ Spells.MAGE = {
     Frost = {
         Abilities = {
             AlterTime = {SpellID = 108978},
-            Blizzard = {SpellID = 321696},
+            Blizzard = {SpellID = 190356, CastType = "Ground"},
             ColdSnap = {SpellID = 321699},
             CometStorm = {SpellID = 153595},
             ConeOfCold = {SpellID = 343180},
@@ -71,6 +71,7 @@ Spells.MAGE = {
             BrainFreeze = {SpellID = 231584},
             ExpandedPotential = {SpellID = 327495},
             FingersOfFrost = {SpellID = 112965},
+            FreezingRain = {SpellID = 270232},
             FreezingWinds = {SpellID = 327364},
             IceFloes = {SpellID = 108839}
         },
@@ -111,7 +112,7 @@ Spells.MAGE = {
             BlazingEmblem = {SpellID = 13744},
             BlazingSpeed = {SpellID = 108843},
             Blink = {SpellID = 341432},
-            Blizzard = {SpellID = 250424},
+            Blizzard = {SpellID = 190356, CastType = "Ground"},
             BountyOfTheHarvest = {SpellID = 24006},
             BurstOfCold = {SpellID = 228366},
             ChargedUp = {SpellID = 205032},

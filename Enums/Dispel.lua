@@ -13,6 +13,8 @@ DMW.Enums.DispelSpells = {
     [264264] = {"Magic", ""},
     [264265] = {"Magic", ""},
     [264266] = {"Magic", ""},
+    --Mage
+    [475] = {"Curse"},
     --Monk
     [115450] = {"Disease", "Magic", "Poison"},
     [218164] = {"Disease", "Poison"},

@@ -121,11 +121,25 @@ function Unit:HasThreat()
     return false
 end
 
-function Unit:GetEnemies(Yards)
+function Unit:GetEnemies(Yards, TTD)
     local Table = {}
     local Count = 0
+    TTD = TTD or 0
     for _, v in pairs(DMW.Enemies) do
-        if self:GetDistance(v) <= Yards then
+        if self:GetDistance(v) <= Yards and v.TTD >= TTD then
+            table.insert(Table, v)
+            Count = Count + 1
+        end
+    end
+    return Table, Count
+end
+
+function Unit:GetAttackable(Yards, TTD)
+    local Table = {}
+    local Count = 0
+    TTD = TTD or 0
+    for _, v in pairs(DMW.Attackable) do
+        if self:GetDistance(v) <= Yards and v.TTD >= TTD then
             table.insert(Table, v)
             Count = Count + 1
         end
