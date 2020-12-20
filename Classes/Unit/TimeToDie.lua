@@ -60,7 +60,7 @@ function Unit:GetTTD(targetPercentage)
             if ttdSec > 0 then
                 return ttdSec
             end
-            return -1 -- TTD under 0
+            return 0 -- TTD under 0
         end
     end
     return 999 -- not enough values

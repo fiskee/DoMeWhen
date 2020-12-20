@@ -26,6 +26,7 @@ function LocalPlayer:New(Pointer)
     self:UpdateEquipment()
     self:GetItems()
     self:GetCovenantData()
+    self.Player = true
     DMW.Helpers.Queue.GetBindings()
 end
 

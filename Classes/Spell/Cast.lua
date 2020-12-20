@@ -38,7 +38,7 @@ function Spell:Cast(Unit)
 			return false
 		end
 	end
-	if DMW.Time > CastTimer and self:IsReady() and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) then
+	if DMW.Time > CastTimer and self:IsReady() and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) and (Unit.Player or Unit.TTD >= self:CastTime()) then
 		CastTimer = DMW.Time + (math.random(110, 170) / 1000)
 		if DMW.Player.Moving then
 			SendMovementUpdate()
@@ -46,6 +46,8 @@ function Spell:Cast(Unit)
 		if self.CastType == "Ground" then
 			if Unit == DMW.Player then
 				RunMacroText("/cast [@player] " .. self.SpellName)
+			elseif Unit == DMW.Target then
+				RunMacroText("/cast [@target] " .. self.SpellName)
 			elseif self:CastGround(Unit.PosX, Unit.PosY, Unit.PosZ) then
 				self.LastBotTarget = Unit.Pointer
 			else

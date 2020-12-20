@@ -112,7 +112,12 @@ function Spell:FullRechargeTime()
 end
 
 function Spell:CastTime()
-    return select(4, GetSpellInfo(self.SpellName))
+    local CastTime = select(4, GetSpellInfo(self.SpellName))
+    if CastTime and CastTime > 0 then
+        return CastTime / 1000
+    else
+        return 0
+    end
 end
 
 --Very messy way to do this?
