@@ -53,15 +53,13 @@ Spells.PRIEST = {
         },
         Talents = {
             DivineStar = 19760
-        },
-        Traits = {}
+        }
     },
     Holy = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     Shadow = {
         Abilities = {
@@ -91,10 +89,6 @@ Spells.PRIEST = {
             Mindbender = 121557,
             Misery = 121557,
             ShadowWordVoid = 121557
-        },
-        Traits = {
-            SearingDialogue = 121557,
-            ThoughtHarvester = 121557
         }
     },
     All = {

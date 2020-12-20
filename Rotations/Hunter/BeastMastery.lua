@@ -1,6 +1,6 @@
 local DMW = DMW
 local Hunter = DMW.Rotations.HUNTER
-local Player, Buff, Debuff, Spell, Target, Pet, Trait, GCD, Pet5Y, Pet5YC, HUD, Player40Y, Player40YC
+local Player, Buff, Debuff, Spell, Target, Pet, GCD, Pet5Y, Pet5YC, HUD, Player40Y, Player40YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 
@@ -16,7 +16,6 @@ local function Locals()
     Buff = Player.Buffs
     Debuff = Player.Debuffs
     Spell = Player.Spells
-    Trait = Player.Traits
     Target = Player.Target or false
     Pet = Player.Pet or false
     GCD = Player:GCD()
@@ -68,7 +67,7 @@ local function Cleave()
     end
     -- actions.cleave+=/barrage
     -- actions.cleave+=/kill_command,if=active_enemies<4|!azerite.rapid_reload.enabled
-    if Pet and not Pet.Dead and (Pet5YC < 4 or Trait.RapidReload.Active) and Pet:GetDistance(Target) < 50 then
+    if Pet and not Pet.Dead and Pet5YC < 4 and Pet:GetDistance(Target) < 50 then
         if Spell.KillCommand:Cast(Target) then
             return true
         end
@@ -78,7 +77,7 @@ local function Cleave()
         return true
     end
     -- actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains,if=pet.cat.buff.frenzy.down&(charges_fractional>1.8|buff.bestial_wrath.up)|cooldown.aspect_of_the_wild.remains<pet.cat.buff.frenzy.duration-gcd&azerite.primal_instincts.enabled|charges_fractional>1.4|target.time_to_die<9
-    if (not Buff.Frenzy:Exist(Pet) and (Spell.BarbedShot:ChargesFrac() > 1.8 or Buff.BestialWrath:Exist())) or (Spell.AspectOfTheWild:CD() < (Buff.Frenzy:Duration() - GCD) and Trait.PrimalInstincts.Active) or (Trait.DanceOfDeath.Rank > 1 and not Buff.DanceOfDeath:Exist() and Player:CritPct() > 40) or Target.TTD < 9 then
+    if (not Buff.Frenzy:Exist(Pet) and (Spell.BarbedShot:ChargesFrac() > 1.8 or Buff.BestialWrath:Exist())) or Target.TTD < 9 then
         if Spell.BarbedShot:Cast(BSTarget) then
             return true
         end
@@ -91,14 +90,8 @@ local function Cleave()
     end
     -- actions.cleave+=/blood_of_the_enemy
     -- actions.cleave+=/the_unbound_force,if=buff.reckless_force.up|buff.reckless_force_counter.stack<10
-    -- actions.cleave+=/multishot,if=azerite.rapid_reload.enabled&active_enemies>2
-    if Pet5YC > 2 and Trait.RapidReload.Active then
-        if Spell.Multishot:Cast(Target) then
-            return true
-        end
-    end
     -- actions.cleave+=/cobra_shot,if=cooldown.kill_command.remains>focus.time_to_max&(active_enemies<3|!azerite.rapid_reload.enabled)
-    if Spell.BestialWrath:CD() > Player:TTM() and (Pet5YC < 3 or not Trait.RapidReload.Active) then
+    if Spell.BestialWrath:CD() > Player:TTM() then
         if Spell.CobraShot:Cast(Target) then
             return true
         end
@@ -111,7 +104,7 @@ end
 
 local function SingleTarget()
     -- actions.st=barbed_shot,if=pet.cat.buff.frenzy.up&pet.cat.buff.frenzy.remains<gcd|cooldown.bestial_wrath.remains&(full_recharge_time<gcd|azerite.primal_instincts.enabled&cooldown.aspect_of_the_wild.remains<gcd)
-    if (Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax()) or (Spell.BestialWrath:CD() > 0 and (Spell.BarbedShot:FullRechargeTime() < Player:GCDMax() or (Trait.PrimalInstincts.Active and Spell.AspectOfTheWild:CD() < Player:GCDMax() and Player:CDs()))) then
+    if (Buff.Frenzy:Exist(Pet) and Buff.Frenzy:Remain(Pet) < Player:GCDMax()) or (Spell.BestialWrath:CD() > 0 and (Spell.BarbedShot:FullRechargeTime() < Player:GCDMax())) then
         if Spell.BarbedShot:Cast(Target) or (Spell.BarbedShot:Charges() == 0 and Spell.BarbedShot:RechargeTime() < Buff.Frenzy:Remain(Pet)) then
             return true
         end
@@ -123,7 +116,7 @@ local function SingleTarget()
         end
     end
     -- actions.st+=/aspect_of_the_wild,if=cooldown.barbed_shot.charges<2|pet.cat.buff.frenzy.stack>2|!azerite.primal_instincts.enabled
-    if Player:CDs() and (Spell.BarbedShot:Charges() < 2 or Buff.Frenzy:Stacks(Pet) > 2 or not Trait.PrimalInstincts.Active) then
+    if Player:CDs() then
         if Spell.AspectOfTheWild:Cast(Player) then
             return true
         end
@@ -158,7 +151,7 @@ local function SingleTarget()
         return true
     end
     -- actions.st+=/barbed_shot,if=pet.cat.buff.frenzy.down&(charges_fractional>1.8|buff.bestial_wrath.up)|cooldown.aspect_of_the_wild.remains<pet.cat.buff.frenzy.duration-gcd&azerite.primal_instincts.enabled|azerite.dance_of_death.rank>1&buff.dance_of_death.down&crit_pct_current>40|target.time_to_die<9
-    if (not Buff.Frenzy:Exist(Pet) and (Spell.BarbedShot:ChargesFrac() > 1.8 or Buff.BestialWrath:Exist())) or (Spell.AspectOfTheWild:CD() < (Buff.Frenzy:Duration() - GCD) and Trait.PrimalInstincts.Active) or (Trait.DanceOfDeath.Rank > 1 and not Buff.DanceOfDeath:Exist() and Player:CritPct() > 40) or Target.TTD < 9 then
+    if (not Buff.Frenzy:Exist(Pet) and (Spell.BarbedShot:ChargesFrac() > 1.8 or Buff.BestialWrath:Exist())) or Target.TTD < 9 then
         if Spell.BarbedShot:Cast(Target) then
             return true
         end

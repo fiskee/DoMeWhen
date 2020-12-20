@@ -8,8 +8,6 @@ EHFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 EHFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 EHFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
 EHFrame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-EHFrame:RegisterEvent("AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED")
-EHFrame:RegisterEvent("AZERITE_ESSENCE_CHANGED")
 EHFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
 EHFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
 EHFrame:RegisterEvent("LOOT_OPENED")
@@ -64,11 +62,6 @@ local function EventHandler(self, event, ...)
             end
         elseif event == "PLAYER_EQUIPMENT_CHANGED" then
             DMW.Player:UpdateEquipment()
-            DMW.Player:GetTraits()
-        elseif event == "AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED" then
-            DMW.Player:GetTraits()
-        elseif event == "AZERITE_ESSENCE_CHANGED" then
-            DMW.Player:GetEssences()
         elseif event == "UNIT_ENTERING_VEHICLE" then
             local Unit = select(1, ...)
             if UnitIsUnit(Unit, "player") then

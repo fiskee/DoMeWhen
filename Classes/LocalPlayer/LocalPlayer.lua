@@ -18,8 +18,6 @@ function LocalPlayer:New(Pointer)
     DMW.Functions.AuraCache.Refresh(Pointer)
     self:GetSpells()
     self:GetTalents()
-    self:GetTraits()
-    self:GetEssences()
     self.Equipment = {}
     self.EquipmentID = {}
     self.Items = {}

@@ -51,25 +51,19 @@ Spells.WARLOCK = {
             SowTheSeeds = 19279,
             VileTaint = 22046,
             WritheInAgony = 22044
-        },
-        Traits = {
-            CascadingCalamity = 275372,
-            InevitableDemise = 273521
         }
     },
     Demonology = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     Destruction = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     All = {
         Abilities = {},

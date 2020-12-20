@@ -1,6 +1,6 @@
 local DMW = DMW
 local Druid = DMW.Rotations.DRUID
-local Player, Buff, Debuff, Spell, Target, Talent, Trait, GCD, HUD, Player40Y, Player40YC, Player5Y, Player5YC, Player8Y, Player8YC, Player15Y, Player15YC, Item
+local Player, Buff, Debuff, Spell, Target, Talent, GCD, HUD, Player40Y, Player40YC, Player5Y, Player5YC, Player8Y, Player8YC, Player15Y, Player15YC, Item
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -47,7 +47,6 @@ local function Locals()
     Buff = Player.Buffs
     Debuff = Player.Debuffs
     Spell = Player.Spells
-    Trait = Player.Traits
     Item = Player.Items
     Talent = Player.Talents
     Target = Player.Target or false

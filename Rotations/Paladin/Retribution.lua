@@ -1,6 +1,6 @@
 local DMW = DMW
 local Paladin = DMW.Rotations.PALADIN
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player8Y, Player8YC
+local Player, Buff, Debuff, Spell, Target, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player8Y, Player8YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -38,7 +38,6 @@ local function Locals()
     Debuff = Player.Debuffs
     Spell = Player.Spells
     Talent = Player.Talents
-    Trait = Player.Traits
     Item = Player.Items
     Target = Player.Target or false
     GCD = Player:GCD()

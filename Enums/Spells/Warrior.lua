@@ -5,15 +5,13 @@ Spells.WARRIOR = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     Fury = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     Protection = {
         Abilities = {
@@ -67,8 +65,7 @@ Spells.WARRIOR = {
             AngerManagement = 21204,
             HeavyRepercussions = 22406,
             Ravager = 23099
-        },
-        Traits = {}
+        }
     },
     All = {
         Abilities = {

@@ -1,6 +1,6 @@
 local DMW = DMW
 local DeathKnight = DMW.Rotations.DEATHKNIGHT
-local Player, Buff, Debuff, Essence, Spell, Target, Trait, GCD, Pet5Y, Pet5YC, HUD, Player5Y, Player5YC, Talent, Item, Player8Y, Player8YC, Player15Y, Player15YC, Player20Y, Player20YC
+local Player, Buff, Debuff, Spell, Target, GCD, Pet5Y, Pet5YC, HUD, Player5Y, Player5YC, Talent, Item, Player8Y, Player8YC, Player15Y, Player15YC, Player20Y, Player20YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -47,10 +47,8 @@ local function Locals()
     Player = DMW.Player
     Buff = Player.Buffs
     Debuff = Player.Debuffs
-    Essence = Player.Essences
     Item = Player.Items
     Spell = Player.Spells
-    Trait = Player.Traits
     Talent = Player.Talents
     Target = Player.Target or false
     GCD = Player:GCD()
@@ -106,10 +104,6 @@ local function DPS()
     end
     --Mark Of Blood
     if Talent.MarkOfBlood.Active and not Debuff.MarkOfBlood:Exist(Target) and Spell.MarkOfBlood:Cast(Target) then
-        return true
-    end
-    --Concentrated Flame
-    if (Essence.TheCrucibleOfFlame.Rank < 3 or not Debuff.ConcentratedFlame:Exist(Target)) and Spell.ConcentratedFlame:Cast(Target) then
         return true
     end
 end

@@ -400,12 +400,6 @@ local Options = {
                     type = "group",
                     order = 2,
                     args = {}
-                },
-                EssencesTab = {
-                    name = "Essences",
-                    type = "group",
-                    order = 3,
-                    args = {}
                 }
             }
         }
@@ -565,24 +559,6 @@ function UI.InitQueue()
     for k, v in pairs(DMW.Player.Spells) do
         if v.CastType ~= "Profession" and v.CastType ~= "Toggle" and v.SpellType ~= "GCD" and v.SpellType ~= "Essence" then
             Options.args.QueueTab.args.ClassTab.args[k] = {
-                type = "select",
-                name = v.SpellName,
-                --desc = Desc,
-                width = "full",
-                values = {"Disabled", "Normal", "Mouseover", "Cursor", "Cursor - No Cast"},
-                style = "dropdown",
-                get = function()
-                    return DMW.Settings.profile.Queue[v.SpellName]
-                end,
-                set = function(info, value)
-                    DMW.Settings.profile.Queue[v.SpellName] = value
-                end
-            }
-            if DMW.Settings.profile.Queue[v.SpellName] == nil then
-                DMW.Settings.profile.Queue[v.SpellName] = 1
-            end
-        elseif v.SpellType == "Essence" then
-            Options.args.QueueTab.args.EssencesTab.args[k] = {
                 type = "select",
                 name = v.SpellName,
                 --desc = Desc,

@@ -62,17 +62,6 @@ Spells.DEATHKNIGHT = {
             Voracious = 19230,
             WillOfTheNecropolis = 22013,
             WraithWalk = 19228
-        },
-        Traits = {
-            BloodyRuneblade = 289339,
-            BoneSpikeGraveyard = 273088,
-            BonesOfTheDamned = 278484,
-            ColdHearted = 288424,
-            DeepCuts = 272684,
-            EternalRuneWeapon = 278479,
-            MarchOfTheDamned = 280011,
-            Marrowblood = 274057,
-            RunicBarrier = 280010
         }
     },
     Frost = {
@@ -126,8 +115,7 @@ Spells.DEATHKNIGHT = {
             Permafrost = 22527,
             RunicAttenuation = 22019,
             WraithWalk = 22530
-        },
-        Traits = {}
+        }
     },
     Unholy = {
         Abilities = {
@@ -184,8 +172,7 @@ Spells.DEATHKNIGHT = {
             UnholyBlight = 22029,
             UnholyPact = 22534,
             WraithWalk = 22529
-        },
-        Traits = {}
+        }
     },
     All = {
         Abilities = {

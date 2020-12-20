@@ -100,6 +100,9 @@ Rotations\Druid\Guardian.lua
 Rotations\Hunter\Shared.lua
 Rotations\Hunter\BeastMastery.lua
 
+Rotations\Mage\Shared.lua
+Rotations\Mage\Frost.lua
+
 Rotations\Paladin\Shared.lua
 Rotations\Paladin\Holy.lua
 Rotations\Paladin\Protection.lua

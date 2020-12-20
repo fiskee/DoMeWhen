@@ -29,28 +29,21 @@ Spells.HUNTER = {
             Frenzy = 272790
         },
         Debuffs = {
-            BarbedShot = {SpellID = 217200},
+            BarbedShot = {SpellID = 217200}
         },
-        Talents = {},
-        Traits = {
-            DanceOfDeath = 274441,
-            PrimalInstincts = 279806,
-            RapidReload = 278530
-        }
+        Talents = {}
     },
     Marksmanship = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     Survival = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     All = {
         Abilities = {

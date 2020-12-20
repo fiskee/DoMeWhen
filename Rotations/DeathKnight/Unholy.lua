@@ -1,6 +1,6 @@
 local DMW = DMW
 local DeathKnight = DMW.Rotations.DEATHKNIGHT
-local Player, Buff, Debuff, Spell, Target, Pet, Trait, Talent, GCD, Pet5Y, Pet5YC, HUD, Player8Y, Player8YC, Player5Y, Player5YC, Player15Y, Player15YC
+local Player, Buff, Debuff, Spell, Target, Pet, Talent, GCD, Pet5Y, Pet5YC, HUD, Player8Y, Player8YC, Player5Y, Player5YC, Player15Y, Player15YC
 local WoundSpender, AnyDnD, Pooling = false, false, false
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
@@ -37,7 +37,6 @@ local function Locals()
     Buff = Player.Buffs
     Debuff = Player.Debuffs
     Spell = Player.Spells
-    Trait = Player.Traits
     Target = Player.Target or false
     Talent = Player.Talents
     Pet = Player.Pet or false

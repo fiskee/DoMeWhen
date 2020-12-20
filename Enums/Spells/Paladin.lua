@@ -17,8 +17,7 @@ Spells.PALADIN = {
             RuleOfLaw = 17593,
             SanctifiedWrath = 23191,
             SavedByTheLight = 22176
-        },
-        Traits = {}
+        }
     },
     Protection = {
         Abilities = {
@@ -42,7 +41,7 @@ Spells.PALADIN = {
             WordOfGlory = {SpellID = 315921},
             BlessedHammer = {SpellID = 204019},
             BlessingOfSpellwarding = {SpellID = 204018},
-            MomentOfGlory = {SpellID = 327193},
+            MomentOfGlory = {SpellID = 327193}
         },
         Buffs = {
             ArdentDefender = 31850,
@@ -69,8 +68,7 @@ Spells.PALADIN = {
             Redoubt = 22558,
             RighteousProtector = 21202,
             SanctifiedWrath = 23457
-        },
-        Traits = {}
+        }
     },
     Retribution = {
         Abilities = {
@@ -90,7 +88,7 @@ Spells.PALADIN = {
             Rebuke = {SpellID = 96231, SpellType = "Interrupt"},
             ShieldOfVengeance = {SpellID = 184662},
             TemplarsVerdict = {SpellID = 85256},
-            WakeOfAshes = {SpellID = 255937},
+            WakeOfAshes = {SpellID = 255937}
         },
         Buffs = {
             AvengingWrathAutocrit = 294027,
@@ -116,8 +114,7 @@ Spells.PALADIN = {
             SanctifiedWrath = 23456,
             SelflessHealer = 23167,
             Zeal = 22590
-        },
-        Traits = {}
+        }
     },
     All = {
         Abilities = {
@@ -224,7 +221,7 @@ Spells.PALADIN = {
             WarriorOfLight = {SpellID = 210341},
             WordOfGlory = {SpellID = 85673},
             XirisWrath = {SpellID = 36944},
-            Zeal = {SpellID = 217020},
+            Zeal = {SpellID = 217020}
         },
         Buffs = {
             AvengingWrath = 31884,

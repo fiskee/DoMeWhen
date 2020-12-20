@@ -5,15 +5,13 @@ Spells.DEMONHUNTER = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     Vengeance = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     All = {
         Abilities = {},

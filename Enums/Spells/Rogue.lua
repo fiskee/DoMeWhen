@@ -57,27 +57,19 @@ Spells.ROGUE = {
             Subterfuge = 22332,
             ToxicBlade = 23015,
             VenomRush = 22343
-        },
-        Traits = {
-            DoubleDose = 273007,
-            EchoingBlades = 287649,
-            ScentOfBlood = 277679,
-            ShroudedSuffocation = 278666
         }
     },
     Outlaw = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     Subtlety = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {},
-        Traits = {}
+        Talents = {}
     },
     All = {
         Abilities = {

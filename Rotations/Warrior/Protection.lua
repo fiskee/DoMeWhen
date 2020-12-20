@@ -1,6 +1,6 @@
 local DMW = DMW
 local Warrior = DMW.Rotations.WARRIOR
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
+local Player, Buff, Debuff, Spell, Target, Talent, Item, GCD, HUD, Player5Y, Player5YC, Player10Y, Player10YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -25,7 +25,6 @@ local function Locals()
     Debuff = Player.Debuffs
     Spell = Player.Spells
     Talent = Player.Talents
-    Trait = Player.Traits
     Item = Player.Items
     Target = Player.Target or false
     GCD = Player:GCD()

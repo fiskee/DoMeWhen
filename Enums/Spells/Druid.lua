@@ -47,8 +47,7 @@ Spells.DRUID = {
             StellarFlare = 22165,
             TwinMoons = 21712,
             WarriorOfElune = 22386
-        },
-        Traits = {}
+        }
     },
     Feral = {
         Abilities = {
@@ -94,8 +93,7 @@ Spells.DRUID = {
             SavageRoar = 18579,
             ScentOfBlood = 21714,
             SoulOfTheForest = 21708
-        },
-        Traits = {}
+        }
     },
     Guardian = {
         Abilities = {
@@ -151,8 +149,7 @@ Spells.DRUID = {
             SoulOfTheForest = 21709,
             SurvivalOfTheFittest = 21713,
             ToothAndClaw = 22427
-        },
-        Traits = {}
+        }
     },
     Restoration = {
         Abilities = {
@@ -196,8 +193,7 @@ Spells.DRUID = {
             Photosynthesis = 22403,
             SoulOfTheForest = 21710,
             SpringBlossoms = 18585
-        },
-        Traits = {}
+        }
     },
     All = {
         Abilities = {

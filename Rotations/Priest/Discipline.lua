@@ -1,6 +1,6 @@
 local DMW = DMW
 local Priest = DMW.Rotations.PRIEST
-local Player, Buff, Debuff, Spell, Target, Trait, Talent, Item, GCD, CDs, HUD, Player40Y, Player40YC, Friends40Y, Friends40YC, Essence
+local Player, Buff, Debuff, Spell, Target, Talent, Item, GCD, CDs, HUD, Player40Y, Player40YC, Friends40Y, Friends40YC
 local UI = DMW.UI
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
@@ -51,9 +51,7 @@ local function Locals()
     Buff = Player.Buffs
     Debuff = Player.Debuffs
     Spell = Player.Spells
-    Essence = Player.Essences
     Talent = Player.Talents
-    Trait = Player.Traits
     Item = Player.Items
     Target = Player.Target or false
     GCD = Player:GCD()
@@ -172,9 +170,6 @@ local function DPS()
     end
     if Target and Target.ValidEnemy then
         if Player:CDs() and Spell.Shadowfiend:Cast(Target) then
-            return true
-        end
-        if (Essence.TheCrucibleOfFlame.Rank < 3 or not Debuff.ConcentratedFlame:Exist(Target)) and Spell.ConcentratedFlame:Cast(Target) then
             return true
         end
         if Talent.DivineStar and Setting("Divine Star DPS") and Player:GetEnemiesInRect(30, 12, 2) >= Setting("Divine Star DPS Units") and Spell.DivineStar:Cast(Player) then
