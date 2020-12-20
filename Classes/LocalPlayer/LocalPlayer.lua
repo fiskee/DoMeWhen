@@ -20,10 +20,12 @@ function LocalPlayer:New(Pointer)
     self:GetTalents()
     self.Equipment = {}
     self.Runeforge = {}
+    self.Conduits = {}
     self.EquipmentID = {}
     self.Items = {}
     self:UpdateEquipment()
     self:GetItems()
+    self:GetCovenantData()
     DMW.Helpers.Queue.GetBindings()
 end
 

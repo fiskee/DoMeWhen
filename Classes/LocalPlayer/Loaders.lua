@@ -70,7 +70,7 @@ function LocalPlayer:GetTalents()
 end
 
 function LocalPlayer:UpdateEquipment()
-    table.wipe(self.Equipment)  
+    table.wipe(self.Equipment)
     table.wipe(self.EquipmentID)
     table.wipe(self.Runeforge)
     self.Items.Trinket1 = nil
@@ -88,11 +88,11 @@ function LocalPlayer:UpdateEquipment()
                 self.Items.Trinket2 = DMW.Classes.Item(ItemID)
             end
             if not FoundRuneforge then
-                local string = GetInventoryItemLink("player",i)
+                local string = GetInventoryItemLink("player", i)
                 if string then
-                    local legID = select(15,strsplit(":", string))
+                    local LegendaryID = select(15, strsplit(":", string))
                     if DMW.Enums.Runeforge[tonumber(legID)] then
-                        self.Runeforge[DMW.Enums.Runeforge[tonumber(legID)]] = true
+                        self.Runeforge[DMW.Enums.Runeforge[tonumber(LegendaryID)]] = true
                         FoundRuneforge = true
                     end
                 end
@@ -105,5 +105,23 @@ function LocalPlayer:GetItems()
     local Item = DMW.Classes.Item
     for Name, ItemID in pairs(DMW.Enums.Items) do
         self.Items[Name] = Item(ItemID)
+    end
+end
+
+function LocalPlayer:GetCovenantData()
+    table.wipe(self.Conduits)
+    local ActiveCovenantID = C_Covenants.GetActiveCovenantID()
+    if ActiveCovenantID > 0 then
+        local CovenantData = C_Covenants.GetCovenantData(ActiveCovenantID)
+        if CovenantData then
+            self.Covenant = CovenantData.textureKit
+        end
+        local Data = C_Soulbinds.GetSoulbindData(C_Soulbinds.GetActiveSoulbindID())
+        local ID
+        for _, node in pairs(Data.tree.nodes) do
+            if node.state == 3 and node.conduitID and DMW.Enums.Conduits[node.conduitID] then
+                self.Conduits[DMW.Enums.Conduits[node.conduitID]] = true
+            end
+        end
     end
 end
