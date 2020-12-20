@@ -4,8 +4,7 @@ local Rotation = DMW.Helpers.Rotation
 
 function Rotation.Active(CastingCheck)
     CastingCheck = CastingCheck or true
-    if DMW.Settings.profile.HUD.Rotation == 1 and DMW.Helpers.Navigation.Mode ~= 2 and (not CastingCheck or not DMW.Player.Casting) and not (IsMounted() or IsFlying()) and not DMW.Player.NoControl and 
-        (not DMW.Player.Spells.FocusedAzeriteBeam:LastCast() or (DMW.Player.LastCast[1].SuccessTime and (DMW.Time - DMW.Player.LastCast[1].SuccessTime) > 0.2)) then
+    if DMW.Settings.profile.HUD.Rotation == 1 and DMW.Helpers.Navigation.Mode ~= 2 and (not CastingCheck or not DMW.Player.Casting) and not (IsMounted() or IsFlying()) and not DMW.Player.NoControl then
         return true
     end
     return false
