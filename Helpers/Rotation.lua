@@ -29,13 +29,12 @@ function Rotation.Setting(Setting)
 end
 
 function Rotation.Defensive()
-    local CastSpellID, ChannelSpellID
-    for Pointer, _ in ipairs(DMW.Enemies) do
-        CastSpellID = select(9, UnitCastingInfo(Pointer))
-        ChannelSpellID = select(8, UnitChannelInfo(Pointer))
-        if CastSpellID and DMW.Enums.DefensiveCast[CastSpellID] then
+    local CastID, ChannelID
+    for _, Unit in ipairs(DMW.Enemies) do
+        CastID, ChannelID = UnitCastID(Unit.Pointer)
+        if CastID and DMW.Enums.DefensiveCast[CastID] then
             return true
-        elseif ChannelSpellID and DMW.Enums.DefensiveCast[ChannelSpellID] then
+        elseif ChannelID and DMW.Enums.DefensiveCast[ChannelID] then
             return true
         end
     end

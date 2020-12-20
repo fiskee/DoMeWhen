@@ -83,7 +83,7 @@ local function DPS()
         return true
     end
     --Blood Boil
-    if Player8YC > 0 and (Player8YC == 1 or Debuff.BloodPlague:Count(Player8Y) < Player8YC or Debuff.BloodPlague:Refresh(Target) or Spell.BloodBoil:Charges() == select(2, Spell.BloodBoil:Charges())) and Spell.BloodBoil:Cast(Player) then
+    if Player8YC > 0 and (Player8YC == 1 or Debuff.BloodPlague:Count(Player8Y) < Player8YC or Debuff.BloodPlague:Refresh(Target) or Spell.BloodBoil:Charges() == select(2, Spell.BloodBoil:Charges()) or Player8YC == Player20YC) and Spell.BloodBoil:Cast(Player) then
         return true
     end
     --Death and Decay
