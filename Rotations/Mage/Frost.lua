@@ -38,7 +38,7 @@ local function CDs()
     -- actions.cds+=/deathborne
     -- actions.cds+=/mirrors_of_torment,if=active_enemies<3&(conduit.siphoned_malice|soulbind.wasteland_propriety)
     -- actions.cds+=/rune_of_power,if=cooldown.icy_veins.remains>12&buff.rune_of_power.down
-    if Player.Moving and not Spell.IcyVeins:CD() > 12 and Spell.RuneOfPower:Cast(Player) then
+    if Player.Moving and Spell.IcyVeins:CD() > 12 and Spell.RuneOfPower:Cast(Player) then
         return true
     end
     -- actions.cds+=/icy_veins,if=buff.rune_of_power.down
