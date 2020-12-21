@@ -115,7 +115,7 @@ local function UpdateUnits()
         DMW.Player.Focus = Units[ObjectPointer("focus")]
     end
     if UnitIsVisible("pet") and Units[ObjectPointer("pet")] then
-        DMW.Player.Focus = Units[ObjectPointer("pet")]
+        DMW.Player.Pet = Units[ObjectPointer("pet")]
     end
     if DMW.Player.Pointer and Units[DMW.Player.Pointer] then
         Units[DMW.Player.Pointer]:Update()
