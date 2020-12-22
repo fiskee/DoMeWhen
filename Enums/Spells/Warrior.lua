@@ -5,13 +5,53 @@ Spells.WARRIOR = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {}
+        Talents = {
+            AngerManagement = 21204,
+            Avatar = 22397,
+            Cleave = 22362,
+            CollateralDamage = 22392,
+            DeadlyCalm = 22399,
+            DefensiveStance = 22628,
+            Dreadnaught = 22407,
+            FervorOfBattle = 22489,
+            ImpendingVictory = 22372,
+            InForTheKill = 22394,
+            Massacre = 22380,
+            Ravager = 21667,
+            Rend = 19138,
+            SecondWind = 15757,
+            Skullsplitter = 22371,
+            StormBolt = 22789,
+            SuddenDeath = 22360,
+            WarMachine = 22624,
+            Warbreaker = 22391
+        }
     },
     Fury = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {}
+        Talents = {
+            AngerManagement = 22405,
+            Bladestorm = 22400,
+            Cruelty = 19140,
+            DragonRoar = 22398,
+            Frenzy = 22381,
+            FreshMeat = 22491,
+            FrothingBerserker = 22393,
+            FuriousCharge = 23097,
+            ImpendingVictory = 22625,
+            Massacre = 22379,
+            MeatCleaver = 22396,
+            Onslaught = 23372,
+            RecklessAbandon = 22402,
+            Seethe = 22383,
+            Siegebreaker = 16037,
+            StormBolt = 23093,
+            SuddenDeath = 22633,
+            WarMachine = 22632,
+            Warpaint = 22382
+        }
     },
     Protection = {
         Abilities = {
@@ -44,27 +84,25 @@ Spells.WARRIOR = {
             DragonRoar = {SpellID = 118000}
         },
         Talents = {
-            IntoTheFray = 15760,
-            Punish = 15759,
-            ImpendingVictory = 15774,
-            CracklingThunder = 22373,
-            BoundingStride = 22629,
-            Safeguard = 22409,
+            AngerManagement = 23455,
             BestServedCold = 22378,
-            UnstoppableForce = 22626,
+            Bolster = 23099,
+            BoomingVoice = 22626,
+            CracklingThunder = 23096,
+            Devastator = 15774,
             DragonRoar = 23260,
-            Indomitable = 23096,
-            NeverSurrender = 23261,
-            Bolster = 22488,
-            Menace = 22384,
-            RumblingEarth = 22631,
-            StormBolt = 22800,
-            BoomingVoice = 22395,
-            Vengeance = 22544,
-            Devastator = 22401,
-            AngerManagement = 21204,
             HeavyRepercussions = 22406,
-            Ravager = 23099
+            ImpendingVictory = 22800,
+            Indomitable = 22631,
+            IntoTheFray = 22395,
+            Menace = 22488,
+            NeverSurrender = 22384,
+            Punish = 15759,
+            Ravager = 22401,
+            RumblingEarth = 22629,
+            StormBolt = 22409,
+            UnstoppableForce = 22544,
+            WarMachine = 15760
         }
     },
     All = {
@@ -87,6 +125,10 @@ Spells.WARRIOR = {
             RallyingCry = 97462,
             Recklessness = 1719
         },
-        Debuffs = {}
+        Debuffs = {},
+        Talents = {
+            BoundingStride = 22627,
+            DoubleTime = 19676
+        }
     }
 }

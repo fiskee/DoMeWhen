@@ -42,20 +42,17 @@ Spells.ROGUE = {
             WoundPoison = {SpellID = 8680}
         },
         Talents = {
+            Alacrity = 23015,
             Blindside = 22339,
             CrimsonTempest = 23174,
-            ElaboratePlanning = 22338,
-            Elusiveness = 22123,
             Exsanguinate = 22344,
             HiddenBlades = 22133,
             InternalBleeding = 19245,
             IronWire = 23037,
+            LeechingPoison = 22340,
             MasterAssassin = 23022,
             MasterPoisoner = 22337,
-            Nightstalker = 22331,
             PoisonBomb = 21186,
-            Subterfuge = 22332,
-            ToxicBlade = 23015,
             VenomRush = 22343
         }
     },
@@ -63,13 +60,43 @@ Spells.ROGUE = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {}
+        Talents = {
+            AcrobaticStrikes = 23470,
+            Alacrity = 23128,
+            BladeRush = 23075,
+            BlindingPowder = 22114,
+            DancingSteel = 22125,
+            DirtyTricks = 23077,
+            Dreadblades = 19250,
+            GhostlyStrike = 22120,
+            HitAndRun = 19238,
+            IronStomach = 22121,
+            KillingSpree = 23175,
+            LoadedDice = 21990,
+            QuickDraw = 22119,
+            RetractableHook = 19237,
+            Weaponmaster = 22118
+        }
     },
     Subtlety = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {}
+        Talents = {
+            Alacrity = 19249,
+            DarkShadow = 22335,
+            EnvelopingShadows = 22336,
+            Gloomblade = 19235,
+            MasterOfShadows = 22132,
+            NightTerrors = 23036,
+            Premeditation = 19234,
+            SecretTechnique = 23183,
+            ShadowFocus = 22333,
+            ShotInTheDark = 23078,
+            ShurikenTornado = 21188,
+            SoothingDarkness = 22128,
+            Weaponmaster = 19233
+        }
     },
     All = {
         Abilities = {
@@ -90,6 +117,17 @@ Spells.ROGUE = {
             Stealth = 115191,
             Vanish = 11327
         },
-        Debuffs = {}
+        Debuffs = {},
+        Talents = {
+            CheatDeath = 22122,
+            DeeperStratagem = 19240,
+            ElaboratePlanning = 22338,
+            Elusiveness = 22123,
+            MarkedForDeath = 19241,
+            Nightstalker = 22331,
+            PreyOnTheWeak = 22115,
+            Subterfuge = 22332,
+            Vigor = 19239
+        }
     }
 }

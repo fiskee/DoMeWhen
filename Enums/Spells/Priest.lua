@@ -52,14 +52,39 @@ Spells.PRIEST = {
             WeakenedSoul = {SpellID = 6788}
         },
         Talents = {
-            DivineStar = 19760
+            DominantMind = 19769,
+            Evangelism = 22976,
+            Lenience = 21183,
+            Masochism = 22316,
+            PsychicVoice = 19759,
+            PurgeTheWicked = 22161,
+            Schism = 22329,
+            SinsOfTheMany = 22330,
+            TwistOfFate = 22313
         }
     },
     Holy = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {}
+        Talents = {
+            Afterlife = 22562,
+            AngelsMercy = 22325,
+            Apotheosis = 21644,
+            BindingHeal = 22327,
+            BodyAndSoul = 22326,
+            Censure = 21977,
+            CosmicRipple = 22487,
+            Enlightenment = 22312,
+            GuardianAngel = 22095,
+            HolyWordSalvation = 23145,
+            LightOfTheNaaru = 21636,
+            PrayerCircle = 21754,
+            PsychicVoice = 21750,
+            RenewedFaith = 19754,
+            SurgeOfLight = 19764,
+            TrailOfLight = 19753
+        }
     },
     Shadow = {
         Abilities = {
@@ -85,10 +110,26 @@ Spells.PRIEST = {
             ShadowWordPain = {SpellID = 589, BaseDuration = 16}
         },
         Talents = {
-            DarkVoid = 121557,
-            Mindbender = 121557,
-            Misery = 121557,
-            ShadowWordVoid = 121557
+            AncientMadness = 21637,
+            AuspiciousSpirits = 22310,
+            Damnation = 21718,
+            DeathAndMadness = 22136,
+            FortressOfTheMind = 22328,
+            HungeringVoid = 21978,
+            Intangibility = 21976,
+            LastWord = 23137,
+            MindBomb = 23375,
+            Mindbender = 21719,
+            Misery = 23126,
+            PsychicHorror = 21752,
+            PsychicLink = 22311,
+            Sanlayn = 23374,
+            SearingNightmare = 23127,
+            ShadowCrash = 21755,
+            SurrenderToMadness = 21979,
+            TwistOfFate = 23125,
+            UnfurlingDarkness = 22314,
+            VoidTorrent = 21720
         }
     },
     All = {
@@ -102,6 +143,21 @@ Spells.PRIEST = {
             ShackleUndead = {SpellID = 9484}
         },
         Buffs = {},
-        Debuffs = {}
+        Debuffs = {},
+        Talents = {
+            AngelicFeather = 19758,
+            Benediction = 19767,
+            BodyAndSoul = 22315,
+            Castigation = 19752,
+            Contrition = 19765,
+            DivineStar = 19760,
+            Halo = 19763,
+            Mindbender = 22094,
+            PowerWordSolace = 19755,
+            ShadowCovenant = 19766,
+            ShieldDiscipline = 22440,
+            ShiningForce = 19761,
+            SpiritShell = 21184
+        }
     }
 }

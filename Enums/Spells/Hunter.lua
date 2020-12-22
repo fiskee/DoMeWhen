@@ -31,19 +31,68 @@ Spells.HUNTER = {
         Debuffs = {
             BarbedShot = {SpellID = 217200}
         },
-        Talents = {}
+        Talents = {
+            AMurderOfCrows = 22269,
+            AnimalCompanion = 22280,
+            AspectOfTheBeast = 22273,
+            Barrage = 22002,
+            Bloodshed = 22295,
+            ChimaeraShot = 22290,
+            DireBeast = 22282,
+            KillerCobra = 21986,
+            KillerInstinct = 22291,
+            OneWithThePack = 22266,
+            ScentOfBlood = 22500,
+            SpittingCobra = 22441,
+            Stampede = 23044,
+            Stomp = 19357,
+            ThrillOfTheHunt = 22347
+        }
     },
     Marksmanship = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {}
+        Talents = {
+            AMurderOfCrows = 22289,
+            Barrage = 22497,
+            BindingShackles = 23463,
+            CallingTheShots = 22274,
+            CarefulAim = 22495,
+            ChimaeraShot = 21998,
+            DeadEye = 23104,
+            DoubleTap = 22287,
+            ExplosiveShot = 22498,
+            LethalShots = 23063,
+            LockAndLoad = 22308,
+            MasterMarksman = 22279,
+            SerpentSting = 22501,
+            SteadyFocus = 22267,
+            Streamline = 22286,
+            Volley = 22288
+        }
     },
     Survival = {
         Abilities = {},
         Buffs = {},
         Debuffs = {},
-        Talents = {}
+        Talents = {
+            AMurderOfCrows = 22299,
+            AlphaPredator = 22296,
+            BirdsOfPrey = 22272,
+            Bloodseeker = 22277,
+            Butchery = 22297,
+            Chakrams = 23105,
+            FlankingStrike = 22271,
+            GuerrillaTactics = 21997,
+            HydrasBite = 22769,
+            MongooseBite = 22278,
+            SteelTrap = 19361,
+            TermsOfEngagement = 22283,
+            TipOfTheSpear = 22300,
+            VipersVenom = 22275,
+            WildfireInfusion = 22301
+        }
     },
     All = {
         Abilities = {
@@ -56,6 +105,14 @@ Spells.HUNTER = {
             RevivePet = {SpellID = 982}
         },
         Buffs = {},
-        Debuffs = {}
+        Debuffs = {},
+        Talents = {
+            BindingShot = 22499,
+            BornToBeWild = 22268,
+            Camouflage = 23100,
+            NaturalMending = 19348,
+            Posthaste = 22276,
+            Trailblazer = 19347
+        }
     }
 }
