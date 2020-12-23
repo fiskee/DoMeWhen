@@ -147,12 +147,6 @@ local function Cooldowns()
     if CastTrinkets() then
         return true
     end
-    --Anima
-    if Spell.AnimaOfDeath:IsReady() and Player.HP < 90 then
-        if ((Player8YC >= 4 and Player.HP < 80) or Player:CDs()) and Spell.AnimaOfDeath:Cast(Player) then
-            return true
-        end
-    end
     --Dancing Rune Weapon
     if ((Player:CDs() and Setting("Dancing Rune Weapon") and Target.TTD > 5) or (Setting("Dancing Rune Weapon Enemies") > 0 and Player5YC >= Setting("Dancing Rune Weapon Enemies") and Target.TTD > 4)) and Spell.DancingRuneWeapon:Cast() then
         return true
