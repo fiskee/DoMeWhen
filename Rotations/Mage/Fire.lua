@@ -113,7 +113,6 @@ local function RunRotation()
         if Buff.HeatingUp:Exist() and (Buff.Combustion:Exist() or Buff.RuneOfPower:Exist() or Spell.FireBlast:FullRechargeTime() < Spell.Combustion:CD() or Target.TTD < 8) and Spell.FireBlast:Cast(Target) then
             return true
         end
-        print(FlamestrikeUnits)
     else
         if Defensive() then
             return true
