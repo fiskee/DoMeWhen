@@ -92,6 +92,10 @@ function Spell:ChargesFrac()
     end
 end
 
+function Spell:MaxCharges()
+    return select(2, GetSpellCharges(self.SpellName))
+end
+
 function Spell:RechargeTime()
     local Charges, MaxCharges, Start, Duration = GetSpellCharges(self.SpellName)
     if Charges ~= MaxCharges then
