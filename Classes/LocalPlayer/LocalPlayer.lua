@@ -27,6 +27,7 @@ function LocalPlayer:New(Pointer)
     self:GetItems()
     self:GetCovenantData()
     self.Player = true
+    self.Height = 2
     DMW.Helpers.Queue.GetBindings()
 end
 

@@ -13,6 +13,11 @@ function Unit:New(Pointer)
     self.ObjectID = ObjectID(Pointer)
     self.LoSCache = {}
     self.CreatureType = DMW.Enums.CreatureType[UnitCreatureTypeID(Pointer)]
+    if self.Player then
+        self.Height = 2
+    else
+        self.Height = select(2,UnitCollisionBox(self.Pointer))
+    end
     DMW.Functions.AuraCache.Refresh(Pointer)
 end
 
@@ -78,7 +83,7 @@ function Unit:LineOfSight(OtherUnit)
     if self.LoSCache.Result ~= nil and self.PosX == self.LoSCache.PosX and self.PosY == self.LoSCache.PosY and self.PosZ == self.LoSCache.PosZ and OtherUnit.PosX == self.LoSCache.OPosX and OtherUnit.PosY == self.LoSCache.OPosY and OtherUnit.PosZ == self.LoSCache.OPosZ then
         return self.LoSCache.Result
     end
-    self.LoSCache.Result = TraceLine(self.PosX, self.PosY, self.PosZ + 2, OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ + 2, 0x100010) == nil
+    self.LoSCache.Result = TraceLine(self.PosX, self.PosY, self.PosZ + self.Height, OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ + OtherUnit.Height, 0x100010) == nil
     self.LoSCache.PosX, self.LoSCache.PosY, self.LoSCache.PosZ = self.PosX, self.PosY, self.PosZ
     self.LoSCache.OPosX, self.LoSCache.OPosY, self.LoSCache.OPosZ = OtherUnit.PosX, OtherUnit.PosY, OtherUnit.PosZ
     return self.LoSCache.Result

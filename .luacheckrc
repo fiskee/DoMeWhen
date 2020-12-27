@@ -3934,6 +3934,7 @@ globals = {
 	"WorldPreload",
 	"ObjectAnimation",
 	"GetGameObjectType",
+	"UnitCollisionBox",
 	--Extras
 	"DMW",
 	"RealMobHealth_CreatureHealthCache",
