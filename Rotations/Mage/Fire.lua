@@ -21,7 +21,7 @@ local function Locals()
     Conduit = Player.Conduits
     Talent = Player.Talents
     if Target then
-        FlamestrikeUnits = select(2, Target:GetAttackable(8, 6))
+        FlamestrikeUnits = select(2, Target:GetAttackable(8))
     else
         FlamestrikeUnits = 0
     end
@@ -49,10 +49,10 @@ local function Standing()
     if FlamestrikeUnits >= 3 and not Spell.Pyroblast:LastCast() and Spell.Pyroblast:LastCast(2) and not Buff.Combustion:Exist() and Spell.PhoenixFlames:Cast(Target) then
         return true
     end
-    if (Spell.Combustion:CD() > 20 or not Player:CDs()) and (Target.TTD > 8 or FlamestrikeUnits >= 3) and not Buff.RuneOfPower:Exist() and Spell.RuneOfPower:Cast(Player) then
+    if (Spell.Combustion:CD() > 20 or not Player:CDs()) and Target.TTD > 8 and not Buff.RuneOfPower:Exist() and Spell.RuneOfPower:Cast(Player) then
         return true
     end
-    if Talent.Meteor.Active and (((Spell.Combustion:CD() == 0 or Spell.Combustion:CD() > 40) and Player:CDs()) or FlamestrikeUnits >= 3) and Spell.Meteor:Cast(Target) then
+    if Talent.Meteor.Active and not Target.Moving and (((Spell.Combustion:CD() == 0 or Spell.Combustion:CD() > 40) and Player:CDs()) or FlamestrikeUnits >= 3) and Spell.Meteor:Cast(Target) then
         return true
     end
     if Player.Combat and Player:CDs() and Target.TTD > 8 then
