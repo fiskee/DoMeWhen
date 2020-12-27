@@ -38,7 +38,7 @@ local function CDs()
     -- actions.cds+=/deathborne
     -- actions.cds+=/mirrors_of_torment,if=active_enemies<3&(conduit.siphoned_malice|soulbind.wasteland_propriety)
     -- actions.cds+=/rune_of_power,if=cooldown.icy_veins.remains>12&buff.rune_of_power.down
-    if Player.Moving and Spell.IcyVeins:CD() > 12 and Spell.RuneOfPower:Cast(Player) then
+    if not Player.Moving and Spell.IcyVeins:CD() > 12 and Spell.RuneOfPower:Cast(Player) then
         return true
     end
     -- actions.cds+=/icy_veins,if=buff.rune_of_power.down
@@ -75,7 +75,7 @@ local function Movement()
 end
 
 local function AoE()
-    if not Player.Moving then
+    if not Player.Moving and not Target.Moving then
         -- actions.aoe=frozen_orb
         if Player:GetEnemiesInRect(35, 17, 5) >= 3 and Spell.FrozenOrb:Cast(Player) then
             return true
@@ -90,11 +90,11 @@ local function AoE()
         return true
     end
     -- actions.aoe+=/ice_nova
-    if Spell.IceNova:Cast(Target) then
+    if not Target.Moving and Spell.IceNova:Cast(Target) then
         return true
     end
     -- actions.aoe+=/comet_storm
-    if Spell.CometStorm:Cast(Target) then
+    if not Target.Moving and Spell.CometStorm:Cast(Target) then
         return true
     end
     -- actions.aoe+=/ice_lance,if=buff.fingers_of_frost.react|debuff.frozen.remains>travel_time|remaining_winters_chill&debuff.winters_chill.remains>travel_time
@@ -111,9 +111,9 @@ local function AoE()
             return true
         end
         -- actions.aoe+=/shifting_power
-        if Spell.ShiftingPower:Cast() then
-            return true
-        end
+        -- if Spell.ShiftingPower:Cast() then
+        --     return true
+        -- end
     end
     -- actions.aoe+=/fire_blast,if=runeforge.disciplinary_command&cooldown.buff_disciplinary_command.ready&buff.disciplinary_command_fire.down
     -- actions.aoe+=/arcane_explosion,if=mana.pct>30&active_enemies>=6
@@ -139,16 +139,19 @@ local function SingleTarget()
     --&(prev_gcd.1.ebonbolt|buff.brain_freeze.react&(prev_gcd.1.glacial_spike|prev_gcd.1.frostbolt&
     --(!conduit.ire_of_the_ascended|cooldown.radiant_spark.remains|runeforge.freezing_winds)|prev_gcd.1.radiant_spark|buff.fingers_of_frost.react=0&
     --(debuff.mirrors_of_torment.up|buff.freezing_winds.up|buff.expanded_potential.react)))
-    if not Debuff.WintersChill:Exist(Target) and (Spell.Ebonbolt:LastCast() or (Buff.BrainFreeze:Exist() and (Spell.GlacialSpike:LastCast() or Spell.Frostbolt:LastCast())) or Spell.RadiantSpark:LastCast()) and Spell.Flurry:Cast(Target) then
+    -- if not Debuff.WintersChill:Exist(Target) and (Spell.Ebonbolt:LastCast() or (Buff.BrainFreeze:Exist() and (Spell.GlacialSpike:LastCast() or Spell.Frostbolt:LastCast())) or Spell.RadiantSpark:LastCast()) and Spell.Flurry:Cast(Target) then
+    --     return true
+    -- end
+    if (Spell.Ebonbolt:LastCast() or (Buff.BrainFreeze:Exist() and (Spell.GlacialSpike:LastCast() or Spell.Frostbolt:LastCast())) or Spell.RadiantSpark:LastCast()) and Spell.Flurry:Cast(Target) then
         return true
     end
     -- actions.st+=/frozen_orb
     local OrbTargets = Player:CDs() and 1 or 2
-    if Player:GetEnemiesInRect(35, 17, 5) > OrbTargets and Spell.FrozenOrb:Cast(Player) then
+    if not Target.Moving and Player:GetEnemiesInRect(35, 17, 5) >= OrbTargets and Spell.FrozenOrb:Cast(Player) then
         return true
     end
     -- actions.st+=/blizzard,if=buff.freezing_rain.up|active_enemies>=2
-    if (Buff.FreezingRain:Exist() or (not Player.Moving and BlizzardUnits >= 2)) and Spell.Blizzard:Cast(Target) then
+    if (Buff.FreezingRain:Exist() or (not Player.Moving and BlizzardUnits >= 2)) and not Target.Moving and Spell.Blizzard:Cast(Target) then
         return true
     end
     if not Player.Moving then
@@ -166,11 +169,11 @@ local function SingleTarget()
         return true
     end
     -- actions.st+=/comet_storm
-    if Spell.CometStorm:Cast(Target) then
+    if not Target.Moving and Spell.CometStorm:Cast(Target) then
         return true
     end
     -- actions.st+=/ice_nova
-    if Spell.IceNova:Cast(Target) then
+    if not Target.Moving and Spell.IceNova:Cast(Target) then
         return true
     end
     -- actions.st+=/radiant_spark,if=buff.freezing_winds.up&active_enemies=1
@@ -195,9 +198,9 @@ local function SingleTarget()
             return true
         end
         -- actions.st+=/shifting_power,if=buff.rune_of_power.down&(soulbind.grove_invigoration|soulbind.field_of_blossoms|active_enemies>=2)
-        if not Buff.RuneOfPower:Exist() and BlizzardUnits >= 2 and Spell.ShiftingPower:Cast() then
-            return true
-        end
+        -- if not Buff.RuneOfPower:Exist() and BlizzardUnits >= 2 and Spell.ShiftingPower:Cast() then
+        --     return true
+        -- end
     end
     -- actions.st+=/arcane_explosion,if=runeforge.disciplinary_command&cooldown.buff_disciplinary_command.ready&buff.disciplinary_command_arcane.down
     -- actions.st+=/fire_blast,if=runeforge.disciplinary_command&cooldown.buff_disciplinary_command.ready&buff.disciplinary_command_fire.down
