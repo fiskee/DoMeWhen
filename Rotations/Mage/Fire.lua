@@ -34,6 +34,9 @@ local function Defensive()
 end
 
 local function Fallback()
+    if not Talent.FromTheAshes.Active and Spell.PhoenixFlames:Charges() == Spell.PhoenixFlames:MaxCharges() and Spell.PhoenixFlames:Cast(Target) then
+        return true
+    end
     if Spell.Scorch:Cast(Target) then
         return true
     end
