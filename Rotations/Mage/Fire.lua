@@ -34,7 +34,7 @@ local function Defensive()
 end
 
 local function Fallback()
-    if not Talent.FromTheAshes.Active and Spell.PhoenixFlames:Charges() == Spell.PhoenixFlames:MaxCharges() and Spell.PhoenixFlames:Cast(Target) then
+    if not Talent.FromTheAshes.Active and Debuff.Ignite:Exist(Target) and Spell.PhoenixFlames:Charges() == Spell.PhoenixFlames:MaxCharges() and Spell.PhoenixFlames:Cast(Target) then
         return true
     end
     if Spell.Scorch:Cast(Target) then
@@ -99,7 +99,7 @@ local function Standing()
     if Spell.Combustion:CD() > 15 and not Buff.RuneOfPower:Exist() and Spell.ShiftingPower:Cast(Player) then
         return true
     end
-    if not Talent.FromTheAshes.Active and Spell.PhoenixFlames:Charges() == Spell.PhoenixFlames:MaxCharges() and Spell.PhoenixFlames:Cast(Target) then
+    if not Talent.FromTheAshes.Active and Debuff.Ignite:Exist(Target) and Spell.PhoenixFlames:Charges() == Spell.PhoenixFlames:MaxCharges() and Spell.PhoenixFlames:Cast(Target) then
         return true
     end
     if Talent.SearingTouch.Active and Target.HP < 30 and Spell.Scorch:Cast(Target) then
