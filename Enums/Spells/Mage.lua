@@ -23,9 +23,33 @@ Spells.MAGE = {
         }
     },
     Fire = {
-        Abilities = {},
-        Buffs = {},
-        Debuffs = {},
+        Abilities = {
+            AlexstraszasFury = {SpellID = 235870},
+            AlterTime = {SpellID = 108978},
+            BlazingBarrier = {SpellID = 235313},
+            Cauterize = {SpellID = 86949},
+            Combustion = {SpellID = 190319},
+            CriticalMass = {SpellID = 117216},
+            DragonsBreath = {SpellID = 31661},
+            FireBlast = {SpellID = 108853},
+            Fireball = {SpellID = 133},
+            Flamestrike = {SpellID = 2120, CastType = "Ground"},
+            PhoenixFlames = {SpellID = 257541},
+            Pyroblast = {SpellID = 11366},
+            Scorch = {SpellID = 2948},
+            BlastWave = {SpellID = 157981},
+            LivingBomb = {SpellID = 44457},
+            Meteor = {SpellID = 153561, CastType = "Ground"}
+        },
+        Buffs = {
+            Combustion = {SpellID = 190319},
+            HotStreak = {SpellID = 48108},
+            HeatingUp = {SpellID = 48107},
+            Pyroclasm = {SpellID = 269650}
+        },
+        Debuffs = {
+            Ignite = {SpellID = 12654}
+        },
         Talents = {
             AlexstraszasFury = 22465,
             BlastWave = 23074,
@@ -140,7 +164,7 @@ Spells.MAGE = {
             Explosion = {SpellID = 128848},
             FallingRainbow = {SpellID = 220255},
             FieryIntellect = {SpellID = 35917},
-            FireBlast = {SpellID = 319836},
+            FireBlast = {SpellID = 108853},
             FireWard = {SpellID = 320813},
             Fireball = {SpellID = 88082},
             FireballOfDoom = {SpellID = 146018},
@@ -148,7 +172,6 @@ Spells.MAGE = {
             Firebomb = {SpellID = 102482},
             FlameDispersion = {SpellID = 76160},
             FlameOfHakkar = {SpellID = 12354},
-            Flamestrike = {SpellID = 217916},
             Flurry = {SpellID = 228673},
             FocusMagic = {SpellID = 321358},
             ForceBolt = {SpellID = 211012},

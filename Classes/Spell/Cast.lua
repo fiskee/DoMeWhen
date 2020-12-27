@@ -53,6 +53,9 @@ function Spell:Cast(Unit)
 			else
 				return false
 			end
+		elseif Unit == DMW.Player then
+			CastSpellByName(self.SpellName, "player")
+			self.LastBotTarget = Unit.Pointer
 		else
 			FacingCast(self.SpellName, Unit.Pointer)
 			self.LastBotTarget = Unit.Pointer

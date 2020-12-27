@@ -104,6 +104,7 @@ Rotations\Hunter\BeastMastery.lua
 
 Rotations\Mage\Shared.lua
 Rotations\Mage\Frost.lua
+Rotations\Mage\Fire.lua
 
 Rotations\Paladin\Shared.lua
 Rotations\Paladin\Holy.lua
