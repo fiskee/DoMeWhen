@@ -46,17 +46,19 @@ local function Standing()
     if FlamestrikeUnits >= 3 and not Spell.Pyroblast:LastCast() and Spell.Pyroblast:LastCast(2) and not Buff.Combustion:Exist() and Spell.PhoenixFlames:Cast(Target) then
         return true
     end
-    if Spell.Combustion:CD() > 20 and not Buff.RuneOfPower:Exist() and Spell.RuneOfPower:Cast(Player) then
+    if (Spell.Combustion:CD() > 20 or not Player:CDs()) and (Target.TTD > 8 or FlamestrikeUnits >= 3) and not Buff.RuneOfPower:Exist() and Spell.RuneOfPower:Cast(Player) then
         return true
     end
-    if Talent.Meteor.Active and (Spell.Combustion:CD() == 0 or Spell.Combustion:CD() > 40 or FlamestrikeUnits >= 3) and Spell.Meteor:Cast(Target) then
+    if Talent.Meteor.Active and (((Spell.Combustion:CD() == 0 or Spell.Combustion:CD() > 40) and Player:CDs()) or FlamestrikeUnits >= 3) and Spell.Meteor:Cast(Target) then
         return true
     end
-    if Player.CombatTime > 2 and not Talent.Firestarter.Active and Target.TTD > 8 and not Buff.Combustion:Exist() and Spell.Combustion:Cast(Player) then
-        return true
-    end
-    if Player.CombatTime > 2 and Talent.Firestarter.Active and Target.TTD > 8 and (Target.HP < 90 or FlamestrikeUnits >= 3) and not Buff.Combustion:Exist() and Spell.Combustion:Cast(Player) then
-        return true
+    if Player.Combat and Player:CDs() and Target.TTD > 8 then
+        if not Talent.Firestarter.Active and not Buff.Combustion:Exist() and Spell.Combustion:Cast(Player) then
+            return true
+        end
+        if Talent.Firestarter.Active and (Target.HP < 90 or FlamestrikeUnits >= 3) and not Buff.Combustion:Exist() and Spell.Combustion:Cast(Player) then
+            return true
+        end
     end
     if FlamestrikeUnits >= 3 and Buff.HotStreak:Exist() then
         if not Talent.FlamePatch.Active then
@@ -82,13 +84,16 @@ local function Standing()
     if Talent.Pyroclasm.Active and Buff.Pyroclasm:Exist() and (Buff.Combustion:Remain() > Spell.Pyroblast:CastTime() or not Buff.Combustion:Exist()) and Spell.Pyroblast:Cast(Target) then
         return true
     end
-    if Buff.HeatingUp:Exist() and (Buff.Combustion:Exist() or Buff.RuneOfPower:Exist() or Spell.FireBlast:FullRechargeTime() < Spell.Combustion:CD() or Target.TTD < 8) and Spell.FireBlast:Cast(Target) then
+    if Buff.HeatingUp:Exist() and (Buff.Combustion:Exist() or Buff.RuneOfPower:Exist() or Spell.FireBlast:FullRechargeTime() < Spell.Combustion:CD() or Target.TTD < 8 or not Player:CDs()) and Spell.FireBlast:Cast(Target) then
         return true
     end
     if Buff.Combustion:Exist() and Spell.PhoenixFlames:Cast(Target) then
         return true
     end
     if Buff.Combustion:Remain() > GCD and Spell.Scorch:Cast(Target) then
+        return true
+    end
+    if Spell.Combustion:CD() > 15 and not Buff.RuneOfPower:Exist() and Spell.ShiftingPower:Cast(Player) then
         return true
     end
     if not Talent.FromTheAshes.Active and Spell.PhoenixFlames:Charges() == Spell.PhoenixFlames:MaxCharges() and Spell.PhoenixFlames:Cast(Target) then
