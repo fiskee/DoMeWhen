@@ -169,10 +169,6 @@ local function UpdateMissiles()
         Missile.SpellID, Missile.SpellVisualID, Missile.PosX, Missile.PosY, Missile.PosZ, Missile.Caster, Missile.SPosX, Missile.SPosY, Missile.SPosZ,
         Missile.Target, Missile.TPosX, Missile.TPosY, Missile.TPosZ = GetMissileWithIndex(i)
         Missile.SpellName = GetSpellInfo(Missile.SpellID)
-        if Missile.Target and DMW.Units[Missile.Target] then
-            MTarget = DMW.Units[Missile.Target]
-            Missile.TPosX, Missile.TPosY, Missile.TPosZ = MTarget.PosX + Missile.TPosX, MTarget.PosY + Missile.TPosY, MTarget.PosZ + Missile.TPosZ
-        end
         table.insert(Missiles, Missile)
     end
 end
