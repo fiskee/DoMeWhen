@@ -34,6 +34,7 @@ function DMW.Helpers.DrawLineDMW(sx, sy, sz, ex, ey, ez)
 end
 
 function DMW.Helpers.Trackers.Run()
+    LibDraw.SetColorRaw(0, 1, 0)
     if not Settings then
         Settings = DMW.Settings.profile
     end
@@ -87,8 +88,10 @@ function DMW.Helpers.Trackers.Run()
     end
     if Settings.Developer.Missiles then
         for _, Missile in pairs(DMW.Missiles) do
-            LibDraw.Text(Missile.SpellName .. "(" .. Missile.SpellID .. ")", "GameFontNormal", Missile.PosX, Missile.PosY, Missile.PosZ + 1)
-            DMW.Helpers.DrawLineDMW(Missile.PosX, Missile.PosY, Missile.PosZ, Missile.TPosX, Missile.TPosY, Missile.TPosZ)
+            if Missile.SpellName then
+                LibDraw.Text(Missile.SpellName .. "(" .. Missile.SpellID .. ")", "GameFontNormal", Missile.PosX, Missile.PosY, Missile.PosZ + 1)
+                DMW.Helpers.DrawLineDMW(Missile.PosX, Missile.PosY, Missile.PosZ, Missile.TPosX, Missile.TPosY, Missile.TPosZ)
+            end
         end      
     end
 end
