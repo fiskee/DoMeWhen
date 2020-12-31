@@ -1,9 +1,9 @@
 local DMW = DMW
-DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends, DMW.GameObjects, DMW.AreaTriggers = {}, {}, {}, {}, {}, {}
+DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends, DMW.GameObjects, DMW.AreaTriggers, DMW.Missiles = {}, {}, {}, {}, {}, {}, {}
 DMW.Friends.Units = {}
 DMW.Friends.Tanks = {}
 DMW.Tables.Sanguine = {}
-local Enemies, Attackable, Units, Friends, GameObjects, AreaTriggers = DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends.Units, DMW.GameObjects, DMW.AreaTriggers
+local Enemies, Attackable, Units, Friends, GameObjects, AreaTriggers, Missiles = DMW.Enemies, DMW.Attackable, DMW.Units, DMW.Friends.Units, DMW.GameObjects, DMW.AreaTriggers, DMW.Missiles
 local Unit, LocalPlayer, GameObject, AreaTrigger = DMW.Classes.Unit, DMW.Classes.LocalPlayer, DMW.Classes.GameObject, DMW.Classes.AreaTrigger
 
 function DMW.Remove(Pointer)
@@ -160,6 +160,23 @@ local function UpdateAreaTriggers()
     end
 end
 
+local function UpdateMissiles()
+    table.wipe(Missiles)
+    local MTarget
+    local Missile = {}
+    for i = 1, GetMissileCount() do
+        Missile = {}
+        Missile.SpellID, Missile.SpellVisualID, Missile.PosX, Missile.PosY, Missile.PosZ, Missile.Caster, Missile.SPosX, Missile.SPosY, Missile.SPosZ,
+        Missile.Target, Missile.TPosX, Missile.TPosY, Missile.TPosZ = GetMissileWithIndex(i)
+        Missile.SpellName = GetSpellInfo(Missile.SpellID)
+        if Missile.Target and DMW.Units[Missile.Target] then
+            MTarget = DMW.Units[Missile.Target]
+            Missile.TPosX, Missile.TPosY, Missile.TPosZ = MTarget.PosX + Missile.TPosX, MTarget.PosY + Missile.TPosY, MTarget.PosZ + Missile.TPosZ + 2
+        end
+        table.insert(Missiles, Missile)
+    end
+end
+
 function DMW.UpdateOM()
     local _, updated, added, removed = GetObjectCount(true, "dmw")
     if updated and #removed > 0 then
@@ -184,4 +201,5 @@ function DMW.UpdateOM()
     UpdateUnits()
     UpdateGameObjects()
     UpdateAreaTriggers()
+    UpdateMissiles()
 end

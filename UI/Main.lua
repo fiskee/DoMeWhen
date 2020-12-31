@@ -245,6 +245,18 @@ local Options = {
                             set = function(info, value)
                                 DMW.Settings.profile.Developer.AreaTriggers = value
                             end
+                        },
+                        Missiles = {
+                            type = "toggle",
+                            order = 4,
+                            name = "Missiles",
+                            width = "full",
+                            get = function()
+                                return DMW.Settings.profile.Developer.Missiles
+                            end,
+                            set = function(info, value)
+                                DMW.Settings.profile.Developer.Missiles = value
+                            end
                         }
                     }
                 }

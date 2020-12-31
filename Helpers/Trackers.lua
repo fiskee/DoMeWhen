@@ -80,9 +80,15 @@ function DMW.Helpers.Trackers.Run()
             DMW.Helpers.DrawLineDMW(Object.PosX, Object.PosY, Object.PosZ, DMW.Player.PosX, DMW.Player.PosY, DMW.Player.PosZ + 2)
         end
     end
-    for _, AreaTrigger in pairs(DMW.AreaTriggers) do
-        if Settings.Developer.AreaTriggers then
+    if Settings.Developer.AreaTriggers then
+        for _, AreaTrigger in pairs(DMW.AreaTriggers) do     
             LibDraw.Text("Area Trigger: " .. AreaTrigger.ObjectID .. " - " .. math.floor(AreaTrigger.Distance) .. " Yards", "GameFontNormal", AreaTrigger.PosX, AreaTrigger.PosY, AreaTrigger.PosZ + 2)
         end
+    end
+    if Settings.Developer.Missiles then
+        for _, Missile in pairs(DMW.Missiles) do
+            LibDraw.Text(Missile.SpellName .. "(" .. Missile.SpellID .. ")", "GameFontNormal", Missile.PosX, Missile.PosY, Missile.PosZ + 1)
+            DMW.Helpers.DrawLineDMW(Missile.PosX, Missile.PosY, Missile.PosZ, Missile.TPosX, Missile.TPosY, Missile.TPosZ)
+        end      
     end
 end

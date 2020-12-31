@@ -53,7 +53,8 @@ local defaults = {
         Developer = {
             GameObjects = false,
             AreaTriggers = false,
-            Units = false
+            Units = false,
+            Missiles = false
         }
     }
 }
