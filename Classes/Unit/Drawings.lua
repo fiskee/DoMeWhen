@@ -16,6 +16,7 @@ local Casts = {
     [340160] = {"cone", 20, 45}, --Radiant Breath
     [340300] = {"cone", 12, 60}, --Tongue Lashing
     --PlagueFall
+    [324667] = {"cone", 100, 60}, -- Slime Wave
     [328395] = {"cone", 15, 30}, --Venompiercer
     [330404] = {"rect", 15, 10}, --Wing Buffet
     [318949] = {"cone", 20, 60}, --FesteringBelch
@@ -42,7 +43,8 @@ local Casts = {
     [334329] = {"cone", 60, 15}, --Sweeping Slash
     -- [330403] = {"rect", 10, 20}, --WingBuffet ???
     [329518] = {"cone", 60, 20},
-    [326455] = {"cone", 75, 10}
+    [326455] = {"cone", 75, 10},
+    [329181] = {"rect", 15, 5} --last Cleave
 }
 
 function Unit:Drawings()
@@ -59,7 +61,7 @@ function Unit:Drawings()
     end
 end
 
-function Unit:DrawRect(Width, Length)
+function Unit:DrawRect(Length, Width)
     local function IsInside(x, y, ax, ay, bx, by, dx, dy)
         local bax = bx - ax
         local bay = by - ay

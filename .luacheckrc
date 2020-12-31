@@ -3935,6 +3935,8 @@ globals = {
 	"ObjectAnimation",
 	"GetGameObjectType",
 	"UnitCollisionBox",
+	"GetMissileCount",
+	"GetMissileWithIndex",
 	--Extras
 	"DMW",
 	"RealMobHealth_CreatureHealthCache",

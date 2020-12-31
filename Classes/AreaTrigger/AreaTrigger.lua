@@ -19,6 +19,9 @@ function AreaTrigger:Update()
         self.Name = ObjectName(self.Pointer)
     end
     self.Tracking = self:IsTracking()
+    if DMW.Settings.profile.Enemy.DrawDangerous then
+        self:Drawings()
+    end
 end
 
 function AreaTrigger:GetDistance(OtherUnit)
