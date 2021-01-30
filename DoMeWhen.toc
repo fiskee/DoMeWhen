@@ -27,6 +27,7 @@ System\ObjectManager.lua
 System\Combatlog.lua
 System\EventHandler.lua
 System\SlashHandler.lua
+System\WMApi.lua
 
 Classes\Unit\Unit.lua
 Classes\Unit\TimeToDie.lua

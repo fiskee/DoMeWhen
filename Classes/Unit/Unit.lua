@@ -15,8 +15,10 @@ function Unit:New(Pointer)
     self.CreatureType = DMW.Enums.CreatureType[UnitCreatureTypeID(Pointer)]
     if self.Player then
         self.Height = 2
-    else
+    elseif UnitCollisionBox ~= nil then
         self.Height = select(2,UnitCollisionBox(self.Pointer))
+    else
+        self.Height = 2
     end
     DMW.Functions.AuraCache.Refresh(Pointer)
 end

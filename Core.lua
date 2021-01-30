@@ -29,16 +29,18 @@ end
 local function Initialize()
     DMW.Init()
     DMW.UI.HUD.Init()
-    InitializeNavigation(
-        function(Result)
-            if Result then
-                if DMW.Settings.profile.Navigation.WorldMapHook then
-                    DMW.Helpers.Navigation:InitWorldMap()
+    if EWT ~= nil then
+        InitializeNavigation(
+            function(Result)
+                if Result then
+                    if DMW.Settings.profile.Navigation.WorldMapHook then
+                        DMW.Helpers.Navigation:InitWorldMap()
+                    end
+                    DMW.UI.InitNavigation()
                 end
-                DMW.UI.InitNavigation()
             end
-        end
-    )
+        )
+    end
     Init = true
 end
 
@@ -51,7 +53,10 @@ f:SetScript(
         if not DMW.Enums.Specs[GetSpecializationInfo(GetSpecialization())] then
             return
         end
-        if EWT ~= nil then
+        if UnitCastID == nil and wmbapi then
+            LoadMiniBotAPI()
+        end
+        if UnitCastID ~= nil then
             LibStub("LibDraw-1.0").clearCanvas()
             if not Init then
                 Initialize()

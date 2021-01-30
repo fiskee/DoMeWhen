@@ -40,7 +40,7 @@ function Spell:Cast(Unit)
 	end
 	if DMW.Time > CastTimer and self:IsReady() and (Unit.Distance <= self.MaxRange or IsSpellInRange(self.SpellName, Unit.Pointer) == 1) and (Unit.Player or Unit.TTD >= self:CastTime()) then
 		CastTimer = DMW.Time + (math.random(110, 170) / 1000)
-		if DMW.Player.Moving then
+		if DMW.Player.Moving and EWT ~= nil then
 			SendMovementUpdate()
 		end
 		if self.CastType == "Ground" then

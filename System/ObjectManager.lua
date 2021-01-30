@@ -132,7 +132,7 @@ local function UpdateUnits()
         if Unit.ValidEnemy then
             table.insert(Enemies, Unit)
         end
-        if Unit.ObjectID == 26125 and UnitCreator(Pointer) and DMW.Player.Pointer == UnitCreator(Pointer) then -- DK Ghoul
+        if Unit.ObjectID == 26125 and ObjectCreator(Pointer) and DMW.Player.Pointer == ObjectCreator(Pointer) then -- DK Ghoul
             DMW.Player.Ghoul = Unit
         end 
         if DMW.Player.InGroup and Unit.Player and not Unit.Attackable and Unit.LoS and (UnitInRaid(Pointer) or UnitInParty(Pointer)) then
@@ -197,5 +197,5 @@ function DMW.UpdateOM()
     UpdateUnits()
     UpdateGameObjects()
     UpdateAreaTriggers()
-    UpdateMissiles()
+    --UpdateMissiles()
 end

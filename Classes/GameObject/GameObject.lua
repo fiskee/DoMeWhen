@@ -5,7 +5,7 @@ function GameObject:New(Pointer)
     self.Pointer = Pointer
     self.Name = ObjectName(Pointer)
     self.ObjectID = ObjectID(Pointer)
-    self.TypeID, self.Type = GetGameObjectType(Pointer)
+    --self.TypeID, self.Type = GetGameObjectType(Pointer)
 end
 
 function GameObject:Update()
@@ -19,9 +19,9 @@ function GameObject:Update()
     self.Ore = self:IsOre()
     self.Tracking = self:IsTracking()
     self.IsQuest = self:IsQuestObject()
-    if self.TypeID == 17 and (DMW.Settings.profile.Gatherers.FishingHelper or DMW.Settings.profile.Gatherers.AutoFishing) and DMW.Player.Casting and DMW.Player.Casting == DMW.Player.Spells.Fishing.SpellName then
-        self:Fishing()
-    end
+    -- if self.TypeID == 17 and (DMW.Settings.profile.Gatherers.FishingHelper or DMW.Settings.profile.Gatherers.AutoFishing) and DMW.Player.Casting and DMW.Player.Casting == DMW.Player.Spells.Fishing.SpellName then
+    --     self:Fishing()
+    -- end
 end
 
 function GameObject:GetDistance(OtherUnit)
@@ -31,7 +31,7 @@ end
 
 local glow = 0
 function GameObject:IsQuestObject() --TODO: Better code
-    glow = ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "uint") or 0
+    glow = ObjectDynamicFlags(self.Pointer) or 0
     if bit.band(glow, 0x4) ~= 0 or bit.band(glow, 0x20) ~= 0 then
         return true
     end
@@ -39,14 +39,14 @@ function GameObject:IsQuestObject() --TODO: Better code
 end
 
 function GameObject:IsHerb()
-    if DMW.Enums.Tracker.Herbs[self.ObjectID] and ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "byte") == 0x00 then
+    if DMW.Enums.Tracker.Herbs[self.ObjectID] and ObjectDynamicFlags(self.Pointer) == 0x00 then
         return true
     end
     return false
 end
 
 function GameObject:IsOre()
-    if DMW.Enums.Tracker.Ore[self.ObjectID] and ObjectDescriptor(self.Pointer, GetOffset("CGObjectData__DynamicFlags"), "byte") == 0x00 then
+    if DMW.Enums.Tracker.Ore[self.ObjectID] and ObjectDynamicFlags(self.Pointer) == 0x00 then
         return true
     end
     return false
