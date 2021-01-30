@@ -5,7 +5,7 @@ function GameObject:New(Pointer)
     self.Pointer = Pointer
     self.Name = ObjectName(Pointer)
     self.ObjectID = ObjectID(Pointer)
-    --self.TypeID, self.Type = GetGameObjectType(Pointer)
+    self.TypeID, self.Type = GetGameObjectType(Pointer)
 end
 
 function GameObject:Update()
@@ -19,9 +19,9 @@ function GameObject:Update()
     self.Ore = self:IsOre()
     self.Tracking = self:IsTracking()
     self.IsQuest = self:IsQuestObject()
-    -- if self.TypeID == 17 and (DMW.Settings.profile.Gatherers.FishingHelper or DMW.Settings.profile.Gatherers.AutoFishing) and DMW.Player.Casting and DMW.Player.Casting == DMW.Player.Spells.Fishing.SpellName then
-    --     self:Fishing()
-    -- end
+    if self.TypeID == 17 and (DMW.Settings.profile.Gatherers.FishingHelper or DMW.Settings.profile.Gatherers.AutoFishing) and DMW.Player.Casting and DMW.Player.Casting == DMW.Player.Spells.Fishing.SpellName then
+        self:Fishing()
+    end
 end
 
 function GameObject:GetDistance(OtherUnit)

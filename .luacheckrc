@@ -3937,10 +3937,12 @@ globals = {
 	"UnitCollisionBox",
 	"GetMissileCount",
 	"GetMissileWithIndex",
+	"ObjectDynamicFlags",
 	--Extras
 	"DMW",
 	"RealMobHealth_CreatureHealthCache",
 	"QuestieLoader",
 	"LibStub",
-	"_"
+	"_",
+	"wmbapi"
 }

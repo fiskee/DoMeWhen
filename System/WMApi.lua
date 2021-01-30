@@ -221,6 +221,7 @@ function LoadMiniBotAPI()
 	WebsocketSend = wmbapi.SendWebsocketData
 	ObjectPointer = wmbapi.GetObject
 	UnitCreatureTypeID = wmbapi.UnitCreatureTypeId
+	GetGameObjectType = wmbapi.GameObjectType
 	AesEncrypt = wmbapi.AesEncrypt
 	AesDecrypt = wmbapi.AesDecrypt
 	AddLuaString = function(String, Name)
