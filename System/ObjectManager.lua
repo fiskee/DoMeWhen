@@ -166,8 +166,14 @@ local function UpdateMissiles()
     local Missile = {}
     for i = 1, GetMissileCount() do
         Missile = {}
-        Missile.SpellID, Missile.SpellVisualID, Missile.PosX, Missile.PosY, Missile.PosZ, Missile.Caster, Missile.SPosX, Missile.SPosY, Missile.SPosZ,
-        Missile.Target, Missile.TPosX, Missile.TPosY, Missile.TPosZ = GetMissileWithIndex(i)
+        if EWT ~= nil then
+            Missile.SpellID, Missile.SpellVisualID, Missile.PosX, Missile.PosY, Missile.PosZ, Missile.Caster, Missile.SPosX, Missile.SPosY, Missile.SPosZ,
+            Missile.Target, Missile.TPosX, Missile.TPosY, Missile.TPosZ = GetMissileWithIndex(i)
+        else
+            --Not really sure??????????????
+            Missile.SpellID, Missile.SpellVisualID, Missile.PosY, Missile.PosZ, Missile.PosX, Missile.Caster, Missile.TPosY, Missile.TPosZ, Missile.TPosX,
+            Missile.Target, Missile.SPosX, Missile.SPosY, Missile.SPosZ = GetMissileWithIndex(i)
+        end
         Missile.SpellName = GetSpellInfo(Missile.SpellID)
         table.insert(Missiles, Missile)
     end
@@ -197,5 +203,5 @@ function DMW.UpdateOM()
     UpdateUnits()
     UpdateGameObjects()
     UpdateAreaTriggers()
-    --UpdateMissiles()
+    UpdateMissiles()
 end

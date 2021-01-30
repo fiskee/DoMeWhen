@@ -213,6 +213,8 @@ function LoadMiniBotAPI()
 	GetCorpsePosition = wmbapi.GetCorpsePosition
 	MoveTo = wmbapi.MoveTo
 	ObjectDynamicFlags = wmbapi.ObjectDynamicFlags
+	GetMissileCount = wmbapi.GetMissileCount
+	GetMissileWithIndex = wmbapi.GetMissileWithIndex
 	GetUnitTransport = wmbapi.UnitTransport
 	GetUnitMovement = wmbapi.UnitMovementField
 	WebsocketClose = wmbapi.CloseWebsocket
